@@ -72,6 +72,106 @@ function initializeNavbar() {
   const themeIcon = document.getElementById("themeIcon");
   const userMenuButton = document.getElementById("userMenuButton");
   const userMenu = document.getElementById("userMenu");
+  const globalSearchInput = document.getElementById("globalSearchInput");
+
+  // Initialize global search
+  if (globalSearchInput) {
+    const clearGlobalSearchBtn = document.getElementById(
+      "clearGlobalSearchBtn"
+    );
+
+    // Toggle clear button visibility
+    function toggleClearButton() {
+      if (clearGlobalSearchBtn) {
+        if (globalSearchInput.value.trim() !== "") {
+          clearGlobalSearchBtn.classList.remove("hidden");
+        } else {
+          clearGlobalSearchBtn.classList.add("hidden");
+        }
+      }
+    }
+
+    let searchTimeout;
+    globalSearchInput.addEventListener("input", function () {
+      toggleClearButton();
+      clearTimeout(searchTimeout);
+      const query = this.value.trim();
+
+      if (query.length > 0) {
+        searchTimeout = setTimeout(async () => {
+          // Add visual feedback
+          this.classList.add("searching");
+
+          // Perform global search
+          if (typeof globalSearch === "function") {
+            try {
+              const results = await globalSearch(query);
+              if (typeof showNotification === "function") {
+                showNotification(
+                  results.message || `Found ${results.users.length} result(s)`,
+                  "info"
+                );
+              }
+
+              // If on users page, trigger search
+              if (window.location.pathname.includes("users.html")) {
+                const userSearchInput =
+                  document.getElementById("userSearchInput");
+                if (userSearchInput) {
+                  userSearchInput.value = query;
+                  userSearchInput.dispatchEvent(new Event("input"));
+                }
+              }
+            } catch (error) {
+              console.error("Search error:", error);
+            }
+          }
+
+          setTimeout(() => {
+            this.classList.remove("searching");
+          }, 300);
+        }, 500); // Debounce
+      } else {
+        // Clear search
+        if (window.location.pathname.includes("users.html")) {
+          const userSearchInput = document.getElementById("userSearchInput");
+          if (userSearchInput) {
+            userSearchInput.value = "";
+            userSearchInput.dispatchEvent(new Event("input"));
+          }
+        }
+      }
+    });
+
+    // Clear button handler
+    if (clearGlobalSearchBtn) {
+      clearGlobalSearchBtn.addEventListener("click", function () {
+        globalSearchInput.value = "";
+        toggleClearButton();
+        globalSearchInput.dispatchEvent(new Event("input"));
+        globalSearchInput.focus();
+      });
+    }
+
+    // Handle Enter key
+    globalSearchInput.addEventListener("keypress", function (e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        const query = this.value.trim();
+        if (query) {
+          // Navigate to users page if not already there
+          if (!window.location.pathname.includes("users.html")) {
+            window.location.href = "users.html";
+            // Store search query
+            sessionStorage.setItem("searchQuery", query);
+          }
+        }
+      }
+    });
+
+    // Initial state
+    toggleClearButton();
+  }
 
   // Theme Toggle
   if (themeToggle) {
@@ -171,7 +271,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Add fade-in animation to main content
   const mainContent = document.querySelector("main");
   if (mainContent) {
-    mainContent.classList.add("fade-in");
+    mainContent.classList.add("animate__animated", "animate__fadeInUp");
   }
 
   // Initialize tooltips (if using a tooltip library)

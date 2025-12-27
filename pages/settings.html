@@ -1,11 +1,18 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" class="dark overflow-x-hidden overflow-y-auto">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Settings - Admin Panel</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
     <link rel="stylesheet" href="../assets/css/style.css" />
+    <script src="../assets/js/dataService.js"></script>
+    <script src="../assets/js/searchService.js"></script>
+    <script src="../assets/js/buttonInteractions.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -19,7 +26,7 @@
     </style>
   </head>
   <body
-    class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen"
+    class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen overflow-x-hidden overflow-y-auto"
   >
     <!-- Include Sidebar -->
     <div id="sidebar-container"></div>
@@ -32,7 +39,7 @@
     <main class="lg:ml-64 pt-16 min-h-screen">
       <div class="p-4 lg:p-8 max-w-4xl">
         <!-- Page Header -->
-        <div class="mb-8 fade-in">
+        <div class="mb-8 animate__animated animate__fadeInUp">
           <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
             Settings
           </h1>
@@ -45,7 +52,7 @@
         <div class="space-y-6">
           <!-- Profile Settings -->
           <div
-            class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 card-hover"
+            class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-xl"
           >
             <h2
               class="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center"
@@ -140,7 +147,7 @@ Administrator account</textarea
 
           <!-- Security Settings -->
           <div
-            class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 card-hover"
+            class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-xl"
           >
             <h2
               class="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center"
@@ -202,7 +209,7 @@ Administrator account</textarea
 
           <!-- Preferences -->
           <div
-            class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 card-hover"
+            class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-xl"
           >
             <h2
               class="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center"
@@ -348,6 +355,7 @@ Administrator account</textarea
                   </p>
                 </div>
                 <button
+                  id="deleteAccountBtn"
                   class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-medium"
                 >
                   Delete Account
@@ -359,11 +367,14 @@ Administrator account</textarea
           <!-- Save Button -->
           <div class="flex justify-end space-x-4">
             <button
+              id="cancelBtn"
               class="px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition font-medium"
             >
               Cancel
             </button>
             <button
+              id="saveSettingsBtn"
+              type="button"
               class="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 font-medium"
             >
               Save Changes

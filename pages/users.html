@@ -1,239 +1,646 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Users - Admin Panel</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="../assets/css/style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <script src="../assets/js/dataService.js"></script>
-  <style>
-    body { font-family: 'Inter', sans-serif; }
-  </style>
-</head>
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen">
-  <!-- Include Sidebar -->
-  <div id="sidebar-container"></div>
-  <div id="sidebar-overlay-container"></div>
+<html lang="en" class="dark overflow-x-hidden overflow-y-auto">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Users - Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="../assets/js/dataService.js"></script>
+    <script src="../assets/js/searchService.js"></script>
+    <script src="../assets/js/buttonInteractions.js"></script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen overflow-x-hidden overflow-y-auto"
+  >
+    <!-- Include Sidebar -->
+    <div id="sidebar-container"></div>
+    <div id="sidebar-overlay-container"></div>
 
-  <!-- Include Navbar -->
-  <div id="navbar-container"></div>
+    <!-- Include Navbar -->
+    <div id="navbar-container"></div>
 
-  <!-- Main Content -->
-  <main class="lg:ml-64 pt-16 min-h-screen">
-    <div class="p-4 lg:p-8">
-      <!-- Page Header -->
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 fade-in">
-        <div>
-          <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">Users</h1>
-          <p class="text-gray-600 dark:text-gray-400">Manage and monitor all user accounts</p>
+    <!-- Main Content -->
+    <main class="lg:ml-64 pt-16 min-h-screen">
+      <div class="p-4 lg:p-8">
+        <!-- Page Header -->
+        <div
+          class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 animate__animated animate__fadeInUp"
+        >
+          <div>
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+              Users
+            </h1>
+            <p class="text-gray-600 dark:text-gray-400">
+              Manage and monitor all user accounts
+            </p>
+          </div>
+          <button
+            id="addUserBtn"
+            data-no-animation="true"
+            class="mt-4 sm:mt-0 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 flex items-center space-x-2"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+              ></path>
+            </svg>
+            <span>Add User</span>
+          </button>
         </div>
-        <button class="mt-4 sm:mt-0 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 flex items-center space-x-2">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-          </svg>
-          <span>Add User</span>
-        </button>
-      </div>
 
-      <!-- Filters and Search -->
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 mb-6">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0 md:space-x-4">
-          <!-- Search -->
-          <div class="flex-1">
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
+        <!-- Filters and Search -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 mb-6">
+          <div
+            class="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0 md:space-x-4"
+          >
+            <!-- Search -->
+            <div class="flex-1">
+              <div class="relative">
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                >
+                  <svg
+                    class="h-5 w-5 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    ></path>
+                  </svg>
+                </div>
+                <input
+                  type="text"
+                  id="userSearchInput"
+                  placeholder="Search users by name, email, role, status..."
+                  class="block w-full pl-10 pr-10 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                />
+                <button
+                  id="clearSearchBtn"
+                  class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hidden"
+                  title="Clear search"
+                >
+                  <svg
+                    class="h-5 w-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    ></path>
+                  </svg>
+                </button>
               </div>
-              <input
-                type="text"
-                placeholder="Search users..."
-                class="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            </div>
+            <!-- Filters -->
+            <div class="flex space-x-2">
+              <select
+                id="roleFilter"
+                class="border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
               >
+                <option>All Roles</option>
+              </select>
+              <select
+                id="statusFilter"
+                class="border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              >
+                <option>All Status</option>
+              </select>
             </div>
           </div>
-          <!-- Filters -->
-          <div class="flex space-x-2">
-            <select id="roleFilter" class="border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
-              <option>All Roles</option>
-            </select>
-            <select id="statusFilter" class="border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
-              <option>All Status</option>
-            </select>
+        </div>
+
+        <!-- Users Table -->
+        <div
+          class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden"
+        >
+          <div class="overflow-x-auto">
+            <table
+              class="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
+            >
+              <thead class="bg-gray-50 dark:bg-gray-700">
+                <tr>
+                  <th
+                    class="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                  >
+                    User
+                  </th>
+                  <th
+                    class="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                  >
+                    Email
+                  </th>
+                  <th
+                    class="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                  >
+                    Role
+                  </th>
+                  <th
+                    class="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                  >
+                    Status
+                  </th>
+                  <th
+                    class="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                  >
+                    Joined
+                  </th>
+                  <th
+                    class="px-6 py-4 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                  >
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody
+                id="usersTableBody"
+                class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700"
+              >
+                <!-- Users will be loaded here dynamically -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination -->
+          <div
+            class="bg-gray-50 dark:bg-gray-700 px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between"
+          >
+            <div class="text-sm text-gray-700 dark:text-gray-300 mb-4 sm:mb-0">
+              Showing <span class="font-medium">1</span> to
+              <span class="font-medium">3</span> of
+              <span class="font-medium">3</span> results
+            </div>
+            <div class="flex space-x-2">
+              <button
+                class="px-4 py-2 text-sm font-medium text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50"
+                disabled
+              >
+                Previous
+              </button>
+              <button
+                class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700"
+              >
+                1
+              </button>
+              <button
+                class="px-4 py-2 text-sm font-medium text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
+              >
+                Next
+              </button>
+            </div>
           </div>
         </div>
       </div>
+    </main>
 
-      <!-- Users Table -->
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
-        <div class="overflow-x-auto">
-          <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-            <thead class="bg-gray-50 dark:bg-gray-700">
-              <tr>
-                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                  User
-                </th>
-                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                  Email
-                </th>
-                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                  Role
-                </th>
-                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                  Status
-                </th>
-                <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                  Joined
-                </th>
-                <th class="px-6 py-4 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody id="usersTableBody" class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-              <!-- Users will be loaded here dynamically -->
-            </tbody>
-          </table>
+    <!-- Add/Edit User Modal -->
+    <div
+      id="userModal"
+      class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4"
+    >
+      <div
+        class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-md transform transition-all"
+      >
+        <!-- Modal Header -->
+        <div
+          class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700"
+        >
+          <h2
+            id="modalTitle"
+            class="text-2xl font-bold text-gray-900 dark:text-white"
+          >
+            Add User
+          </h2>
+          <button
+            id="closeModalBtn"
+            class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              ></path>
+            </svg>
+          </button>
         </div>
 
-        <!-- Pagination -->
-        <div class="bg-gray-50 dark:bg-gray-700 px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
-          <div class="text-sm text-gray-700 dark:text-gray-300 mb-4 sm:mb-0">
-            Showing <span class="font-medium">1</span> to <span class="font-medium">3</span> of <span class="font-medium">3</span> results
+        <!-- Modal Body -->
+        <form id="userForm" class="p-6 space-y-4">
+          <input type="hidden" id="userId" />
+
+          <!-- Name -->
+          <div>
+            <label
+              for="userName"
+              class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+            >
+              Full Name
+            </label>
+            <input
+              type="text"
+              id="userName"
+              required
+              class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              placeholder="Enter full name"
+            />
           </div>
-          <div class="flex space-x-2">
-            <button class="px-4 py-2 text-sm font-medium text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50" disabled>
-              Previous
+
+          <!-- Email -->
+          <div>
+            <label
+              for="userEmail"
+              class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+            >
+              Email Address
+            </label>
+            <input
+              type="email"
+              id="userEmail"
+              required
+              class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              placeholder="Enter email address"
+            />
+          </div>
+
+          <!-- Role -->
+          <div>
+            <label
+              for="userRole"
+              class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+            >
+              Role
+            </label>
+            <select
+              id="userRole"
+              required
+              class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              <option value="">Select role</option>
+              <option value="Admin">Admin</option>
+              <option value="User">User</option>
+              <option value="Moderator">Moderator</option>
+            </select>
+          </div>
+
+          <!-- Status -->
+          <div>
+            <label
+              for="userStatus"
+              class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+            >
+              Status
+            </label>
+            <select
+              id="userStatus"
+              required
+              class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              <option value="">Select status</option>
+              <option value="Active">Active</option>
+              <option value="Pending">Pending</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+
+          <!-- Modal Footer -->
+          <div
+            class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700"
+          >
+            <button
+              type="button"
+              id="cancelModalBtn"
+              class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition"
+            >
+              Cancel
             </button>
-            <button class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700">
-              1
-            </button>
-            <button class="px-4 py-2 text-sm font-medium text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
-              Next
+            <button
+              type="submit"
+              id="saveUserBtn"
+              class="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg hover:from-indigo-700 hover:to-purple-700 transition shadow-lg whitespace-nowrap"
+            >
+              Save User
             </button>
           </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div
+      id="deleteModal"
+      class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4"
+    >
+      <div
+        class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-md transform transition-all"
+      >
+        <!-- Modal Header -->
+        <div
+          class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700"
+        >
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
+            Delete User
+          </h2>
+          <button
+            id="closeDeleteModalBtn"
+            class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              ></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="p-6">
+          <div class="flex items-center space-x-4 mb-4">
+            <div
+              class="w-12 h-12 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center"
+            >
+              <svg
+                class="w-6 h-6 text-red-600 dark:text-red-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                ></path>
+              </svg>
+            </div>
+            <div>
+              <p class="text-gray-900 dark:text-white font-medium">
+                Are you sure you want to delete this user?
+              </p>
+              <p
+                id="deleteUserInfo"
+                class="text-sm text-gray-500 dark:text-gray-400 mt-1"
+              >
+                This action cannot be undone.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div
+          class="flex items-center justify-end space-x-3 p-6 border-t border-gray-200 dark:border-gray-700"
+        >
+          <button
+            type="button"
+            id="cancelDeleteBtn"
+            class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            id="confirmDeleteBtn"
+            class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition shadow-lg"
+          >
+            Delete User
+          </button>
         </div>
       </div>
     </div>
-  </main>
 
-  <script src="../assets/js/app.js"></script>
-  <script>
-    // Load components
-    fetch('../components/sidebar.html')
-      .then(res => res.text())
-      .then(html => {
-        const container = document.getElementById('sidebar-container');
-        const overlayContainer = document.getElementById('sidebar-overlay-container');
-        container.innerHTML = html;
-        
-        // Move overlay to overlay container if it exists (with small delay to ensure DOM is ready)
-        setTimeout(() => {
-          const overlay = document.getElementById('sidebarOverlay');
-          if (overlay && overlayContainer) {
-            overlay.remove();
-            overlayContainer.appendChild(overlay);
+    <script src="../assets/js/app.js"></script>
+    <script>
+      // Load components
+      fetch("../components/sidebar.html")
+        .then((res) => res.text())
+        .then((html) => {
+          const container = document.getElementById("sidebar-container");
+          const overlayContainer = document.getElementById(
+            "sidebar-overlay-container"
+          );
+          container.innerHTML = html;
+
+          // Move overlay to overlay container if it exists (with small delay to ensure DOM is ready)
+          setTimeout(() => {
+            const overlay = document.getElementById("sidebarOverlay");
+            if (overlay && overlayContainer) {
+              overlay.remove();
+              overlayContainer.appendChild(overlay);
+            }
+          }, 10);
+
+          initializeSidebar();
+        });
+
+      fetch("../components/navbar.html")
+        .then((res) => res.text())
+        .then((html) => {
+          document.getElementById("navbar-container").innerHTML = html;
+          initializeNavbar();
+        });
+
+      // Set active nav link
+      setTimeout(() => {
+        const navLinks = document.querySelectorAll(".nav-link");
+        navLinks.forEach((link) => {
+          if (link.getAttribute("data-page") === "users") {
+            link.classList.add(
+              "bg-indigo-50",
+              "dark:bg-gray-700",
+              "text-indigo-600",
+              "dark:text-indigo-400"
+            );
           }
-        }, 10);
-        
-        initializeSidebar();
-      });
+        });
+      }, 100);
 
-    fetch('../components/navbar.html')
-      .then(res => res.text())
-      .then(html => {
-        document.getElementById('navbar-container').innerHTML = html;
-        initializeNavbar();
-      });
+      // Store all users for filtering
+      let allUsers = [];
 
-    // Set active nav link
-    setTimeout(() => {
-      const navLinks = document.querySelectorAll('.nav-link');
-      navLinks.forEach(link => {
-        if (link.getAttribute('data-page') === 'users') {
-          link.classList.add('bg-indigo-50', 'dark:bg-gray-700', 'text-indigo-600', 'dark:text-indigo-400');
-        }
-      });
-    }, 100);
+      // Load users data
+      async function loadUsersData() {
+        try {
+          allUsers = await getUsers();
+          const roles = await getRoles();
+          const statuses = await getStatuses();
 
-    // Load users data
-    async function loadUsersData() {
-      try {
-        const users = await getUsers();
-        const roles = await getRoles();
-        const statuses = await getStatuses();
-        
-        // Populate role filter
-        const roleFilter = document.getElementById('roleFilter');
-        if (roleFilter) {
-          roles.forEach(role => {
-            const option = document.createElement('option');
-            option.value = role;
-            option.textContent = role;
-            roleFilter.appendChild(option);
-          });
+          // Populate role filter
+          const roleFilter = document.getElementById("roleFilter");
+          if (roleFilter) {
+            roles.forEach((role) => {
+              const option = document.createElement("option");
+              option.value = role;
+              option.textContent = role;
+              roleFilter.appendChild(option);
+            });
+          }
+
+          // Populate status filter
+          const statusFilter = document.getElementById("statusFilter");
+          if (statusFilter) {
+            statuses.forEach((status) => {
+              const option = document.createElement("option");
+              option.value = status;
+              option.textContent = status;
+              statusFilter.appendChild(option);
+            });
+          }
+
+          // Render users table
+          applyFiltersAndSearch();
+        } catch (error) {
+          console.error("Error loading users data:", error);
         }
-        
-        // Populate status filter
-        const statusFilter = document.getElementById('statusFilter');
-        if (statusFilter) {
-          statuses.forEach(status => {
-            const option = document.createElement('option');
-            option.value = status;
-            option.textContent = status;
-            statusFilter.appendChild(option);
-          });
-        }
-        
-        // Render users table
-        renderUsersTable(users);
-      } catch (error) {
-        console.error('Error loading users data:', error);
       }
-    }
-    
-    function renderUsersTable(users) {
-      const tbody = document.getElementById('usersTableBody');
-      if (!tbody) return;
-      
-      const avatarColors = [
-        'from-indigo-500 to-purple-500',
-        'from-pink-500 to-rose-500',
-        'from-green-500 to-emerald-500',
-        'from-blue-500 to-cyan-500',
-        'from-yellow-500 to-orange-500'
-      ];
-      
-      const roleColors = {
-        'Admin': 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200',
-        'User': 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200',
-        'Moderator': 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
-      };
-      
-      const statusColors = {
-        'Active': 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200',
-        'Pending': 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200',
-        'Inactive': 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
-      };
-      
-      const statusIndicators = {
-        'Active': 'status-active',
-        'Pending': 'status-pending',
-        'Inactive': 'status-inactive'
-      };
-      
-      tbody.innerHTML = users.map((user, index) => {
-        const avatarColor = avatarColors[index % avatarColors.length];
-        const roleColor = roleColors[user.role] || roleColors['User'];
-        const statusColor = statusColors[user.status] || statusColors['Active'];
-        const statusIndicator = statusIndicators[user.status] || 'status-active';
-        
-        return `
+
+      // Apply filters and search
+      function applyFiltersAndSearch() {
+        const searchQuery =
+          document.getElementById("userSearchInput")?.value || "";
+        const roleFilter =
+          document.getElementById("roleFilter")?.value || "All Roles";
+        const statusFilter =
+          document.getElementById("statusFilter")?.value || "All Status";
+
+        // Filter users
+        const filteredUsers = searchAndFilterUsers(
+          allUsers,
+          searchQuery,
+          roleFilter,
+          statusFilter
+        );
+
+        // Render filtered users
+        renderUsersTable(filteredUsers);
+
+        // Update pagination info
+        updatePaginationInfo(filteredUsers.length, allUsers.length);
+      }
+
+      // Update pagination info
+      function updatePaginationInfo(filteredCount, totalCount) {
+        const paginationText = document.querySelector(
+          ".bg-gray-50.dark\\:bg-gray-700 .text-sm"
+        );
+        if (paginationText) {
+          paginationText.innerHTML = `
+          Showing <span class="font-medium">1</span> to <span class="font-medium">${filteredCount}</span> of 
+          <span class="font-medium">${totalCount}</span> results
+        `;
+        }
+      }
+
+      function renderUsersTable(users) {
+        const tbody = document.getElementById("usersTableBody");
+        if (!tbody) return;
+
+        // Show no results message if empty
+        if (users.length === 0) {
+          tbody.innerHTML = `
+          <tr>
+            <td colspan="6" class="px-6 py-12 text-center">
+              <svg class="w-8 h-8 mx-auto mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+              <p class="text-lg font-medium text-gray-500 dark:text-gray-400">No users found</p>
+              <p class="text-sm text-gray-400 dark:text-gray-500 mt-2">Try adjusting your search or filters</p>
+            </td>
+          </tr>
+        `;
+          return;
+        }
+
+        const avatarColors = [
+          "from-indigo-500 to-purple-500",
+          "from-pink-500 to-rose-500",
+          "from-green-500 to-emerald-500",
+          "from-blue-500 to-cyan-500",
+          "from-yellow-500 to-orange-500",
+        ];
+
+        const roleColors = {
+          Admin:
+            "bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200",
+          User: "bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200",
+          Moderator:
+            "bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200",
+        };
+
+        const statusColors = {
+          Active:
+            "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200",
+          Pending:
+            "bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200",
+          Inactive:
+            "bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200",
+        };
+
+        const statusIndicators = {
+          Active: "bg-green-500 ring-2 ring-green-200 dark:ring-green-800",
+          Pending: "bg-yellow-500 ring-2 ring-yellow-200 dark:ring-yellow-800",
+          Inactive: "bg-gray-500 ring-2 ring-gray-200 dark:ring-gray-800",
+        };
+
+        const searchQuery =
+          document.getElementById("userSearchInput")?.value.toLowerCase() || "";
+
+        tbody.innerHTML = users
+          .map((user, index) => {
+            const avatarColor = avatarColors[index % avatarColors.length];
+            const roleColor = roleColors[user.role] || roleColors["User"];
+            const statusColor =
+              statusColors[user.status] || statusColors["Active"];
+            const statusIndicator =
+              statusIndicators[user.status] || statusIndicators["Active"];
+
+            return `
           <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
             <td class="px-6 py-4 whitespace-nowrap">
               <div class="flex items-center">
@@ -241,23 +648,31 @@
                   ${user.avatar}
                 </div>
                 <div>
-                  <div class="text-sm font-medium text-gray-900 dark:text-white">${user.name}</div>
-                  <div class="text-sm text-gray-500 dark:text-gray-400">ID: #${user.id}</div>
+                  <div class="text-sm font-medium text-gray-900 dark:text-white">${highlightSearchTerm(
+                    user.name,
+                    searchQuery
+                  )}</div>
+                  <div class="text-sm text-gray-500 dark:text-gray-400">ID: #${
+                    user.id
+                  }</div>
                 </div>
               </div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-              <div class="text-sm text-gray-900 dark:text-white">${user.email}</div>
+              <div class="text-sm text-gray-900 dark:text-white">${highlightSearchTerm(
+                user.email,
+                searchQuery
+              )}</div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
               <span class="px-3 py-1 text-xs font-semibold rounded-full ${roleColor}">
-                ${user.role}
+                ${highlightSearchTerm(user.role, searchQuery)}
               </span>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
               <span class="inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full ${statusColor}">
-                <span class="status-indicator ${statusIndicator}"></span>
-                ${user.status}
+                <span class="inline-block w-2 h-2 rounded-full mr-2 ${statusIndicator}"></span>
+                ${highlightSearchTerm(user.status, searchQuery)}
               </span>
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
@@ -265,12 +680,16 @@
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
               <div class="flex items-center justify-end space-x-2">
-                <button onclick="editUser(${user.id})" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-300 transition">
+                <button onclick="editUser(${
+                  user.id
+                })" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-300 transition">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                   </svg>
                 </button>
-                <button onclick="handleDeleteUser(${user.id})" class="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300 transition">
+                <button onclick="handleDeleteUser(${
+                  user.id
+                })" class="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300 transition">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                   </svg>
@@ -279,32 +698,384 @@
             </td>
           </tr>
         `;
-      }).join('');
-    }
-    
-    // Load users data on page load
-    loadUsersData();
-    
-    // User action functions
-    async function editUser(userId) {
-      const user = await getUserById(userId);
-      if (user) {
-        alert(`Edit user: ${user.name} (ID: ${user.id})`);
-        // In a real app, this would open an edit modal or navigate to edit page
+          })
+          .join("");
       }
-    }
-    
-    async function handleDeleteUser(userId) {
-      if (confirm('Are you sure you want to delete this user?')) {
-        const success = await deleteUser(userId);
-        if (success) {
-          loadUsersData(); // Reload the table
+
+      // Load users data on page load
+      loadUsersData();
+
+      // Check for stored search query from global search
+      window.addEventListener("DOMContentLoaded", () => {
+        const storedQuery = sessionStorage.getItem("searchQuery");
+        if (storedQuery) {
+          const searchInput = document.getElementById("userSearchInput");
+          if (searchInput) {
+            searchInput.value = storedQuery;
+            applyFiltersAndSearch();
+          }
+          sessionStorage.removeItem("searchQuery");
+        }
+      });
+
+      // Highlight search term in text
+      function highlightSearchTerm(text, searchTerm) {
+        if (!searchTerm || !text) return text;
+        const regex = new RegExp(
+          `(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`,
+          "gi"
+        );
+        return text
+          .toString()
+          .replace(
+            regex,
+            '<mark class="bg-yellow-200 dark:bg-yellow-800 px-1 rounded">$1</mark>'
+          );
+      }
+
+      // Modal Management
+      const userModal = document.getElementById("userModal");
+      const deleteModal = document.getElementById("deleteModal");
+      const userForm = document.getElementById("userForm");
+      let currentDeleteUserId = null;
+
+      // Open Add User Modal
+      function openAddUserModal() {
+        document.getElementById("modalTitle").textContent = "Add User";
+        document.getElementById("userId").value = "";
+        document.getElementById("userName").value = "";
+        document.getElementById("userEmail").value = "";
+        document.getElementById("userRole").value = "";
+        document.getElementById("userStatus").value = "";
+        // Update button text
+        const saveBtn = document.getElementById("saveUserBtn");
+        if (saveBtn) {
+          saveBtn.textContent = "Save User";
+        }
+        // Show modal
+        userModal.style.display = "flex";
+        userModal.classList.remove("hidden");
+        userModal.classList.add("animate__animated", "animate__fadeIn");
+        const modalContent = userModal.querySelector("div");
+        if (modalContent) {
+          modalContent.classList.add("animate__animated", "animate__slideInUp");
+        }
+        setTimeout(() => {
+          document.getElementById("userName").focus();
+        }, 100);
+      }
+
+      // Open Edit User Modal
+      async function openEditUserModal(userId) {
+        const user = await getUserById(userId);
+        if (user) {
+          document.getElementById("modalTitle").textContent = "Edit User";
+          document.getElementById("userId").value = user.id;
+          document.getElementById("userName").value = user.name;
+          document.getElementById("userEmail").value = user.email;
+          document.getElementById("userRole").value = user.role;
+          document.getElementById("userStatus").value = user.status;
+          // Update button text
+          const saveBtn = document.getElementById("saveUserBtn");
+          if (saveBtn) {
+            saveBtn.textContent = "Update User";
+          }
+          // Show modal
+          userModal.style.display = "flex";
+          userModal.classList.remove("hidden");
+          userModal.classList.add("animate__animated", "animate__fadeIn");
+          const modalContent = userModal.querySelector("div");
+          if (modalContent) {
+            modalContent.classList.add(
+              "animate__animated",
+              "animate__slideInUp"
+            );
+          }
+          setTimeout(() => {
+            document.getElementById("userName").focus();
+          }, 100);
         }
       }
-    }
-    
-    // Update the onclick handler
-    window.deleteUser = handleDeleteUser;
-  </script>
-</body>
+
+      // Close User Modal
+      function closeUserModal() {
+        if (userModal) {
+          // Force close modal
+          userModal.classList.add("hidden");
+          userModal.style.display = "none";
+
+          // Reset form
+          if (userForm) {
+            userForm.reset();
+            // Clear any validation states
+            const inputs = userForm.querySelectorAll("input, select");
+            inputs.forEach((input) => {
+              input.classList.remove("border-red-500");
+            });
+          }
+
+          // Reset button state
+          const saveBtn = document.getElementById("saveUserBtn");
+          if (saveBtn) {
+            saveBtn.disabled = false;
+            saveBtn.textContent = "Save User"; // Default text
+          }
+
+          // Clear userId
+          const userIdInput = document.getElementById("userId");
+          if (userIdInput) {
+            userIdInput.value = "";
+          }
+        }
+      }
+
+      // Open Delete Modal
+      async function openDeleteModal(userId) {
+        const user = await getUserById(userId);
+        if (user) {
+          currentDeleteUserId = userId;
+          document.getElementById(
+            "deleteUserInfo"
+          ).textContent = `User "${user.name}" (${user.email}) will be permanently deleted. This action cannot be undone.`;
+          deleteModal.classList.remove("hidden");
+          deleteModal.classList.add("animate__animated", "animate__fadeIn");
+          const deleteModalContent = deleteModal.querySelector("div");
+          if (deleteModalContent) {
+            deleteModalContent.classList.add(
+              "animate__animated",
+              "animate__slideInUp"
+            );
+          }
+        }
+      }
+
+      // Close Delete Modal
+      function closeDeleteModal() {
+        deleteModal.classList.add("hidden");
+        currentDeleteUserId = null;
+      }
+
+      // User action functions
+      async function editUser(userId) {
+        await openEditUserModal(userId);
+      }
+
+      async function handleDeleteUser(userId) {
+        await openDeleteModal(userId);
+      }
+
+      // Handle form submission
+      userForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const userId = document.getElementById("userId").value;
+        const name = document.getElementById("userName").value.trim();
+        const email = document.getElementById("userEmail").value.trim();
+
+        // Generate avatar initials from name
+        const nameParts = name.split(" ");
+        const avatar =
+          nameParts.length > 1
+            ? (
+                nameParts[0][0] + nameParts[nameParts.length - 1][0]
+              ).toUpperCase()
+            : name.substring(0, 2).toUpperCase();
+
+        const userData = {
+          name: name,
+          email: email,
+          role: document.getElementById("userRole").value,
+          status: document.getElementById("userStatus").value,
+          avatar: avatar,
+        };
+
+        const saveBtn = document.getElementById("saveUserBtn");
+        const originalText = saveBtn.textContent;
+        saveBtn.disabled = true;
+        // Show appropriate loading text based on operation
+        saveBtn.textContent = userId ? "Updating..." : "Saving...";
+
+        try {
+          let result = null;
+          if (userId) {
+            // Update existing user
+            result = await updateUser(parseInt(userId), userData);
+            if (result) {
+              // Close modal immediately
+              closeUserModal();
+              // Show notification
+              showNotification("User updated successfully", "success");
+              // Reload the table
+              loadUsersData();
+              // Reset button state after modal closes
+              setTimeout(() => {
+                saveBtn.disabled = false;
+                saveBtn.textContent = originalText;
+              }, 100);
+            } else {
+              saveBtn.disabled = false;
+              saveBtn.textContent = originalText;
+              showNotification("Failed to update user", "error");
+            }
+          } else {
+            // Add new user
+            result = await addUser(userData);
+            if (result) {
+              // Close modal immediately
+              closeUserModal();
+              // Show notification
+              showNotification("User added successfully", "success");
+              // Reload the table
+              loadUsersData();
+              // Reset button state after modal closes
+              setTimeout(() => {
+                saveBtn.disabled = false;
+                saveBtn.textContent = originalText;
+              }, 100);
+            } else {
+              saveBtn.disabled = false;
+              saveBtn.textContent = originalText;
+              showNotification("Failed to add user", "error");
+            }
+          }
+        } catch (error) {
+          console.error("Error saving user:", error);
+          saveBtn.disabled = false;
+          saveBtn.textContent = originalText;
+          showNotification("An error occurred", "error");
+        }
+      });
+
+      // Handle delete confirmation
+      document
+        .getElementById("confirmDeleteBtn")
+        .addEventListener("click", async () => {
+          if (currentDeleteUserId) {
+            const deleteBtn = document.getElementById("confirmDeleteBtn");
+            const originalText = deleteBtn.textContent;
+            deleteBtn.disabled = true;
+            deleteBtn.textContent = "Deleting...";
+
+            try {
+              const success = await deleteUser(currentDeleteUserId);
+              if (success) {
+                showNotification("User deleted successfully", "success");
+                closeDeleteModal();
+                loadUsersData(); // Reload the table
+              } else {
+                showNotification("Failed to delete user", "error");
+              }
+            } catch (error) {
+              console.error("Error deleting user:", error);
+              showNotification("An error occurred", "error");
+            } finally {
+              deleteBtn.disabled = false;
+              deleteBtn.textContent = originalText;
+            }
+          }
+        });
+
+      // Modal event listeners
+      document.getElementById("addUserBtn").addEventListener("click", (e) => {
+        e.stopPropagation();
+        openAddUserModal();
+      });
+      document
+        .getElementById("closeModalBtn")
+        .addEventListener("click", closeUserModal);
+      document
+        .getElementById("cancelModalBtn")
+        .addEventListener("click", closeUserModal);
+      document
+        .getElementById("closeDeleteModalBtn")
+        .addEventListener("click", closeDeleteModal);
+      document
+        .getElementById("cancelDeleteBtn")
+        .addEventListener("click", closeDeleteModal);
+
+      // Close modals on backdrop click
+      userModal.addEventListener("click", (e) => {
+        if (e.target === userModal) {
+          closeUserModal();
+        }
+      });
+
+      deleteModal.addEventListener("click", (e) => {
+        if (e.target === deleteModal) {
+          closeDeleteModal();
+        }
+      });
+
+      // Close modals on Escape key
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          if (!userModal.classList.contains("hidden")) {
+            closeUserModal();
+          }
+          if (!deleteModal.classList.contains("hidden")) {
+            closeDeleteModal();
+          }
+        }
+      });
+
+      // Make functions globally available
+      window.editUser = editUser;
+      window.handleDeleteUser = handleDeleteUser;
+
+      // Search input handler
+      const searchInput = document.getElementById("userSearchInput");
+      const clearSearchBtn = document.getElementById("clearSearchBtn");
+
+      if (searchInput) {
+        let searchTimeout;
+
+        // Show/hide clear button
+        function toggleClearButton() {
+          if (clearSearchBtn) {
+            if (searchInput.value.trim() !== "") {
+              clearSearchBtn.classList.remove("hidden");
+            } else {
+              clearSearchBtn.classList.add("hidden");
+            }
+          }
+        }
+
+        searchInput.addEventListener("input", function () {
+          toggleClearButton();
+          clearTimeout(searchTimeout);
+          searchTimeout = setTimeout(() => {
+            applyFiltersAndSearch();
+            // Add visual feedback
+            this.classList.add("searching");
+            setTimeout(() => {
+              this.classList.remove("searching");
+            }, 300);
+          }, 300); // Debounce search
+        });
+
+        // Clear search button
+        if (clearSearchBtn) {
+          clearSearchBtn.addEventListener("click", function () {
+            searchInput.value = "";
+            toggleClearButton();
+            applyFiltersAndSearch();
+            searchInput.focus();
+          });
+        }
+
+        // Initial state
+        toggleClearButton();
+      }
+
+      // Filter change handlers
+      document
+        .getElementById("roleFilter")
+        ?.addEventListener("change", applyFiltersAndSearch);
+      document
+        .getElementById("statusFilter")
+        ?.addEventListener("change", applyFiltersAndSearch);
+
+      // Add User button handler is handled by buttonInteractions.js
+      // But we can add additional logic here if needed
+    </script>
+  </body>
 </html>
