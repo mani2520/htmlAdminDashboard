@@ -241,20 +241,33 @@ function initializeToggleButtons() {
   const toggles = document.querySelectorAll('input[type="checkbox"]');
   
   toggles.forEach(toggle => {
+    // Skip toggle switches (they have peer classes and should not have slide animation)
+    // Toggle switches are typically in labels with a sibling div that has peer classes
+    const label = toggle.closest('label');
+    const isToggleSwitch = toggle.classList.contains('peer') || 
+                          (label && label.querySelector('div.peer')) ||
+                          (label && Array.from(label.children).some(child => 
+                            child.classList.contains('peer') || 
+                            child.classList.contains('rounded-full')
+                          ));
+    
+    // Skip if already has event listener
+    if (toggle.dataset.toggleInitialized === 'true') return;
+    toggle.dataset.toggleInitialized = 'true';
+    
     toggle.addEventListener('change', function() {
-      // Add visual feedback
-      const wrapper = this.closest('label') || this.parentElement;
-      if (wrapper) {
-        wrapper.classList.add('animate__animated', 'animate__slideInLeft');
-        setTimeout(() => {
-          wrapper.classList.remove('animate__animated', 'animate__slideInLeft');
-        }, 300);
+      // Only add animation to regular checkboxes, not toggle switches
+      // Toggle switches have their own smooth animation via Tailwind peer classes
+      if (!isToggleSwitch) {
+        const wrapper = this.closest('label') || this.parentElement;
+        if (wrapper) {
+          wrapper.classList.add('animate__animated', 'animate__pulse');
+          setTimeout(() => {
+            wrapper.classList.remove('animate__animated', 'animate__pulse');
+          }, 300);
+        }
       }
-      
-      showNotification(
-        `${this.checked ? 'Enabled' : 'Disabled'} ${this.name || 'setting'}`,
-        'info'
-      );
+      // Toggle switches don't need notification - they're self-explanatory
     });
   });
 }

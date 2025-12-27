@@ -1,9 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" class="dark overflow-x-hidden overflow-y-auto">
+<html lang="en" class="overflow-x-hidden overflow-y-auto">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard - Admin Panel</title>
+    <script>
+      // Initialize theme before page loads to prevent flash
+      (function () {
+        const savedTheme = localStorage.getItem("theme") || "dark";
+        if (savedTheme === "dark") {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+        }
+      })();
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       rel="stylesheet"
@@ -33,7 +44,7 @@
     <div class="min-h-screen flex flex-col">
       <!-- Include Sidebar -->
       <div id="sidebar-container" class="fixed inset-y-0 left-0 z-50"></div>
-      <div id="sidebar-overlay-container" class="fixed inset-0 z-40"></div>
+      <div id="sidebar-overlay-container" class="fixed inset-0"></div>
 
       <!-- Include Navbar -->
       <div id="navbar-container" class="fixed top-0 left-0 right-0 z-40"></div>

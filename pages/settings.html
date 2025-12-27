@@ -1,9 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" class="dark overflow-x-hidden overflow-y-auto">
+<html lang="en" class="overflow-x-hidden overflow-y-auto">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Settings - Admin Panel</title>
+    <script>
+      // Initialize theme before page loads to prevent flash
+      (function () {
+        const savedTheme = localStorage.getItem("theme") || "dark";
+        if (savedTheme === "dark") {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+        }
+      })();
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       rel="stylesheet"
@@ -32,7 +43,7 @@
     <div class="min-h-screen flex flex-col">
       <!-- Include Sidebar -->
       <div id="sidebar-container" class="fixed inset-y-0 left-0 z-50"></div>
-      <div id="sidebar-overlay-container" class="fixed inset-0 z-40"></div>
+      <div id="sidebar-overlay-container" class="fixed inset-0"></div>
 
       <!-- Include Navbar -->
       <div id="navbar-container" class="fixed top-0 left-0 right-0 z-40"></div>
@@ -255,7 +266,7 @@ Administrator account</textarea
                   >
                     <input type="checkbox" checked class="sr-only peer" />
                     <div
-                      class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-indigo-600"
+                      class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all after:duration-300 after:ease-in-out dark:border-gray-600 peer-checked:bg-indigo-600 transition-colors duration-300 ease-in-out"
                     ></div>
                   </label>
                 </div>
@@ -276,7 +287,7 @@ Administrator account</textarea
                   >
                     <input type="checkbox" class="sr-only peer" />
                     <div
-                      class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-indigo-600"
+                      class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all after:duration-300 after:ease-in-out dark:border-gray-600 peer-checked:bg-indigo-600 transition-colors duration-300 ease-in-out"
                     ></div>
                   </label>
                 </div>
@@ -297,7 +308,7 @@ Administrator account</textarea
                   >
                     <input type="checkbox" class="sr-only peer" />
                     <div
-                      class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-indigo-600"
+                      class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all after:duration-300 after:ease-in-out dark:border-gray-600 peer-checked:bg-indigo-600 transition-colors duration-300 ease-in-out"
                     ></div>
                   </label>
                 </div>

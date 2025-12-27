@@ -105,6 +105,17 @@ function initializeSidebar() {
   });
 }
 
+// Initialize Theme (should be called early, before navbar loads)
+function initializeTheme() {
+  // Load saved theme or default to dark
+  const savedTheme = localStorage.getItem("theme") || "dark";
+  if (savedTheme === "dark") {
+    document.documentElement.classList.add("dark");
+  } else {
+    document.documentElement.classList.remove("dark");
+  }
+}
+
 // Initialize Navbar
 function initializeNavbar() {
   const themeToggle = document.getElementById("themeToggle");
@@ -214,17 +225,20 @@ function initializeNavbar() {
 
   // Theme Toggle
   if (themeToggle) {
-    // Load saved theme
-    const savedTheme = localStorage.getItem("theme") || "dark";
-    if (savedTheme === "dark") {
-      document.documentElement.classList.add("dark");
-      updateThemeIcon(true);
-    } else {
-      document.documentElement.classList.remove("dark");
-      updateThemeIcon(false);
+    // Check if already initialized to prevent duplicate listeners
+    if (themeToggle.dataset.initialized === "true") {
+      return;
     }
+    themeToggle.dataset.initialized = "true";
 
-    themeToggle.addEventListener("click", () => {
+    // Update icon based on current theme
+    const isCurrentlyDark = document.documentElement.classList.contains("dark");
+    updateThemeIcon(isCurrentlyDark);
+
+    // Add click event listener
+    themeToggle.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
       const isDark = document.documentElement.classList.toggle("dark");
       localStorage.setItem("theme", isDark ? "dark" : "light");
       updateThemeIcon(isDark);
@@ -250,16 +264,37 @@ function initializeNavbar() {
 // Update Theme Icon
 function updateThemeIcon(isDark) {
   const themeIcon = document.getElementById("themeIcon");
-  if (!themeIcon) return;
+  if (!themeIcon) {
+    // Retry after a short delay if icon not found
+    setTimeout(() => updateThemeIcon(isDark), 100);
+    return;
+  }
 
   if (isDark) {
+    // Show sun icon (light mode icon) when in dark mode (clicking will switch to light)
     themeIcon.innerHTML = `
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
     `;
+    themeIcon.setAttribute("aria-label", "Switch to light mode");
   } else {
+    // Show moon icon (dark mode icon) when in light mode (clicking will switch to dark)
     themeIcon.innerHTML = `
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
     `;
+    themeIcon.setAttribute("aria-label", "Switch to dark mode");
+  }
+
+  // Update button aria-label
+  const themeToggle = document.getElementById("themeToggle");
+  if (themeToggle) {
+    themeToggle.setAttribute(
+      "aria-label",
+      isDark ? "Switch to light mode" : "Switch to dark mode"
+    );
+    themeToggle.setAttribute(
+      "title",
+      isDark ? "Switch to light mode" : "Switch to dark mode"
+    );
   }
 }
 
@@ -307,6 +342,9 @@ function confirmAction(message, callback) {
 
 // Initialize on page load
 document.addEventListener("DOMContentLoaded", () => {
+  // Initialize theme (as backup, though it's already initialized in head)
+  initializeTheme();
+
   // Add fade-in animation to main content
   const mainContent = document.querySelector("main");
   if (mainContent) {
@@ -317,11 +355,25 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initialize other plugins as needed
 });
 
+// Make functions globally available
+if (typeof window !== "undefined") {
+  window.initializeSidebar = initializeSidebar;
+  window.initializeNavbar = initializeNavbar;
+  window.initializeTheme = initializeTheme;
+  window.updateThemeIcon = updateThemeIcon;
+  window.formatNumber = formatNumber;
+  window.formatCurrency = formatCurrency;
+  window.showNotification = showNotification;
+  window.confirmAction = confirmAction;
+}
+
 // Export functions for use in other scripts
 if (typeof module !== "undefined" && module.exports) {
   module.exports = {
     initializeSidebar,
     initializeNavbar,
+    initializeTheme,
+    updateThemeIcon,
     formatNumber,
     formatCurrency,
     showNotification,
