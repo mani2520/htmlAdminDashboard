@@ -12,6 +12,28 @@ function initializeSidebar() {
     sidebar.style.display = "flex";
     sidebar.style.visibility = "visible";
     sidebar.style.opacity = "1";
+
+    // Ensure all nav links are visible
+    const navLinks = sidebar.querySelectorAll(".nav-link");
+    navLinks.forEach((link) => {
+      link.style.display = "flex";
+      link.style.visibility = "visible";
+      link.style.opacity = "1";
+
+      // Ensure spans and SVGs are visible
+      const spans = link.querySelectorAll("span");
+      const svgs = link.querySelectorAll("svg");
+      spans.forEach((span) => {
+        span.style.display = "inline-block";
+        span.style.visibility = "visible";
+        span.style.opacity = "1";
+      });
+      svgs.forEach((svg) => {
+        svg.style.display = "block";
+        svg.style.visibility = "visible";
+        svg.style.opacity = "1";
+      });
+    });
   }
 
   if (sidebarToggle) {

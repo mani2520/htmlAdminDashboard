@@ -1,0 +1,139 @@
+{
+  "dashboard": {
+    "stats": {
+      "users": {
+        "total": 1245,
+        "change": 12.5,
+        "trend": "up"
+      },
+      "sales": {
+        "total": 8430,
+        "change": 8.2,
+        "trend": "up"
+      },
+      "orders": {
+        "total": 3200,
+        "change": 5.4,
+        "trend": "up"
+      },
+      "revenue": {
+        "total": 24580,
+        "change": 15.3,
+        "trend": "up"
+      }
+    },
+    "charts": {
+      "sales": {
+        "labels": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        "data": [1200, 1900, 3000, 2500, 2200, 3000, 3500]
+      },
+      "users": {
+        "labels": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        "data": [12, 19, 15, 25, 22, 30, 28]
+      }
+    },
+    "recentActivity": [
+      {
+        "id": 1,
+        "type": "user",
+        "icon": "user",
+        "title": "New user registered",
+        "description": "John Doe joined the platform",
+        "time": "2 hours ago",
+        "color": "indigo"
+      },
+      {
+        "id": 2,
+        "type": "order",
+        "icon": "check",
+        "title": "Order completed",
+        "description": "Order #1234 has been completed",
+        "time": "5 hours ago",
+        "color": "green"
+      },
+      {
+        "id": 3,
+        "type": "payment",
+        "icon": "clock",
+        "title": "Payment pending",
+        "description": "Payment for order #1235 is pending",
+        "time": "1 day ago",
+        "color": "yellow"
+      }
+    ]
+  },
+  "users": [
+    {
+      "id": 1234,
+      "name": "John Doe",
+      "email": "john@mail.com",
+      "role": "Admin",
+      "status": "Active",
+      "joined": "Jan 15, 2024",
+      "avatar": "JD"
+    },
+    {
+      "id": 1235,
+      "name": "Jane Smith",
+      "email": "jane@mail.com",
+      "role": "User",
+      "status": "Pending",
+      "joined": "Feb 20, 2024",
+      "avatar": "JS"
+    },
+    {
+      "id": 1236,
+      "name": "Mike Johnson",
+      "email": "mike@mail.com",
+      "role": "Moderator",
+      "status": "Active",
+      "joined": "Mar 10, 2024",
+      "avatar": "MJ"
+    },
+    {
+      "id": 1237,
+      "name": "Sarah Williams",
+      "email": "sarah@mail.com",
+      "role": "User",
+      "status": "Active",
+      "joined": "Mar 25, 2024",
+      "avatar": "SW"
+    },
+    {
+      "id": 1238,
+      "name": "David Brown",
+      "email": "david@mail.com",
+      "role": "User",
+      "status": "Inactive",
+      "joined": "Apr 5, 2024",
+      "avatar": "DB"
+    }
+  ],
+  "settings": {
+    "profile": {
+      "firstName": "Admin",
+      "lastName": "User",
+      "email": "admin@example.com",
+      "bio": "Administrator account",
+      "avatar": "AD"
+    },
+    "notifications": {
+      "email": true,
+      "push": false,
+      "sms": false
+    },
+    "preferences": {
+      "language": "English",
+      "timezone": "UTC-8 (Pacific Time)"
+    },
+    "languages": ["English", "Spanish", "French", "German"],
+    "timezones": [
+      "UTC-8 (Pacific Time)",
+      "UTC-5 (Eastern Time)",
+      "UTC+0 (GMT)",
+      "UTC+1 (Central European Time)"
+    ]
+  },
+  "roles": ["Admin", "User", "Moderator"],
+  "statuses": ["Active", "Pending", "Inactive"]
+}

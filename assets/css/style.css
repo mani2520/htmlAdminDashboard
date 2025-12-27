@@ -211,7 +211,19 @@ textarea:focus {
 #sidebar nav {
   flex: 1;
   overflow-y: auto;
+  overflow-x: visible;
   display: block !important;
+  min-height: 0;
+}
+
+#sidebar nav a {
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  height: auto !important;
+  min-height: 44px !important;
 }
 
 #sidebar .nav-link {
@@ -220,6 +232,8 @@ textarea:focus {
   align-items: center !important;
   opacity: 1 !important;
   visibility: visible !important;
+  width: 100% !important;
+  margin-bottom: 0.5rem !important;
 }
 
 .dark #sidebar .nav-link {
@@ -230,11 +244,14 @@ textarea:focus {
   color: inherit !important;
   opacity: 1 !important;
   visibility: visible !important;
+  display: inline-block !important;
 }
 
 #sidebar .nav-link svg {
   opacity: 1 !important;
   visibility: visible !important;
+  display: block !important;
+  flex-shrink: 0 !important;
 }
 
 /* Theme toggle button visibility */
@@ -267,4 +284,24 @@ textarea:focus {
 .status-inactive {
   background-color: #6b7280;
   box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.2);
+}
+
+/* Force all sidebar navigation links to be visible */
+#sidebar nav a[href="users.html"],
+#sidebar nav a[href="settings.html"],
+#sidebar nav a[href="dashboard.html"] {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  height: auto !important;
+  min-height: 44px !important;
+  margin: 0.25rem 0 !important;
+}
+
+#sidebar nav a[data-page="users"],
+#sidebar nav a[data-page="settings"],
+#sidebar nav a[data-page="dashboard"] {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }

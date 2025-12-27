@@ -13,6 +13,7 @@
       rel="stylesheet"
     />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../assets/js/dataService.js"></script>
     <style>
       body {
         font-family: "Inter", sans-serif;
@@ -55,11 +56,15 @@
                 >
                   Total Users
                 </p>
-                <h3 class="text-3xl font-bold text-gray-900 dark:text-white">
-                  1,245
+                <h3
+                  class="text-3xl font-bold text-gray-900 dark:text-white"
+                  id="usersTotal"
+                >
+                  Loading...
                 </h3>
                 <p
                   class="text-sm text-green-600 dark:text-green-400 mt-2 flex items-center"
+                  id="usersChange"
                 >
                   <svg
                     class="w-4 h-4 mr-1"
@@ -74,7 +79,7 @@
                       d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
                     ></path>
                   </svg>
-                  +12.5% from last month
+                  <span id="usersChangeText">Loading...</span>
                 </p>
               </div>
               <div
@@ -108,11 +113,15 @@
                 >
                   Total Sales
                 </p>
-                <h3 class="text-3xl font-bold text-gray-900 dark:text-white">
-                  $8,430
+                <h3
+                  class="text-3xl font-bold text-gray-900 dark:text-white"
+                  id="salesTotal"
+                >
+                  Loading...
                 </h3>
                 <p
                   class="text-sm text-green-600 dark:text-green-400 mt-2 flex items-center"
+                  id="salesChange"
                 >
                   <svg
                     class="w-4 h-4 mr-1"
@@ -127,7 +136,7 @@
                       d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
                     ></path>
                   </svg>
-                  +8.2% from last month
+                  <span id="salesChangeText">Loading...</span>
                 </p>
               </div>
               <div
@@ -161,11 +170,15 @@
                 >
                   Total Orders
                 </p>
-                <h3 class="text-3xl font-bold text-gray-900 dark:text-white">
-                  320
+                <h3
+                  class="text-3xl font-bold text-gray-900 dark:text-white"
+                  id="ordersTotal"
+                >
+                  Loading...
                 </h3>
                 <p
                   class="text-sm text-yellow-600 dark:text-yellow-400 mt-2 flex items-center"
+                  id="ordersChange"
                 >
                   <svg
                     class="w-4 h-4 mr-1"
@@ -180,7 +193,7 @@
                       d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
                     ></path>
                   </svg>
-                  +5.4% from last month
+                  <span id="ordersChangeText">Loading...</span>
                 </p>
               </div>
               <div
@@ -214,11 +227,15 @@
                 >
                   Revenue
                 </p>
-                <h3 class="text-3xl font-bold text-gray-900 dark:text-white">
-                  $24,580
+                <h3
+                  class="text-3xl font-bold text-gray-900 dark:text-white"
+                  id="revenueTotal"
+                >
+                  Loading...
                 </h3>
                 <p
                   class="text-sm text-purple-600 dark:text-purple-400 mt-2 flex items-center"
+                  id="revenueChange"
                 >
                   <svg
                     class="w-4 h-4 mr-1"
@@ -233,7 +250,7 @@
                       d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
                     ></path>
                   </svg>
-                  +15.3% from last month
+                  <span id="revenueChangeText">Loading...</span>
                 </p>
               </div>
               <div
@@ -309,103 +326,8 @@
           <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-6">
             Recent Activity
           </h2>
-          <div class="space-y-4">
-            <div
-              class="flex items-center space-x-4 p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition"
-            >
-              <div
-                class="w-10 h-10 bg-indigo-100 dark:bg-indigo-900 rounded-full flex items-center justify-center"
-              >
-                <svg
-                  class="w-5 h-5 text-indigo-600 dark:text-indigo-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
-                  ></path>
-                </svg>
-              </div>
-              <div class="flex-1">
-                <p class="text-sm font-medium text-gray-900 dark:text-white">
-                  New user registered
-                </p>
-                <p class="text-xs text-gray-500 dark:text-gray-400">
-                  John Doe joined the platform
-                </p>
-              </div>
-              <span class="text-xs text-gray-500 dark:text-gray-400"
-                >2 hours ago</span
-              >
-            </div>
-            <div
-              class="flex items-center space-x-4 p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition"
-            >
-              <div
-                class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center"
-              >
-                <svg
-                  class="w-5 h-5 text-green-600 dark:text-green-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  ></path>
-                </svg>
-              </div>
-              <div class="flex-1">
-                <p class="text-sm font-medium text-gray-900 dark:text-white">
-                  Order completed
-                </p>
-                <p class="text-xs text-gray-500 dark:text-gray-400">
-                  Order #1234 has been completed
-                </p>
-              </div>
-              <span class="text-xs text-gray-500 dark:text-gray-400"
-                >5 hours ago</span
-              >
-            </div>
-            <div
-              class="flex items-center space-x-4 p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition"
-            >
-              <div
-                class="w-10 h-10 bg-yellow-100 dark:bg-yellow-900 rounded-full flex items-center justify-center"
-              >
-                <svg
-                  class="w-5 h-5 text-yellow-600 dark:text-yellow-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                  ></path>
-                </svg>
-              </div>
-              <div class="flex-1">
-                <p class="text-sm font-medium text-gray-900 dark:text-white">
-                  Payment pending
-                </p>
-                <p class="text-xs text-gray-500 dark:text-gray-400">
-                  Payment for order #1235 is pending
-                </p>
-              </div>
-              <span class="text-xs text-gray-500 dark:text-gray-400"
-                >1 day ago</span
-              >
-            </div>
+          <div class="space-y-4" id="recentActivityContainer">
+            <!-- Activity items will be loaded here dynamically -->
           </div>
         </div>
       </div>
@@ -442,64 +364,162 @@
           initializeNavbar();
         });
 
-      // Initialize Charts
-      const salesCtx = document.getElementById("salesChart");
-      if (salesCtx) {
-        new Chart(salesCtx, {
-          type: "line",
-          data: {
-            labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-            datasets: [
-              {
-                label: "Sales",
-                data: [1200, 1900, 3000, 2500, 2200, 3000, 3500],
-                borderColor: "rgb(99, 102, 241)",
-                backgroundColor: "rgba(99, 102, 241, 0.1)",
-                tension: 0.4,
-                fill: true,
+      // Load and display dashboard data
+      async function loadDashboardData() {
+        try {
+          // Load stats
+          const stats = await getDashboardStats();
+
+          // Update Users card
+          document.getElementById("usersTotal").textContent = formatNumber(
+            stats.users.total
+          );
+          document.getElementById(
+            "usersChangeText"
+          ).textContent = `+${stats.users.change}% from last month`;
+
+          // Update Sales card
+          document.getElementById("salesTotal").textContent = formatCurrency(
+            stats.sales.total
+          );
+          document.getElementById(
+            "salesChangeText"
+          ).textContent = `+${stats.sales.change}% from last month`;
+
+          // Update Orders card
+          document.getElementById("ordersTotal").textContent = formatNumber(
+            stats.orders.total
+          );
+          document.getElementById(
+            "ordersChangeText"
+          ).textContent = `+${stats.orders.change}% from last month`;
+
+          // Update Revenue card
+          document.getElementById("revenueTotal").textContent = formatCurrency(
+            stats.revenue.total
+          );
+          document.getElementById(
+            "revenueChangeText"
+          ).textContent = `+${stats.revenue.change}% from last month`;
+
+          // Load charts data
+          const chartsData = await getDashboardCharts();
+
+          // Initialize Sales Chart
+          const salesCtx = document.getElementById("salesChart");
+          if (salesCtx && chartsData.sales) {
+            new Chart(salesCtx, {
+              type: "line",
+              data: {
+                labels: chartsData.sales.labels,
+                datasets: [
+                  {
+                    label: "Sales",
+                    data: chartsData.sales.data,
+                    borderColor: "rgb(99, 102, 241)",
+                    backgroundColor: "rgba(99, 102, 241, 0.1)",
+                    tension: 0.4,
+                    fill: true,
+                  },
+                ],
               },
-            ],
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: { display: false },
-            },
-            scales: {
-              y: { beginAtZero: true },
-            },
-          },
-        });
+              options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                  legend: { display: false },
+                },
+                scales: {
+                  y: { beginAtZero: true },
+                },
+              },
+            });
+          }
+
+          // Initialize Users Chart
+          const usersCtx = document.getElementById("usersChart");
+          if (usersCtx && chartsData.users) {
+            new Chart(usersCtx, {
+              type: "bar",
+              data: {
+                labels: chartsData.users.labels,
+                datasets: [
+                  {
+                    label: "New Users",
+                    data: chartsData.users.data,
+                    backgroundColor: "rgba(139, 92, 246, 0.8)",
+                    borderRadius: 8,
+                  },
+                ],
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                  legend: { display: false },
+                },
+                scales: {
+                  y: { beginAtZero: true },
+                },
+              },
+            });
+          }
+
+          // Load recent activity
+          const activities = await getRecentActivity();
+          const activityContainer = document.getElementById(
+            "recentActivityContainer"
+          );
+          if (activityContainer && activities) {
+            activityContainer.innerHTML = activities
+              .map((activity) => {
+                const colorClasses = {
+                  indigo:
+                    "bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-400",
+                  green:
+                    "bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400",
+                  yellow:
+                    "bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-400",
+                };
+
+                const icons = {
+                  user: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>`,
+                  check: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>`,
+                  clock: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>`,
+                };
+
+                return `
+                <div class="flex items-center space-x-4 p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                  <div class="w-10 h-10 ${
+                    colorClasses[activity.color] || colorClasses.indigo
+                  } rounded-full flex items-center justify-center">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      ${icons[activity.icon] || icons.user}
+                    </svg>
+                  </div>
+                  <div class="flex-1">
+                    <p class="text-sm font-medium text-gray-900 dark:text-white">${
+                      activity.title
+                    }</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">${
+                      activity.description
+                    }</p>
+                  </div>
+                  <span class="text-xs text-gray-500 dark:text-gray-400">${
+                    activity.time
+                  }</span>
+                </div>
+              `;
+              })
+              .join("");
+          }
+        } catch (error) {
+          console.error("Error loading dashboard data:", error);
+        }
       }
 
-      const usersCtx = document.getElementById("usersChart");
-      if (usersCtx) {
-        new Chart(usersCtx, {
-          type: "bar",
-          data: {
-            labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-            datasets: [
-              {
-                label: "New Users",
-                data: [12, 19, 15, 25, 22, 30, 28],
-                backgroundColor: "rgba(139, 92, 246, 0.8)",
-                borderRadius: 8,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: { display: false },
-            },
-            scales: {
-              y: { beginAtZero: true },
-            },
-          },
-        });
-      }
+      // Load dashboard data
+      loadDashboardData();
 
       // Set active nav link
       setTimeout(() => {
