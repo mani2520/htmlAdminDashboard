@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen"
+  >
+    <!-- Include Sidebar -->
+    <div id="sidebar-container"></div>
+    <div id="sidebar-overlay-container"></div>
+
+    <!-- Include Navbar -->
+    <div id="navbar-container"></div>
+
+    <!-- Main Content -->
+    <main class="lg:ml-64 pt-16 min-h-screen">
+      <div class="p-4 lg:p-8">
+        <!-- Page Header -->
+        <div class="mb-8 fade-in">
+          <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            Dashboard
+          </h1>
+          <p class="text-gray-600 dark:text-gray-400">
+            Welcome back! Here's what's happening today.
+          </p>
+        </div>
+
+        <!-- Stats Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <!-- Users Card -->
+          <div
+            class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 card-hover border-l-4 border-indigo-500"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <p
+                  class="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1"
+                >
+                  Total Users
+                </p>
+                <h3 class="text-3xl font-bold text-gray-900 dark:text-white">
+                  1,245
+                </h3>
+                <p
+                  class="text-sm text-green-600 dark:text-green-400 mt-2 flex items-center"
+                >
+                  <svg
+                    class="w-4 h-4 mr-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                    ></path>
+                  </svg>
+                  +12.5% from last month
+                </p>
+              </div>
+              <div
+                class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg"
+              >
+                <svg
+                  class="w-8 h-8 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sales Card -->
+          <div
+            class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 card-hover border-l-4 border-green-500"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <p
+                  class="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1"
+                >
+                  Total Sales
+                </p>
+                <h3 class="text-3xl font-bold text-gray-900 dark:text-white">
+                  $8,430
+                </h3>
+                <p
+                  class="text-sm text-green-600 dark:text-green-400 mt-2 flex items-center"
+                >
+                  <svg
+                    class="w-4 h-4 mr-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                    ></path>
+                  </svg>
+                  +8.2% from last month
+                </p>
+              </div>
+              <div
+                class="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center shadow-lg"
+              >
+                <svg
+                  class="w-8 h-8 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Orders Card -->
+          <div
+            class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 card-hover border-l-4 border-yellow-500"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <p
+                  class="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1"
+                >
+                  Total Orders
+                </p>
+                <h3 class="text-3xl font-bold text-gray-900 dark:text-white">
+                  320
+                </h3>
+                <p
+                  class="text-sm text-yellow-600 dark:text-yellow-400 mt-2 flex items-center"
+                >
+                  <svg
+                    class="w-4 h-4 mr-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                    ></path>
+                  </svg>
+                  +5.4% from last month
+                </p>
+              </div>
+              <div
+                class="w-16 h-16 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-xl flex items-center justify-center shadow-lg"
+              >
+                <svg
+                  class="w-8 h-8 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Revenue Card -->
+          <div
+            class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 card-hover border-l-4 border-purple-500"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <p
+                  class="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1"
+                >
+                  Revenue
+                </p>
+                <h3 class="text-3xl font-bold text-gray-900 dark:text-white">
+                  $24,580
+                </h3>
+                <p
+                  class="text-sm text-purple-600 dark:text-purple-400 mt-2 flex items-center"
+                >
+                  <svg
+                    class="w-4 h-4 mr-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                    ></path>
+                  </svg>
+                  +15.3% from last month
+                </p>
+              </div>
+              <div
+                class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg"
+              >
+                <svg
+                  class="w-8 h-8 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <!-- Sales Chart -->
+          <div
+            class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 card-hover"
+          >
+            <div class="flex items-center justify-between mb-6">
+              <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
+                Sales Overview
+              </h2>
+              <select
+                class="text-sm border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              >
+                <option>Last 7 days</option>
+                <option>Last 30 days</option>
+                <option>Last 90 days</option>
+              </select>
+            </div>
+            <div class="chart-container">
+              <canvas id="salesChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Users Chart -->
+          <div
+            class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 card-hover"
+          >
+            <div class="flex items-center justify-between mb-6">
+              <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
+                User Growth
+              </h2>
+              <select
+                class="text-sm border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              >
+                <option>Last 7 days</option>
+                <option>Last 30 days</option>
+                <option>Last 90 days</option>
+              </select>
+            </div>
+            <div class="chart-container">
+              <canvas id="usersChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div
+          class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 card-hover"
+        >
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-6">
+            Recent Activity
+          </h2>
+          <div class="space-y-4">
+            <div
+              class="flex items-center space-x-4 p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+            >
+              <div
+                class="w-10 h-10 bg-indigo-100 dark:bg-indigo-900 rounded-full flex items-center justify-center"
+              >
+                <svg
+                  class="w-5 h-5 text-indigo-600 dark:text-indigo-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+                  ></path>
+                </svg>
+              </div>
+              <div class="flex-1">
+                <p class="text-sm font-medium text-gray-900 dark:text-white">
+                  New user registered
+                </p>
+                <p class="text-xs text-gray-500 dark:text-gray-400">
+                  John Doe joined the platform
+                </p>
+              </div>
+              <span class="text-xs text-gray-500 dark:text-gray-400"
+                >2 hours ago</span
+              >
+            </div>
+            <div
+              class="flex items-center space-x-4 p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+            >
+              <div
+                class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center"
+              >
+                <svg
+                  class="w-5 h-5 text-green-600 dark:text-green-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+              </div>
+              <div class="flex-1">
+                <p class="text-sm font-medium text-gray-900 dark:text-white">
+                  Order completed
+                </p>
+                <p class="text-xs text-gray-500 dark:text-gray-400">
+                  Order #1234 has been completed
+                </p>
+              </div>
+              <span class="text-xs text-gray-500 dark:text-gray-400"
+                >5 hours ago</span
+              >
+            </div>
+            <div
+              class="flex items-center space-x-4 p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+            >
+              <div
+                class="w-10 h-10 bg-yellow-100 dark:bg-yellow-900 rounded-full flex items-center justify-center"
+              >
+                <svg
+                  class="w-5 h-5 text-yellow-600 dark:text-yellow-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+              </div>
+              <div class="flex-1">
+                <p class="text-sm font-medium text-gray-900 dark:text-white">
+                  Payment pending
+                </p>
+                <p class="text-xs text-gray-500 dark:text-gray-400">
+                  Payment for order #1235 is pending
+                </p>
+              </div>
+              <span class="text-xs text-gray-500 dark:text-gray-400"
+                >1 day ago</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="../assets/js/app.js"></script>
+    <script>
+      // Load components
+      fetch("../components/sidebar.html")
+        .then((res) => res.text())
+        .then((html) => {
+          const container = document.getElementById("sidebar-container");
+          const overlayContainer = document.getElementById(
+            "sidebar-overlay-container"
+          );
+          container.innerHTML = html;
+
+          // Move overlay to overlay container if it exists (with small delay to ensure DOM is ready)
+          setTimeout(() => {
+            const overlay = document.getElementById("sidebarOverlay");
+            if (overlay && overlayContainer) {
+              overlay.remove();
+              overlayContainer.appendChild(overlay);
+            }
+          }, 10);
+
+          initializeSidebar();
+        });
+
+      fetch("../components/navbar.html")
+        .then((res) => res.text())
+        .then((html) => {
+          document.getElementById("navbar-container").innerHTML = html;
+          initializeNavbar();
+        });
+
+      // Initialize Charts
+      const salesCtx = document.getElementById("salesChart");
+      if (salesCtx) {
+        new Chart(salesCtx, {
+          type: "line",
+          data: {
+            labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+            datasets: [
+              {
+                label: "Sales",
+                data: [1200, 1900, 3000, 2500, 2200, 3000, 3500],
+                borderColor: "rgb(99, 102, 241)",
+                backgroundColor: "rgba(99, 102, 241, 0.1)",
+                tension: 0.4,
+                fill: true,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+            },
+            scales: {
+              y: { beginAtZero: true },
+            },
+          },
+        });
+      }
+
+      const usersCtx = document.getElementById("usersChart");
+      if (usersCtx) {
+        new Chart(usersCtx, {
+          type: "bar",
+          data: {
+            labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+            datasets: [
+              {
+                label: "New Users",
+                data: [12, 19, 15, 25, 22, 30, 28],
+                backgroundColor: "rgba(139, 92, 246, 0.8)",
+                borderRadius: 8,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+            },
+            scales: {
+              y: { beginAtZero: true },
+            },
+          },
+        });
+      }
+
+      // Set active nav link
+      setTimeout(() => {
+        const navLinks = document.querySelectorAll(".nav-link");
+        navLinks.forEach((link) => {
+          if (link.getAttribute("data-page") === "dashboard") {
+            link.classList.add(
+              "bg-indigo-50",
+              "dark:bg-gray-700",
+              "text-indigo-600",
+              "dark:text-indigo-400"
+            );
+          }
+        });
+      }, 100);
+    </script>
+  </body>
+</html>

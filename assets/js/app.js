@@ -1,0 +1,169 @@
+// Modern Admin Dashboard JavaScript
+
+// Initialize Sidebar
+function initializeSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  const sidebarToggle = document.getElementById("sidebarToggle");
+  const sidebarClose = document.getElementById("sidebarClose");
+  const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+  // Ensure sidebar is visible
+  if (sidebar) {
+    sidebar.style.display = "flex";
+    sidebar.style.visibility = "visible";
+    sidebar.style.opacity = "1";
+  }
+
+  if (sidebarToggle) {
+    sidebarToggle.addEventListener("click", () => {
+      if (sidebar) sidebar.classList.add("open");
+      if (sidebarOverlay) sidebarOverlay.classList.remove("hidden");
+    });
+  }
+
+  if (sidebarClose) {
+    sidebarClose.addEventListener("click", () => {
+      if (sidebar) sidebar.classList.remove("open");
+      if (sidebarOverlay) sidebarOverlay.classList.add("hidden");
+    });
+  }
+
+  if (sidebarOverlay) {
+    sidebarOverlay.addEventListener("click", () => {
+      if (sidebar) sidebar.classList.remove("open");
+      sidebarOverlay.classList.add("hidden");
+    });
+  }
+
+  // Close sidebar on window resize (desktop)
+  window.addEventListener("resize", () => {
+    if (window.innerWidth >= 1024) {
+      if (sidebar) sidebar.classList.remove("open");
+      if (sidebarOverlay) sidebarOverlay.classList.add("hidden");
+    }
+  });
+}
+
+// Initialize Navbar
+function initializeNavbar() {
+  const themeToggle = document.getElementById("themeToggle");
+  const themeIcon = document.getElementById("themeIcon");
+  const userMenuButton = document.getElementById("userMenuButton");
+  const userMenu = document.getElementById("userMenu");
+
+  // Theme Toggle
+  if (themeToggle) {
+    // Load saved theme
+    const savedTheme = localStorage.getItem("theme") || "dark";
+    if (savedTheme === "dark") {
+      document.documentElement.classList.add("dark");
+      updateThemeIcon(true);
+    } else {
+      document.documentElement.classList.remove("dark");
+      updateThemeIcon(false);
+    }
+
+    themeToggle.addEventListener("click", () => {
+      const isDark = document.documentElement.classList.toggle("dark");
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+      updateThemeIcon(isDark);
+    });
+  }
+
+  // User Menu Toggle
+  if (userMenuButton && userMenu) {
+    userMenuButton.addEventListener("click", (e) => {
+      e.stopPropagation();
+      userMenu.classList.toggle("hidden");
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener("click", (e) => {
+      if (!userMenuButton.contains(e.target) && !userMenu.contains(e.target)) {
+        userMenu.classList.add("hidden");
+      }
+    });
+  }
+}
+
+// Update Theme Icon
+function updateThemeIcon(isDark) {
+  const themeIcon = document.getElementById("themeIcon");
+  if (!themeIcon) return;
+
+  if (isDark) {
+    themeIcon.innerHTML = `
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+    `;
+  } else {
+    themeIcon.innerHTML = `
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+    `;
+  }
+}
+
+// Utility: Format numbers
+function formatNumber(num) {
+  return new Intl.NumberFormat("en-US").format(num);
+}
+
+// Utility: Format currency
+function formatCurrency(amount) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(amount);
+}
+
+// Utility: Show notification
+function showNotification(message, type = "info") {
+  const notification = document.createElement("div");
+  notification.className = `fixed top-20 right-4 z-50 px-6 py-4 rounded-lg shadow-lg transform transition-all duration-300 ${
+    type === "success"
+      ? "bg-green-500 text-white"
+      : type === "error"
+      ? "bg-red-500 text-white"
+      : type === "warning"
+      ? "bg-yellow-500 text-white"
+      : "bg-indigo-500 text-white"
+  }`;
+  notification.textContent = message;
+  document.body.appendChild(notification);
+
+  setTimeout(() => {
+    notification.style.opacity = "0";
+    notification.style.transform = "translateX(100%)";
+    setTimeout(() => notification.remove(), 300);
+  }, 3000);
+}
+
+// Utility: Confirm dialog
+function confirmAction(message, callback) {
+  if (confirm(message)) {
+    callback();
+  }
+}
+
+// Initialize on page load
+document.addEventListener("DOMContentLoaded", () => {
+  // Add fade-in animation to main content
+  const mainContent = document.querySelector("main");
+  if (mainContent) {
+    mainContent.classList.add("fade-in");
+  }
+
+  // Initialize tooltips (if using a tooltip library)
+  // Initialize other plugins as needed
+});
+
+// Export functions for use in other scripts
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = {
+    initializeSidebar,
+    initializeNavbar,
+    formatNumber,
+    formatCurrency,
+    showNotification,
+    confirmAction,
+  };
+}
