@@ -167,23 +167,73 @@ function initializeSaveButtons() {
 function initializeDeleteButtons() {
   // Delete Account button
   const deleteAccountBtn = document.getElementById('deleteAccountBtn');
-  if (deleteAccountBtn) {
+  const deleteAccountModal = document.getElementById('deleteAccountModal');
+  const cancelDeleteAccountBtn = document.getElementById('cancelDeleteAccountBtn');
+  const confirmDeleteAccountBtn = document.getElementById('confirmDeleteAccountBtn');
+  
+  // Open delete account modal
+  if (deleteAccountBtn && deleteAccountModal) {
     deleteAccountBtn.addEventListener('click', function(e) {
       e.preventDefault();
-      if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
-        this.classList.add('animate__animated', 'animate__shakeX');
-        this.disabled = true;
-        this.textContent = 'Deleting...';
+      deleteAccountModal.classList.remove('hidden');
+      deleteAccountModal.classList.add('animate__animated', 'animate__fadeIn');
+    });
+  }
+  
+  // Close modal functions
+  function closeDeleteAccountModal() {
+    if (deleteAccountModal) {
+      deleteAccountModal.classList.add('hidden');
+      deleteAccountModal.classList.remove('animate__animated', 'animate__fadeIn');
+    }
+  }
+  
+  // Cancel button
+  if (cancelDeleteAccountBtn) {
+    cancelDeleteAccountBtn.addEventListener('click', closeDeleteAccountModal);
+  }
+  
+  // Confirm delete button
+  if (confirmDeleteAccountBtn) {
+    confirmDeleteAccountBtn.addEventListener('click', function() {
+      const originalText = this.textContent;
+      this.disabled = true;
+      this.textContent = 'Deleting...';
+      
+      // Add animation to button
+      deleteAccountBtn.classList.add('animate__animated', 'animate__shakeX');
+      deleteAccountBtn.disabled = true;
+      deleteAccountBtn.textContent = 'Deleting...';
+      
+      setTimeout(() => {
+        closeDeleteAccountModal();
+        showNotification('Account deletion requested. Please contact support to complete the process.', 'warning');
         
-        setTimeout(() => {
-          showNotification('Account deletion requested. Please contact support.', 'warning');
-          this.disabled = false;
-          this.classList.remove('animate__animated', 'animate__shakeX');
-          this.textContent = 'Delete Account';
-        }, 2000);
+        // Reset buttons
+        this.disabled = false;
+        this.textContent = originalText;
+        deleteAccountBtn.disabled = false;
+        deleteAccountBtn.classList.remove('animate__animated', 'animate__shakeX');
+        deleteAccountBtn.textContent = 'Delete Account';
+      }, 2000);
+    });
+  }
+  
+  // Close modal on backdrop click
+  if (deleteAccountModal) {
+    deleteAccountModal.addEventListener('click', function(e) {
+      if (e.target === deleteAccountModal || e.target.classList.contains('bg-gray-500')) {
+        closeDeleteAccountModal();
       }
     });
   }
+  
+  // Close modal on Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && deleteAccountModal && !deleteAccountModal.classList.contains('hidden')) {
+      closeDeleteAccountModal();
+    }
+  });
   
   // Delete user buttons in tables
   document.addEventListener('click', function(e) {

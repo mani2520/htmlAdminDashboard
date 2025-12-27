@@ -4,8 +4,15 @@
 function initializeSidebar() {
   const sidebar = document.getElementById("sidebar");
   const sidebarToggle = document.getElementById("sidebarToggle");
-  const sidebarClose = document.getElementById("sidebarClose");
   const sidebarOverlay = document.getElementById("sidebarOverlay");
+  
+  // Get close button - ensure we query it after sidebar exists
+  let sidebarClose = null;
+  if (sidebar) {
+    sidebarClose = sidebar.querySelector("#sidebarClose") || document.getElementById("sidebarClose");
+  } else {
+    sidebarClose = document.getElementById("sidebarClose");
+  }
 
   // Ensure sidebar is properly initialized
   if (sidebar) {
@@ -36,7 +43,12 @@ function initializeSidebar() {
   function openSidebar() {
     if (sidebar) {
       sidebar.classList.add("open");
-      document.body.style.overflow = "hidden";
+      // Use class for mobile body scroll lock (better for mobile)
+      if (window.innerWidth < 1024) {
+        document.body.classList.add("sidebar-open");
+      } else {
+        document.body.style.overflow = "hidden";
+      }
     }
     if (sidebarOverlay) {
       sidebarOverlay.classList.remove("hidden");
@@ -47,12 +59,17 @@ function initializeSidebar() {
   function closeSidebar() {
     if (sidebar) {
       sidebar.classList.remove("open");
+      // Remove mobile body scroll lock
+      document.body.classList.remove("sidebar-open");
       document.body.style.overflow = "";
     }
     if (sidebarOverlay) {
       sidebarOverlay.classList.add("hidden");
     }
   }
+  
+  // Make closeSidebar globally available for onclick fallback
+  window.closeSidebar = closeSidebar;
 
   // Mobile sidebar toggle
   if (sidebarToggle) {
@@ -69,11 +86,32 @@ function initializeSidebar() {
 
   // Close sidebar button
   if (sidebarClose) {
-    sidebarClose.addEventListener("click", (e) => {
-      e.stopPropagation();
-      e.preventDefault();
-      closeSidebar();
-    });
+    // Check if already initialized to prevent duplicate listeners
+    if (sidebarClose.dataset.initialized === "true") {
+      // Button already has listener, skip
+    } else {
+      sidebarClose.dataset.initialized = "true";
+      
+      sidebarClose.addEventListener("click", (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        closeSidebar();
+      });
+      
+      // Also add touch event for better mobile support
+      sidebarClose.addEventListener("touchend", (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        closeSidebar();
+      });
+      
+      // Ensure button is clickable and visible on mobile
+      if (window.innerWidth < 1024) {
+        sidebarClose.style.pointerEvents = "auto";
+        sidebarClose.style.cursor = "pointer";
+        sidebarClose.style.display = "block";
+      }
+    }
   }
 
   // Close sidebar when clicking overlay
