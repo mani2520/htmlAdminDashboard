@@ -7,61 +7,100 @@ function initializeSidebar() {
   const sidebarClose = document.getElementById("sidebarClose");
   const sidebarOverlay = document.getElementById("sidebarOverlay");
 
-  // Ensure sidebar is visible
+  // Ensure sidebar is properly initialized
   if (sidebar) {
-    sidebar.style.display = "flex";
-    sidebar.style.visibility = "visible";
-    sidebar.style.opacity = "1";
+    // Don't override transform with inline styles - let CSS handle it
+    // Only ensure display is flex
+    if (sidebar.style.display !== "flex") {
+      sidebar.style.display = "flex";
+    }
+
+    // On desktop, ensure sidebar is visible
+    if (window.innerWidth >= 1024) {
+      sidebar.classList.remove("open"); // Remove open class, CSS will handle visibility
+    } else {
+      // On mobile, ensure sidebar is hidden initially
+      sidebar.classList.remove("open");
+    }
 
     // Ensure all nav links are visible
     const navLinks = sidebar.querySelectorAll(".nav-link");
     navLinks.forEach((link) => {
-      link.style.display = "flex";
-      link.style.visibility = "visible";
-      link.style.opacity = "1";
-
-      // Ensure spans and SVGs are visible
-      const spans = link.querySelectorAll("span");
-      const svgs = link.querySelectorAll("svg");
-      spans.forEach((span) => {
-        span.style.display = "inline-block";
-        span.style.visibility = "visible";
-        span.style.opacity = "1";
-      });
-      svgs.forEach((svg) => {
-        svg.style.display = "block";
-        svg.style.visibility = "visible";
-        svg.style.opacity = "1";
-      });
+      if (link.style.display !== "flex") {
+        link.style.display = "flex";
+      }
     });
   }
 
-  if (sidebarToggle) {
-    sidebarToggle.addEventListener("click", () => {
-      if (sidebar) sidebar.classList.add("open");
-      if (sidebarOverlay) sidebarOverlay.classList.remove("hidden");
-    });
+  // Function to open sidebar
+  function openSidebar() {
+    if (sidebar) {
+      sidebar.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+    if (sidebarOverlay) {
+      sidebarOverlay.classList.remove("hidden");
+    }
   }
 
-  if (sidebarClose) {
-    sidebarClose.addEventListener("click", () => {
-      if (sidebar) sidebar.classList.remove("open");
-      if (sidebarOverlay) sidebarOverlay.classList.add("hidden");
-    });
-  }
-
-  if (sidebarOverlay) {
-    sidebarOverlay.addEventListener("click", () => {
-      if (sidebar) sidebar.classList.remove("open");
+  // Function to close sidebar
+  function closeSidebar() {
+    if (sidebar) {
+      sidebar.classList.remove("open");
+      document.body.style.overflow = "";
+    }
+    if (sidebarOverlay) {
       sidebarOverlay.classList.add("hidden");
+    }
+  }
+
+  // Mobile sidebar toggle
+  if (sidebarToggle) {
+    sidebarToggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      if (sidebar && sidebar.classList.contains("open")) {
+        closeSidebar();
+      } else {
+        openSidebar();
+      }
+    });
+  }
+
+  // Close sidebar button
+  if (sidebarClose) {
+    sidebarClose.addEventListener("click", (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      closeSidebar();
+    });
+  }
+
+  // Close sidebar when clicking overlay
+  if (sidebarOverlay) {
+    sidebarOverlay.addEventListener("click", (e) => {
+      e.stopPropagation();
+      closeSidebar();
     });
   }
 
   // Close sidebar on window resize (desktop)
+  let resizeTimer;
   window.addEventListener("resize", () => {
-    if (window.innerWidth >= 1024) {
-      if (sidebar) sidebar.classList.remove("open");
-      if (sidebarOverlay) sidebarOverlay.classList.add("hidden");
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      if (window.innerWidth >= 1024) {
+        closeSidebar();
+      }
+    }, 100);
+  });
+
+  // Close sidebar on Escape key
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && window.innerWidth < 1024) {
+      if (sidebar && sidebar.classList.contains("open")) {
+        closeSidebar();
+      }
     }
   });
 }

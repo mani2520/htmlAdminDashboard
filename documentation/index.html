@@ -27,262 +27,265 @@
   <body
     class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen overflow-x-hidden overflow-y-auto"
   >
-    <!-- Include Sidebar -->
-    <div id="sidebar-container"></div>
-    <div id="sidebar-overlay-container"></div>
+    <!-- Layout Wrapper -->
+    <div class="min-h-screen flex flex-col">
+      <!-- Include Sidebar -->
+      <div id="sidebar-container" class="fixed inset-y-0 left-0 z-50"></div>
+      <div id="sidebar-overlay-container" class="fixed inset-0 z-40"></div>
 
-    <!-- Include Navbar -->
-    <div id="navbar-container"></div>
+      <!-- Include Navbar -->
+      <div id="navbar-container" class="fixed top-0 left-0 right-0 z-40"></div>
 
-    <!-- Main Content -->
-    <main class="lg:ml-64 pt-16 min-h-screen">
-      <div class="p-4 lg:p-8 max-w-4xl mx-auto">
-        <!-- Page Header -->
-        <div class="mb-8 fade-in">
-          <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            Documentation
-          </h1>
-          <p class="text-gray-600 dark:text-gray-400">
-            Complete guide to using the Admin Dashboard
-          </p>
-        </div>
-
-        <!-- Documentation Content -->
-        <div class="space-y-8">
-          <!-- Getting Started -->
-          <div
-            class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-xl"
-          >
-            <h2
-              class="text-2xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center"
-            >
-              <svg
-                class="w-6 h-6 mr-2 text-indigo-600 dark:text-indigo-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M13 10V3L4 14h7v7l9-11h-7z"
-                ></path>
-              </svg>
-              Getting Started
-            </h2>
-            <div class="prose dark:prose-invert max-w-none">
-              <p class="text-gray-700 dark:text-gray-300 mb-4">
-                Welcome to the Admin Dashboard! This modern, responsive admin
-                panel is built with HTML, Tailwind CSS, and vanilla JavaScript.
-              </p>
-              <h3
-                class="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3"
-              >
-                Features
-              </h3>
-              <ul
-                class="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300"
-              >
-                <li>Modern and responsive design</li>
-                <li>Dark mode support</li>
-                <li>Interactive charts and graphs</li>
-                <li>User management system</li>
-                <li>Settings and preferences</li>
-                <li>Mobile-friendly interface</li>
-              </ul>
-            </div>
+      <!-- Main Content -->
+      <main class="flex-1 lg:ml-64 pt-16 min-h-screen">
+        <div class="p-4 lg:p-8 max-w-4xl mx-auto">
+          <!-- Page Header -->
+          <div class="mb-8 fade-in">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+              Documentation
+            </h1>
+            <p class="text-gray-600 dark:text-gray-400">
+              Complete guide to using the Admin Dashboard
+            </p>
           </div>
 
-          <!-- Dashboard -->
-          <div
-            class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-xl"
-          >
-            <h2
-              class="text-2xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center"
+          <!-- Documentation Content -->
+          <div class="space-y-8">
+            <!-- Getting Started -->
+            <div
+              class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-xl"
             >
-              <svg
-                class="w-6 h-6 mr-2 text-indigo-600 dark:text-indigo-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+              <h2
+                class="text-2xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                ></path>
-              </svg>
-              Dashboard
-            </h2>
-            <div class="prose dark:prose-invert max-w-none">
-              <p class="text-gray-700 dark:text-gray-300 mb-4">
-                The dashboard provides an overview of your system with key
-                metrics, charts, and recent activity.
-              </p>
-              <h3
-                class="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3"
-              >
-                Key Metrics
-              </h3>
-              <p class="text-gray-700 dark:text-gray-300 mb-4">
-                View important statistics including total users, sales, orders,
-                and revenue at a glance.
-              </p>
-              <h3
-                class="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3"
-              >
-                Charts
-              </h3>
-              <p class="text-gray-700 dark:text-gray-300 mb-4">
-                Interactive charts powered by Chart.js display sales trends and
-                user growth over time.
-              </p>
+                <svg
+                  class="w-6 h-6 mr-2 text-indigo-600 dark:text-indigo-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  ></path>
+                </svg>
+                Getting Started
+              </h2>
+              <div class="prose dark:prose-invert max-w-none">
+                <p class="text-gray-700 dark:text-gray-300 mb-4">
+                  Welcome to the Admin Dashboard! This modern, responsive admin
+                  panel is built with HTML, Tailwind CSS, and vanilla
+                  JavaScript.
+                </p>
+                <h3
+                  class="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3"
+                >
+                  Features
+                </h3>
+                <ul
+                  class="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300"
+                >
+                  <li>Modern and responsive design</li>
+                  <li>Dark mode support</li>
+                  <li>Interactive charts and graphs</li>
+                  <li>User management system</li>
+                  <li>Settings and preferences</li>
+                  <li>Mobile-friendly interface</li>
+                </ul>
+              </div>
             </div>
-          </div>
 
-          <!-- Users Management -->
-          <div
-            class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-xl"
-          >
-            <h2
-              class="text-2xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center"
+            <!-- Dashboard -->
+            <div
+              class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-xl"
             >
-              <svg
-                class="w-6 h-6 mr-2 text-indigo-600 dark:text-indigo-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+              <h2
+                class="text-2xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
-                ></path>
-              </svg>
-              Users Management
-            </h2>
-            <div class="prose dark:prose-invert max-w-none">
-              <p class="text-gray-700 dark:text-gray-300 mb-4">
-                Manage all user accounts from the Users page. You can view,
-                edit, and delete users.
-              </p>
-              <h3
-                class="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3"
-              >
-                Features
-              </h3>
-              <ul
-                class="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300"
-              >
-                <li>Search and filter users</li>
-                <li>View user details and status</li>
-                <li>Edit user information</li>
-                <li>Delete user accounts</li>
-                <li>Add new users</li>
-              </ul>
+                <svg
+                  class="w-6 h-6 mr-2 text-indigo-600 dark:text-indigo-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                  ></path>
+                </svg>
+                Dashboard
+              </h2>
+              <div class="prose dark:prose-invert max-w-none">
+                <p class="text-gray-700 dark:text-gray-300 mb-4">
+                  The dashboard provides an overview of your system with key
+                  metrics, charts, and recent activity.
+                </p>
+                <h3
+                  class="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3"
+                >
+                  Key Metrics
+                </h3>
+                <p class="text-gray-700 dark:text-gray-300 mb-4">
+                  View important statistics including total users, sales,
+                  orders, and revenue at a glance.
+                </p>
+                <h3
+                  class="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3"
+                >
+                  Charts
+                </h3>
+                <p class="text-gray-700 dark:text-gray-300 mb-4">
+                  Interactive charts powered by Chart.js display sales trends
+                  and user growth over time.
+                </p>
+              </div>
             </div>
-          </div>
 
-          <!-- Settings -->
-          <div
-            class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-xl"
-          >
-            <h2
-              class="text-2xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center"
+            <!-- Users Management -->
+            <div
+              class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-xl"
             >
-              <svg
-                class="w-6 h-6 mr-2 text-indigo-600 dark:text-indigo-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+              <h2
+                class="text-2xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                ></path>
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                ></path>
-              </svg>
-              Settings
-            </h2>
-            <div class="prose dark:prose-invert max-w-none">
-              <p class="text-gray-700 dark:text-gray-300 mb-4">
-                Customize your account settings, preferences, and security
-                options.
-              </p>
-              <h3
-                class="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3"
-              >
-                Available Settings
-              </h3>
-              <ul
-                class="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300"
-              >
-                <li>Profile information</li>
-                <li>Password management</li>
-                <li>Notification preferences</li>
-                <li>Language and timezone</li>
-              </ul>
+                <svg
+                  class="w-6 h-6 mr-2 text-indigo-600 dark:text-indigo-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+                  ></path>
+                </svg>
+                Users Management
+              </h2>
+              <div class="prose dark:prose-invert max-w-none">
+                <p class="text-gray-700 dark:text-gray-300 mb-4">
+                  Manage all user accounts from the Users page. You can view,
+                  edit, and delete users.
+                </p>
+                <h3
+                  class="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3"
+                >
+                  Features
+                </h3>
+                <ul
+                  class="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300"
+                >
+                  <li>Search and filter users</li>
+                  <li>View user details and status</li>
+                  <li>Edit user information</li>
+                  <li>Delete user accounts</li>
+                  <li>Add new users</li>
+                </ul>
+              </div>
             </div>
-          </div>
 
-          <!-- Customization -->
-          <div
-            class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-xl"
-          >
-            <h2
-              class="text-2xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center"
+            <!-- Settings -->
+            <div
+              class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-xl"
             >
-              <svg
-                class="w-6 h-6 mr-2 text-indigo-600 dark:text-indigo-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+              <h2
+                class="text-2xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
-                ></path>
-              </svg>
-              Customization
-            </h2>
-            <div class="prose dark:prose-invert max-w-none">
-              <p class="text-gray-700 dark:text-gray-300 mb-4">
-                The dashboard is built with modern web technologies and is
-                easily customizable.
-              </p>
-              <h3
-                class="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3"
+                <svg
+                  class="w-6 h-6 mr-2 text-indigo-600 dark:text-indigo-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                  ></path>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  ></path>
+                </svg>
+                Settings
+              </h2>
+              <div class="prose dark:prose-invert max-w-none">
+                <p class="text-gray-700 dark:text-gray-300 mb-4">
+                  Customize your account settings, preferences, and security
+                  options.
+                </p>
+                <h3
+                  class="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3"
+                >
+                  Available Settings
+                </h3>
+                <ul
+                  class="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300"
+                >
+                  <li>Profile information</li>
+                  <li>Password management</li>
+                  <li>Notification preferences</li>
+                  <li>Language and timezone</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Customization -->
+            <div
+              class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-xl"
+            >
+              <h2
+                class="text-2xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center"
               >
-                Technologies Used
-              </h3>
-              <ul
-                class="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300"
-              >
-                <li>HTML5</li>
-                <li>Tailwind CSS</li>
-                <li>Vanilla JavaScript</li>
-                <li>Chart.js for data visualization</li>
-              </ul>
-              <h3
-                class="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3"
-              >
-                File Structure
-              </h3>
-              <pre
-                class="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg text-sm overflow-x-auto"
-              ><code>htmlAdminDashboard/
+                <svg
+                  class="w-6 h-6 mr-2 text-indigo-600 dark:text-indigo-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
+                  ></path>
+                </svg>
+                Customization
+              </h2>
+              <div class="prose dark:prose-invert max-w-none">
+                <p class="text-gray-700 dark:text-gray-300 mb-4">
+                  The dashboard is built with modern web technologies and is
+                  easily customizable.
+                </p>
+                <h3
+                  class="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3"
+                >
+                  Technologies Used
+                </h3>
+                <ul
+                  class="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300"
+                >
+                  <li>HTML5</li>
+                  <li>Tailwind CSS</li>
+                  <li>Vanilla JavaScript</li>
+                  <li>Chart.js for data visualization</li>
+                </ul>
+                <h3
+                  class="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3"
+                >
+                  File Structure
+                </h3>
+                <pre
+                  class="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg text-sm overflow-x-auto"
+                ><code>htmlAdminDashboard/
 ├── assets/
 │   ├── css/
 │   │   └── style.css
@@ -298,11 +301,13 @@
 ├── documentation/
 │   └── index.html
 └── login.html</code></pre>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
+    <!-- Layout Wrapper End -->
 
     <script src="../assets/js/app.js"></script>
     <script>
