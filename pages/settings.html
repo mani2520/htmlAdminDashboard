@@ -40,7 +40,7 @@
         })();
       }
     </script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- All CSS merged into single file - Build with: npm run build-css -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
@@ -120,7 +120,7 @@
                   </div>
                   <div>
                     <button
-                      class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-medium"
+                      class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-medium cursor-pointer"
                     >
                       Change Photo
                     </button>
@@ -384,13 +384,13 @@ Administrator account</textarea
 
             <!-- Danger Zone -->
             <div
-              class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border-2 border-red-200 dark:border-red-900"
+              class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 border-2 border-red-200 dark:border-red-900"
             >
               <h2
-                class="text-xl font-semibold text-red-600 dark:text-red-400 mb-6 flex items-center"
+                class="text-lg sm:text-xl font-semibold text-red-600 dark:text-red-400 mb-4 sm:mb-6 flex items-center"
               >
                 <svg
-                  class="w-6 h-6 mr-2"
+                  class="w-5 h-5 sm:w-6 sm:h-6 mr-2"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -406,10 +406,12 @@ Administrator account</textarea
               </h2>
 
               <div class="space-y-4">
-                <div class="flex items-center justify-between">
-                  <div>
+                <div
+                  class="flex flex-col sm:items-start sm:justify-between gap-4"
+                >
+                  <div class="flex-1 pr-0 sm:pr-4">
                     <p
-                      class="text-sm font-medium text-gray-900 dark:text-white"
+                      class="text-sm font-medium text-gray-900 dark:text-white mb-1"
                     >
                       Delete Account
                     </p>
@@ -418,12 +420,14 @@ Administrator account</textarea
                       Please be certain.
                     </p>
                   </div>
-                  <button
-                    id="deleteAccountBtn"
-                    class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-medium"
-                  >
-                    Delete Account
-                  </button>
+                  <div class="shrink-0 w-full sm:w-auto">
+                    <button
+                      id="deleteAccountBtn"
+                      class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-medium whitespace-nowrap w-full sm:w-auto cursor-pointer"
+                    >
+                      Delete Account
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -432,14 +436,14 @@ Administrator account</textarea
             <div class="flex justify-end space-x-4">
               <button
                 id="cancelBtn"
-                class="px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition font-medium"
+                class="px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition font-medium cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 id="saveSettingsBtn"
                 type="button"
-                class="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 font-medium"
+                class="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 font-medium cursor-pointer"
               >
                 Save Changes
               </button>

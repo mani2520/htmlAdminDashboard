@@ -1,0 +1,18 @@
+{
+  "name": "html-admin-dashboard",
+  "version": "1.0.0",
+  "description": "Modern Admin Dashboard Template",
+  "scripts": {
+    "build-css": "npx postcss assets/css/input.css -o assets/css/style.css --minify",
+    "watch-css": "npx postcss assets/css/input.css -o assets/css/style.css --watch",
+    "dev": "npx postcss assets/css/input.css -o assets/css/style.css --watch"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.1.18",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.18"
+  },
+  "devDependencies": {
+    "postcss-cli": "^11.0.1"
+  }
+}

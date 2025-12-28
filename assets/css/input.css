@@ -1,0 +1,575 @@
+@import "tailwindcss";
+
+/* ============================================================================
+   GLOBAL THEME VARIABLES
+   ============================================================================ */
+
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9fafb;
+  --bg-tertiary: #f3f4f6;
+
+  --text-primary: #111827;
+  --text-secondary: #374151;
+  --text-tertiary: #6b7280;
+
+  --border-color: #e5e7eb;
+
+  --accent: #6366f1;
+  --accent-hover: #4f46e5;
+
+  --accent-bg-light: #eef2ff;
+  --scrollbar-thumb: #cbd5e1;
+
+  --icon-indigo: #6366f1;
+  --icon-green: #059669;
+  --icon-yellow: #d97706;
+}
+
+.dark {
+  --bg-primary: #1f2937;
+  --bg-secondary: #111827;
+  --bg-tertiary: #0f172a;
+
+  --text-primary: #f9fafb;
+  --text-secondary: #d1d5db;
+  --text-tertiary: #9ca3af;
+
+  --border-color: #374151;
+
+  --accent: #818cf8;
+  --accent-hover: #6366f1;
+
+  --accent-bg-light: rgba(99, 102, 241, 0.1);
+  --scrollbar-thumb: #4b5563;
+
+  --icon-indigo: #818cf8;
+  --icon-green: #34d399;
+  --icon-yellow: #fbbf24;
+}
+
+/* ============================================================================
+   BASE STYLES
+   ============================================================================ */
+
+body {
+  background-color: var(--bg-secondary) !important;
+  color: var(--text-primary);
+  font-family: "Inter", sans-serif;
+}
+
+/* Preserve gradient backgrounds on login page */
+body[class*="bg-gradient"] {
+  background-color: unset !important;
+}
+
+.bg-gray-50 {
+  background-color: var(--bg-secondary) !important;
+}
+
+.dark .bg-gray-900 {
+  background-color: var(--bg-secondary) !important;
+}
+
+html:not(.dark) [class*="rounded-full"][class*="bg-gray-100"] {
+  background-color: #f3f4f6 !important;
+}
+
+html:not(.dark) [class*="rounded-full"][class*="bg-purple-100"] {
+  background-color: #f3e8ff !important;
+}
+
+html:not(.dark) [class*="rounded-full"][class*="bg-blue-100"] {
+  background-color: #dbeafe !important;
+}
+
+html:not(.dark) [class*="rounded-full"][class*="bg-green-100"] {
+  background-color: #d1fae5 !important;
+}
+
+html:not(.dark) [class*="rounded-full"][class*="bg-yellow-100"] {
+  background-color: #fef3c7 !important;
+}
+
+html:not(.dark) [class*="rounded-full"][class*="text-gray-800"] {
+  color: #1f2937 !important;
+}
+
+html:not(.dark) [class*="rounded-full"][class*="text-purple-800"] {
+  color: #6b21a8 !important;
+}
+
+html:not(.dark) [class*="rounded-full"][class*="text-blue-800"] {
+  color: #1e40af !important;
+}
+
+html:not(.dark) [class*="rounded-full"][class*="text-green-800"] {
+  color: #065f46 !important;
+}
+
+html:not(.dark) [class*="rounded-full"][class*="text-yellow-800"] {
+  color: #92400e !important;
+}
+
+.bg-gray-100:not([class*="rounded-full"]) {
+  background-color: var(--bg-primary) !important;
+}
+
+.dark .bg-gray-800 {
+  background-color: var(--bg-primary) !important;
+}
+
+.bg-gray-200,
+.dark .bg-gray-700 {
+  background-color: var(--bg-tertiary) !important;
+}
+
+[class*="hover:bg-gray-50"]:hover {
+  background-color: var(--bg-tertiary) !important;
+}
+
+.dark [class*="hover:bg-gray-700"]:hover {
+  background-color: var(--bg-tertiary) !important;
+}
+
+html {
+  background-color: var(--bg-secondary) !important;
+}
+
+main {
+  background-color: var(--bg-secondary) !important;
+}
+
+.min-h-screen {
+  background-color: var(--bg-secondary) !important;
+}
+
+/* Preserve gradient backgrounds on login page */
+.min-h-screen[class*="bg-gradient"] {
+  background-color: unset !important;
+}
+
+.text-gray-100,
+.dark .text-gray-100 {
+  color: var(--text-primary) !important;
+}
+
+.text-gray-400,
+.dark .text-gray-400 {
+  color: var(--text-tertiary) !important;
+}
+
+/* Ensure icons on login page are visible */
+.bg-white .text-gray-400,
+.bg-white svg.text-gray-400,
+.bg-white .text-gray-400 svg {
+  color: #9ca3af !important;
+  stroke: #9ca3af !important;
+}
+
+/* Ensure all SVG icons in white containers are visible */
+.bg-white svg:not([class*="text-white"]):not([class*="text-indigo"]):not([class*="text-purple"]) {
+  color: #9ca3af !important;
+  stroke: #9ca3af !important;
+}
+
+/* ============================================================================
+   TEXT COLORS
+   ============================================================================ */
+
+.text-gray-900 {
+  color: var(--text-primary) !important;
+}
+.text-gray-800 {
+  color: var(--text-primary) !important;
+}
+.text-gray-700 {
+  color: var(--text-secondary) !important;
+}
+.text-gray-600 {
+  color: var(--text-tertiary) !important;
+}
+.text-gray-500 {
+  color: var(--text-tertiary) !important;
+}
+
+/* ============================================================================
+   ICONS
+   ============================================================================ */
+
+svg {
+  stroke: currentColor;
+  fill: none;
+}
+
+.text-indigo-600 svg,
+.text-indigo-500 svg,
+.text-indigo-400 svg {
+  color: inherit !important;
+  stroke: currentColor !important;
+}
+
+.text-green-600 svg,
+.text-green-500 svg,
+.text-green-400 svg {
+  color: inherit !important;
+  stroke: currentColor !important;
+}
+
+.text-yellow-600 svg,
+.text-yellow-500 svg,
+.text-yellow-400 svg {
+  color: inherit !important;
+  stroke: currentColor !important;
+}
+
+.text-red-600 svg,
+.text-red-500 svg,
+.text-red-400 svg {
+  color: inherit !important;
+  stroke: currentColor !important;
+}
+
+.text-blue-600 svg,
+.text-blue-500 svg,
+.text-blue-400 svg {
+  color: inherit !important;
+  stroke: currentColor !important;
+}
+
+.text-purple-600 svg,
+.text-purple-500 svg,
+.text-purple-400 svg {
+  color: inherit !important;
+  stroke: currentColor !important;
+}
+
+.text-white,
+.text-white svg {
+  color: #ffffff !important;
+}
+
+.text-white svg {
+  stroke: currentColor !important;
+  fill: none !important;
+}
+
+[class*="bg-gradient"] .text-white svg,
+[class*="bg-gradient"] svg,
+button[class*="bg-gradient"] svg,
+a[class*="bg-gradient"] svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+  fill: none !important;
+}
+
+button .text-white,
+a .text-white,
+.text-white {
+  color: #ffffff !important;
+}
+
+html:not(.dark)
+  svg:not([class*="text-"]):not([class*="indigo"]):not([class*="green"]):not(
+    [class*="yellow"]
+  ):not([class*="red"]):not([class*="blue"]):not([class*="purple"]):not(
+    [class*="white"]
+  ) {
+  color: var(--text-secondary);
+}
+
+.text-indigo-600,
+.text-indigo-500 {
+  color: var(--accent) !important;
+}
+
+html:not(.dark) .text-indigo-400,
+html:not(.dark) .text-indigo-600 {
+  color: var(--icon-indigo) !important;
+}
+
+html:not(.dark) .text-green-400,
+html:not(.dark) .text-green-600 {
+  color: var(--icon-green) !important;
+}
+
+html:not(.dark) .text-yellow-400,
+html:not(.dark) .text-yellow-600 {
+  color: var(--icon-yellow) !important;
+}
+
+.dark .text-indigo-400 {
+  color: var(--icon-indigo) !important;
+}
+
+.dark .text-green-400 {
+  color: var(--icon-green) !important;
+}
+
+.dark .text-yellow-400 {
+  color: var(--icon-yellow) !important;
+}
+
+[class*="bg-indigo-100"] svg,
+[class*="bg-green-100"] svg,
+[class*="bg-yellow-100"] svg {
+  color: inherit !important;
+  stroke: currentColor !important;
+  fill: none !important;
+}
+
+[class*="bg-indigo"] svg,
+[class*="bg-green"] svg,
+[class*="bg-yellow"] svg,
+[class*="bg-red"] svg,
+[class*="bg-blue"] svg,
+[class*="bg-purple"] svg {
+  color: inherit !important;
+  stroke: currentColor !important;
+}
+
+/* ============================================================================
+   CARDS
+   ============================================================================ */
+
+.bg-white {
+  background-color: var(--bg-primary) !important;
+}
+
+.border-gray-200,
+.border-gray-300 {
+  border-color: var(--border-color) !important;
+}
+
+/* Ensure borders on login page are visible */
+.bg-white .border-gray-300,
+.bg-white [class*="border-gray-300"] {
+  border-color: #d1d5db !important;
+}
+
+/* ============================================================================
+   SIDEBAR
+   ============================================================================ */
+
+#sidebar {
+  background-color: var(--bg-primary);
+  border-right: 1px solid var(--border-color);
+}
+
+@media (max-width: 1023px) {
+  #sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 50;
+  }
+
+  #sidebar.open {
+    transform: translateX(0);
+  }
+
+  #sidebarClose {
+    display: block !important;
+    z-index: 60;
+    position: relative;
+    cursor: pointer;
+    pointer-events: auto;
+  }
+
+  #sidebarOverlay {
+    z-index: 40 !important;
+    pointer-events: auto !important;
+  }
+
+  #sidebar-overlay-container {
+    pointer-events: none;
+  }
+
+  #sidebar-overlay-container #sidebarOverlay:not(.hidden) {
+    pointer-events: auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  #sidebar {
+    transform: translateX(0) !important;
+  }
+
+  #sidebarClose {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  body.sidebar-open {
+    overflow: hidden !important;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+#sidebar .nav-link {
+  color: var(--text-secondary);
+}
+
+#sidebar .nav-link svg {
+  color: var(--text-tertiary);
+}
+
+#sidebar .nav-link:hover,
+#sidebar .nav-link:hover svg {
+  color: var(--accent);
+  background-color: var(--accent-bg-light);
+}
+
+#sidebar .nav-link.active,
+#sidebar .nav-link.active svg {
+  color: var(--accent-hover);
+  background-color: var(--accent-bg-light);
+  font-weight: 600;
+}
+
+/* ============================================================================
+   NAVBAR
+   ============================================================================ */
+
+nav {
+  background-color: var(--bg-primary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+#themeToggle svg,
+nav button svg {
+  color: var(--text-secondary);
+}
+
+html:not(.dark) #themeToggle:hover svg {
+  color: #ffffff !important;
+}
+
+html:not(.dark) #sidebarToggle:hover svg,
+html:not(.dark) #sidebarToggle:hover #sidebarToggleIcon,
+html:not(.dark) #sidebarToggle:hover #sidebarToggleCloseIcon {
+  color: #ffffff !important;
+}
+
+.dark #themeToggle:hover svg {
+  color: var(--accent);
+}
+
+html:not(.dark) nav button:hover svg {
+  color: #ffffff !important;
+}
+
+/* ============================================================================
+   TABLES
+   ============================================================================ */
+
+thead {
+  background-color: var(--bg-tertiary);
+}
+
+thead th {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* ============================================================================
+   INPUTS
+   ============================================================================ */
+
+input,
+select,
+textarea {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+/* All buttons should have pointer cursor */
+button {
+  cursor: pointer;
+}
+
+/* All select dropdowns should have pointer cursor */
+select {
+  cursor: pointer;
+}
+
+/* Ensure inputs on login page are visible */
+.bg-white input,
+.bg-white input[type="email"],
+.bg-white input[type="password"],
+.bg-white input[type="text"] {
+  background-color: #ffffff !important;
+  color: #111827 !important;
+}
+
+.bg-white input.bg-transparent {
+  background-color: transparent !important;
+}
+
+/* Ensure input borders are visible on login page */
+.bg-white input[class*="border"],
+.bg-white [class*="border"] input {
+  border-color: #d1d5db !important;
+}
+
+input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.bg-white input::placeholder {
+  color: #9ca3af !important;
+}
+
+/* ============================================================================
+   SCROLLBAR
+   ============================================================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-tertiary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 4px;
+}
+
+/* ============================================================================
+   TOGGLE SWITCH
+   ============================================================================ */
+
+.peer:checked ~ div span[class*="absolute"] {
+  transform: translateX(1.5rem) !important;
+}
+
+.peer:checked ~ div[class*="relative"] {
+  background-color: var(--accent) !important;
+}
+
+.dark .peer:checked ~ div[class*="relative"] {
+  background-color: var(--accent) !important;
+}
+
+label[class*="cursor-pointer"] span[class*="absolute"][class*="rounded-full"] {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+
+.peer:checked ~ div span[class*="absolute"] {
+  box-shadow: 0 2px 6px rgba(99, 102, 241, 0.3),
+    0 1px 3px rgba(99, 102, 241, 0.2) !important;
+}
+
+label[class*="cursor-pointer"]:hover div[class*="relative"] {
+  opacity: 0.9;
+}
+
+label[class*="cursor-pointer"]:hover .peer:checked ~ div[class*="relative"] {
+  opacity: 1;
+}
+

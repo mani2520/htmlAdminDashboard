@@ -7,10 +7,13 @@
       name="description"
       content="Dashboard - View key metrics, interactive charts, and recent activity in the Modern Admin Dashboard."
     />
-    <meta name="keywords" content="admin dashboard, analytics, charts, statistics, admin panel" />
+    <meta
+      name="keywords"
+      content="admin dashboard, analytics, charts, statistics, admin panel"
+    />
     <title>Dashboard - Admin Panel</title>
     <script>
-      if (typeof initializeThemeEarly === 'function') {
+      if (typeof initializeThemeEarly === "function") {
         initializeThemeEarly();
       } else {
         // Fallback if app.js hasn't loaded yet
@@ -23,7 +26,9 @@
               document.documentElement.classList.remove("dark");
             }
           } else {
-            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const prefersDark =
+              window.matchMedia &&
+              window.matchMedia("(prefers-color-scheme: dark)").matches;
             if (prefersDark) {
               document.documentElement.classList.add("dark");
               localStorage.setItem("theme", "dark");
@@ -35,7 +40,7 @@
         })();
       }
     </script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- All CSS merged into single file - Build with: npm run build-css -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
@@ -61,7 +66,10 @@
     <div class="min-h-screen flex flex-col">
       <!-- Include Sidebar -->
       <div id="sidebar-container" class="fixed inset-y-0 left-0 z-50"></div>
-      <div id="sidebar-overlay-container" class="fixed inset-0 z-40 pointer-events-none"></div>
+      <div
+        id="sidebar-overlay-container"
+        class="fixed inset-0 z-40 pointer-events-none"
+      ></div>
 
       <!-- Include Navbar -->
       <div id="navbar-container" class="fixed top-0 left-0 right-0 z-50"></div>
@@ -323,7 +331,7 @@
                   Sales Overview
                 </h2>
                 <select
-                  class="text-sm border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  class="text-sm border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white cursor-pointer"
                 >
                   <option>Last 7 days</option>
                   <option>Last 30 days</option>
@@ -344,7 +352,7 @@
                   User Growth
                 </h2>
                 <select
-                  class="text-sm border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  class="text-sm border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white cursor-pointer"
                 >
                   <option>Last 7 days</option>
                   <option>Last 30 days</option>
@@ -377,7 +385,7 @@
 
     <script src="../assets/js/app.js"></script>
     <script>
-      document.addEventListener("DOMContentLoaded", function() {
+      document.addEventListener("DOMContentLoaded", function () {
         initializeDashboardPage();
       });
     </script>
