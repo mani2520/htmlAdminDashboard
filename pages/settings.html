@@ -7,10 +7,13 @@
       name="description"
       content="Settings - Manage your account settings, preferences, security options, and notifications."
     />
-    <meta name="keywords" content="settings, preferences, account settings, security settings, admin settings" />
+    <meta
+      name="keywords"
+      content="settings, preferences, account settings, security settings, admin settings"
+    />
     <title>Settings - Admin Panel</title>
     <script>
-      if (typeof initializeThemeEarly === 'function') {
+      if (typeof initializeThemeEarly === "function") {
         initializeThemeEarly();
       } else {
         // Fallback if app.js hasn't loaded yet
@@ -23,7 +26,9 @@
               document.documentElement.classList.remove("dark");
             }
           } else {
-            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const prefersDark =
+              window.matchMedia &&
+              window.matchMedia("(prefers-color-scheme: dark)").matches;
             if (prefersDark) {
               document.documentElement.classList.add("dark");
               localStorage.setItem("theme", "dark");
@@ -60,7 +65,10 @@
     <div class="min-h-screen flex flex-col">
       <!-- Include Sidebar -->
       <div id="sidebar-container" class="fixed inset-y-0 left-0 z-50"></div>
-      <div id="sidebar-overlay-container" class="fixed inset-0 z-40 pointer-events-none"></div>
+      <div
+        id="sidebar-overlay-container"
+        class="fixed inset-0 z-40 pointer-events-none"
+      ></div>
 
       <!-- Include Navbar -->
       <div id="navbar-container" class="fixed top-0 left-0 right-0 z-50"></div>
@@ -444,7 +452,7 @@ Administrator account</textarea
 
     <script src="../assets/js/app.js"></script>
     <script>
-      document.addEventListener("DOMContentLoaded", function() {
+      document.addEventListener("DOMContentLoaded", function () {
         initializeSettingsPage();
       });
     </script>

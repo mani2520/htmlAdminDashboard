@@ -727,40 +727,61 @@ function initializeSaveButtons() {
   );
 
   saveButtons.forEach((button) => {
+    // Skip if already initialized
+    if (button.dataset.saveInitialized === "true") return;
+    
     if (
       button.textContent.includes("Save") ||
       button.id === "saveSettingsBtn"
     ) {
+      button.dataset.saveInitialized = "true";
+      
       button.addEventListener("click", async function (e) {
         e.preventDefault();
-        const originalText = this.textContent;
+        
+        // Prevent multiple clicks
+        if (this.disabled || this.classList.contains("loading")) return;
+        
+        const originalHTML = this.innerHTML;
 
         this.disabled = true;
         this.classList.add("loading");
         this.innerHTML = `
-          <svg class="w-5 h-5 animate-spin mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-          </svg>
-          Saving...
+          <span class="flex items-center">
+            <svg class="w-5 h-5 animate-spin mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+            </svg>
+            Saving...
+          </span>
         `;
 
-        await new Promise((resolve) => setTimeout(resolve, 1500));
+        try {
+          await new Promise((resolve) => setTimeout(resolve, 1500));
 
-        this.classList.remove("loading");
-        this.classList.add("animate__animated", "animate__pulse");
-        this.innerHTML = `
-          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-          </svg>
-          Saved!
-        `;
+          this.classList.remove("loading");
+          this.classList.add("animate__animated", "animate__pulse");
+          this.innerHTML = `
+            <span class="flex items-center">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              Saved!
+            </span>
+          `;
 
-        setTimeout(() => {
+          setTimeout(() => {
+            this.disabled = false;
+            this.classList.remove("animate__animated", "animate__pulse", "loading");
+            this.innerHTML = originalHTML;
+            showNotification("Settings saved successfully!", "success");
+          }, 2000);
+        } catch (error) {
+          // Reset button on error
           this.disabled = false;
-          this.classList.remove("animate__animated", "animate__pulse");
-          this.textContent = originalText;
-          showNotification("Settings saved successfully!", "success");
-        }, 2000);
+          this.classList.remove("loading", "animate__animated", "animate__pulse");
+          this.innerHTML = originalHTML;
+          showNotification("An error occurred while saving", "error");
+        }
       });
     }
   });
@@ -1151,10 +1172,12 @@ function initializeLoginPage() {
     submitBtn.disabled = true;
     submitBtn.classList.add("loading");
     submitBtn.innerHTML = `
-      <svg class="w-5 h-5 animate-spin inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-      </svg>
-      Signing in...
+      <span class="flex items-center">
+        <svg class="w-5 h-5 animate-spin mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+        </svg>
+        Signing in...
+      </span>
     `;
 
     await new Promise((resolve) => setTimeout(resolve, 1500));
@@ -1162,10 +1185,12 @@ function initializeLoginPage() {
     submitBtn.classList.remove("loading");
     submitBtn.classList.add("success");
     submitBtn.innerHTML = `
-      <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-      </svg>
-      Success! Redirecting...
+      <span class="flex items-center">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        Success! Redirecting...
+      </span>
     `;
 
     setTimeout(() => {
@@ -1279,17 +1304,19 @@ function initializeDashboardPage() {
         activityContainer.innerHTML = activities
           .map((activity) => {
             return `
-              <div class="flex items-center space-x-4 p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition">
-                <div class="w-10 h-10 ${colorClasses[activity.color] || colorClasses.indigo} rounded-full flex items-center justify-center">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    ${icons[activity.icon] || icons.user}
-                  </svg>
+              <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                <div class="flex items-center gap-3 sm:gap-4 flex-1">
+                  <div class="w-10 h-10 flex-shrink-0 ${colorClasses[activity.color] || colorClasses.indigo} rounded-full flex items-center justify-center">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      ${icons[activity.icon] || icons.user}
+                    </svg>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm font-medium text-gray-900 dark:text-white">${activity.title}</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">${activity.description}</p>
+                  </div>
                 </div>
-                <div class="flex-1">
-                  <p class="text-sm font-medium text-gray-900 dark:text-white">${activity.title}</p>
-                  <p class="text-xs text-gray-500 dark:text-gray-400">${activity.description}</p>
-                </div>
-                <span class="text-xs text-gray-500 dark:text-gray-400">${activity.time}</span>
+                <span class="text-xs text-gray-500 dark:text-gray-400 flex-shrink-0 sm:ml-auto">${activity.time}</span>
               </div>
             `;
           })
@@ -1842,6 +1869,11 @@ function initializeUsersPage() {
 function initializeSettingsPage() {
   loadLayoutComponents();
   setActiveNavLink("settings");
+  
+  // Initialize save button after a short delay to ensure DOM is ready
+  setTimeout(() => {
+    initializeSaveButtons();
+  }, 100);
 }
 
 // Initialize documentation page
