@@ -585,6 +585,94 @@ input::placeholder {
   color: #9ca3af !important;
 }
 
+/* Dark mode - ensure all form elements are consistent */
+.dark input:not([type="checkbox"]):not([type="radio"]),
+.dark select,
+.dark textarea {
+  background-color: #374151 !important;
+  color: #f9fafb !important;
+}
+
+/* Dark mode select dropdown options */
+.dark select option {
+  background-color: #374151 !important;
+  color: #f9fafb !important;
+}
+
+.dark select option:checked {
+  background-color: #4f46e5 !important;
+  color: #ffffff !important;
+}
+
+.dark select option:hover {
+  background-color: #4b5563 !important;
+  color: #f9fafb !important;
+}
+
+/* Dark mode textarea placeholder */
+.dark textarea::placeholder {
+  color: #9ca3af !important;
+}
+
+.dark input::placeholder {
+  color: #9ca3af !important;
+}
+
+/* Override any white backgrounds in dark mode */
+.dark input[class*="bg-white"],
+.dark select[class*="bg-white"],
+.dark textarea[class*="bg-white"] {
+  background-color: #374151 !important;
+  color: #f9fafb !important;
+}
+
+/* Ensure dark:bg-gray-700 classes work correctly */
+.dark
+  [class*="dark:bg-gray-700"]
+  input:not([type="checkbox"]):not([type="radio"]),
+.dark [class*="dark:bg-gray-700"] select,
+.dark [class*="dark:bg-gray-700"] textarea,
+.dark .bg-gray-700 input:not([type="checkbox"]):not([type="radio"]),
+.dark .bg-gray-700 select,
+.dark .bg-gray-700 textarea {
+  background-color: #374151 !important;
+  color: #f9fafb !important;
+}
+
+/* Dark mode inputs in dark containers */
+.dark .bg-gray-800 input:not([type="checkbox"]):not([type="radio"]),
+.dark .bg-gray-800 select,
+.dark .bg-gray-800 textarea {
+  background-color: #374151 !important;
+  color: #f9fafb !important;
+}
+
+/* Ensure all text in dark mode containers is visible */
+.dark .bg-gray-700,
+.dark .bg-gray-800 {
+  color: var(--text-primary) !important;
+}
+
+.dark .bg-gray-700 p,
+.dark .bg-gray-800 p,
+.dark .bg-gray-700 span,
+.dark .bg-gray-800 span,
+.dark .bg-gray-700 div,
+.dark .bg-gray-800 div {
+  color: var(--text-primary) !important;
+}
+
+/* Dark mode select dropdown - ensure options are visible */
+.dark select option:checked {
+  background-color: #4f46e5 !important;
+  color: #ffffff !important;
+}
+
+.dark select option:hover {
+  background-color: #374151 !important;
+  color: #f9fafb !important;
+}
+
 /* ============================================================================
    SCROLLBAR
    ============================================================================ */

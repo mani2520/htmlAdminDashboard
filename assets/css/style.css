@@ -1882,7 +1882,10 @@ main {
   color: #9ca3af !important;
   stroke: #9ca3af !important;
 }
-.bg-white svg:not([class*="text-white"]):not([class*="text-indigo"]):not([class*="text-purple"]) {
+.bg-white
+  svg:not([class*="text-white"]):not([class*="text-indigo"]):not(
+    [class*="text-purple"]
+  ) {
   color: #9ca3af !important;
   stroke: #9ca3af !important;
 }
@@ -2186,6 +2189,71 @@ input::placeholder {
 }
 .bg-white input::placeholder {
   color: #9ca3af !important;
+}
+.dark input:not([type="checkbox"]):not([type="radio"]),
+.dark select,
+.dark textarea {
+  background-color: #374151 !important;
+  color: #f9fafb !important;
+}
+.dark select option {
+  background-color: #374151 !important;
+  color: #f9fafb !important;
+}
+.dark select option:checked {
+  background-color: #4f46e5 !important;
+  color: #ffffff !important;
+}
+.dark select option:hover {
+  background-color: #4b5563 !important;
+  color: #f9fafb !important;
+}
+.dark textarea::placeholder {
+  color: #9ca3af !important;
+}
+.dark input::placeholder {
+  color: #9ca3af !important;
+}
+.dark input[class*="bg-white"],
+.dark select[class*="bg-white"],
+.dark textarea[class*="bg-white"] {
+  background-color: #374151 !important;
+  color: #f9fafb !important;
+}
+.dark [class*="dark:bg-gray-700"] input:not([type="checkbox"]):not([type="radio"]),
+.dark [class*="dark:bg-gray-700"] select,
+.dark [class*="dark:bg-gray-700"] textarea,
+.dark .bg-gray-700 input:not([type="checkbox"]):not([type="radio"]),
+.dark .bg-gray-700 select,
+.dark .bg-gray-700 textarea {
+  background-color: #374151 !important;
+  color: #f9fafb !important;
+}
+.dark .bg-gray-800 input:not([type="checkbox"]):not([type="radio"]),
+.dark .bg-gray-800 select,
+.dark .bg-gray-800 textarea {
+  background-color: #374151 !important;
+  color: #f9fafb !important;
+}
+.dark .bg-gray-700,
+.dark .bg-gray-800 {
+  color: var(--text-primary) !important;
+}
+.dark .bg-gray-700 p,
+.dark .bg-gray-800 p,
+.dark .bg-gray-700 span,
+.dark .bg-gray-800 span,
+.dark .bg-gray-700 div,
+.dark .bg-gray-800 div {
+  color: var(--text-primary) !important;
+}
+.dark select option:checked {
+  background-color: #4f46e5 !important;
+  color: #ffffff !important;
+}
+.dark select option:hover {
+  background-color: #374151 !important;
+  color: #f9fafb !important;
 }
 ::-webkit-scrollbar {
   width: 8px;
@@ -2513,4 +2581,3 @@ label[class*="cursor-pointer"]:hover .peer:checked ~ div[class*="relative"] {
     }
   }
 }
-
