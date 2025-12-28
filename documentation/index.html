@@ -7,7 +7,10 @@
       name="description"
       content="Documentation - Complete guide to using and customizing the Modern Admin Dashboard template."
     />
-    <meta name="keywords" content="documentation, help, guide, admin dashboard documentation" />
+    <meta
+      name="keywords"
+      content="documentation, help, guide, admin dashboard documentation"
+    />
     <title>Documentation - Admin Dashboard</title>
     <script>
       (function () {
@@ -19,7 +22,9 @@
             document.documentElement.classList.remove("dark");
           }
         } else {
-          const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const prefersDark =
+            window.matchMedia &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches;
           if (prefersDark) {
             document.documentElement.classList.add("dark");
             localStorage.setItem("theme", "dark");
@@ -30,7 +35,6 @@
         }
       })();
     </script>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
@@ -55,7 +59,10 @@
     <div class="min-h-screen flex flex-col">
       <!-- Include Sidebar -->
       <div id="sidebar-container" class="fixed inset-y-0 left-0 z-50"></div>
-      <div id="sidebar-overlay-container" class="fixed inset-0 z-40 pointer-events-none"></div>
+      <div
+        id="sidebar-overlay-container"
+        class="fixed inset-0 z-40 pointer-events-none"
+      ></div>
 
       <!-- Include Navbar -->
       <div id="navbar-container" class="fixed top-0 left-0 right-0 z-50"></div>
@@ -112,12 +119,51 @@
                   class="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300"
                 >
                   <li>Modern and responsive design</li>
-                  <li>Dark mode support</li>
-                  <li>Interactive charts and graphs</li>
-                  <li>User management system</li>
-                  <li>Settings and preferences</li>
-                  <li>Mobile-friendly interface</li>
+                  <li>Full dark mode support with theme toggle</li>
+                  <li>Interactive charts and graphs (Chart.js)</li>
+                  <li>Complete user management system (CRUD operations)</li>
+                  <li>Comprehensive settings and preferences</li>
+                  <li>Mobile-friendly responsive interface</li>
+                  <li>Password show/hide toggle on login</li>
+                  <li>Account deletion with confirmation modal</li>
+                  <li>Search and filter functionality</li>
+                  <li>Real-time notifications</li>
+                  <li>Consistent form styling across all pages</li>
                 </ul>
+                <h3
+                  class="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3"
+                >
+                  Setup Instructions
+                </h3>
+                <ol
+                  class="list-decimal list-inside space-y-2 text-gray-700 dark:text-gray-300"
+                >
+                  <li>
+                    Install dependencies:
+                    <code class="bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded"
+                      >npm install</code
+                    >
+                  </li>
+                  <li>
+                    Build CSS:
+                    <code class="bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded"
+                      >npm run build-css</code
+                    >
+                  </li>
+                  <li>
+                    For development with auto-rebuild:
+                    <code class="bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded"
+                      >npm run dev</code
+                    >
+                  </li>
+                  <li>
+                    Open
+                    <code class="bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded"
+                      >login.html</code
+                    >
+                    in your browser
+                  </li>
+                </ol>
               </div>
             </div>
 
@@ -204,11 +250,13 @@
                 <ul
                   class="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300"
                 >
-                  <li>Search and filter users</li>
-                  <li>View user details and status</li>
-                  <li>Edit user information</li>
-                  <li>Delete user accounts</li>
-                  <li>Add new users</li>
+                  <li>Search users by name or email</li>
+                  <li>Filter users by role and status</li>
+                  <li>View user details in a table format</li>
+                  <li>Edit user information via modal</li>
+                  <li>Delete user accounts with confirmation</li>
+                  <li>Add new users with validation</li>
+                  <li>Pagination for large user lists</li>
                 </ul>
               </div>
             </div>
@@ -254,10 +302,12 @@
                 <ul
                   class="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300"
                 >
-                  <li>Profile information</li>
+                  <li>Profile information (name, email, bio)</li>
                   <li>Password management</li>
-                  <li>Notification preferences</li>
-                  <li>Language and timezone</li>
+                  <li>Notification preferences (email, push, SMS)</li>
+                  <li>Language and timezone selection</li>
+                  <li>Account deletion with confirmation modal</li>
+                  <li>Profile photo management</li>
                 </ul>
               </div>
             </div>
@@ -298,10 +348,39 @@
                   class="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300"
                 >
                   <li>HTML5</li>
-                  <li>Tailwind CSS</li>
-                  <li>Vanilla JavaScript</li>
+                  <li>Tailwind CSS v4 (built with PostCSS)</li>
+                  <li>Vanilla JavaScript (ES6+)</li>
                   <li>Chart.js for data visualization</li>
+                  <li>Animate.css for animations</li>
+                  <li>PostCSS for CSS processing</li>
                 </ul>
+                <h3
+                  class="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3"
+                >
+                  Build Process
+                </h3>
+                <p class="text-gray-700 dark:text-gray-300 mb-4">
+                  The project uses Tailwind CSS v4 with PostCSS for building.
+                  All CSS is compiled from
+                  <code class="bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded"
+                    >assets/css/input.css</code
+                  >
+                  to
+                  <code class="bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded"
+                    >assets/css/style.css</code
+                  >.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300 mb-4">
+                  <strong>Important:</strong> Always run
+                  <code class="bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded"
+                    >npm run build-css</code
+                  >
+                  after making CSS changes, or use
+                  <code class="bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded"
+                    >npm run dev</code
+                  >
+                  for automatic rebuilding during development.
+                </p>
                 <h3
                   class="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3"
                 >
@@ -312,26 +391,71 @@
                 ><code>htmlAdminDashboard/
 ├── assets/
 │   ├── css/
-│   │   └── style.css
+│   │   ├── input.css          # Source CSS file (Tailwind + custom styles)
+│   │   └── style.css          # Compiled CSS (generated - don't edit directly)
 │   ├── js/
 │   │   └── app.js             # Main JavaScript file (all functionality)
 │   └── data/
-│       └── data.json
+│       └── data.json          # Sample data for dashboard
 ├── components/
-│   ├── navbar.html
-│   └── sidebar.html
+│   ├── navbar.html            # Navigation bar component
+│   └── sidebar.html          # Sidebar navigation component
 ├── pages/
-│   ├── dashboard.html
-│   ├── users.html
-│   └── settings.html
+│   ├── dashboard.html        # Main dashboard page
+│   ├── users.html            # User management page
+│   └── settings.html         # Settings page
 ├── documentation/
-│   └── index.html
-├── index.html
-├── login.html
-├── README.md
-├── CHANGELOG.md
-├── LICENSE.txt
-└── CREDITS.txt</code></pre>
+│   └── index.html            # This documentation page
+├── index.html                # Alternative login page
+├── login.html                # Main login page
+├── package.json              # NPM dependencies and scripts
+├── postcss.config.mjs        # PostCSS configuration
+├── tailwind.config.js        # Tailwind CSS configuration (if needed)
+└── README.md                 # Project readme</code></pre>
+                <h3
+                  class="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3"
+                >
+                  Key Features
+                </h3>
+                <ul
+                  class="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300"
+                >
+                  <li>
+                    <strong>Single JavaScript File:</strong> All functionality
+                    consolidated in
+                    <code class="bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded"
+                      >app.js</code
+                    >
+                  </li>
+                  <li>
+                    <strong>Modular Components:</strong> Reusable navbar and
+                    sidebar components
+                  </li>
+                  <li>
+                    <strong>Consistent Styling:</strong> Unified CSS with theme
+                    variables
+                  </li>
+                  <li>
+                    <strong>Responsive Design:</strong> Mobile-first approach
+                    with Tailwind CSS
+                  </li>
+                  <li>
+                    <strong>Dark Mode:</strong> Full dark mode support with
+                    persistent theme
+                  </li>
+                  <li>
+                    <strong>Form Validation:</strong> Client-side validation for
+                    all forms
+                  </li>
+                  <li>
+                    <strong>Loading States:</strong> Visual feedback for async
+                    operations
+                  </li>
+                  <li>
+                    <strong>Notifications:</strong> Toast notifications for user
+                    actions
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
@@ -342,7 +466,7 @@
 
     <script src="../assets/js/app.js"></script>
     <script>
-      document.addEventListener("DOMContentLoaded", function() {
+      document.addEventListener("DOMContentLoaded", function () {
         initializeDocumentationPage();
       });
     </script>
