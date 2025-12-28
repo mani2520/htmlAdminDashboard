@@ -10,25 +10,30 @@
     <meta name="keywords" content="settings, preferences, account settings, security settings, admin settings" />
     <title>Settings - Admin Panel</title>
     <script>
-      (function () {
-        const savedTheme = localStorage.getItem("theme");
-        if (savedTheme) {
-          if (savedTheme === "dark") {
-            document.documentElement.classList.add("dark");
+      if (typeof initializeThemeEarly === 'function') {
+        initializeThemeEarly();
+      } else {
+        // Fallback if app.js hasn't loaded yet
+        (function () {
+          const savedTheme = localStorage.getItem("theme");
+          if (savedTheme) {
+            if (savedTheme === "dark") {
+              document.documentElement.classList.add("dark");
+            } else {
+              document.documentElement.classList.remove("dark");
+            }
           } else {
-            document.documentElement.classList.remove("dark");
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (prefersDark) {
+              document.documentElement.classList.add("dark");
+              localStorage.setItem("theme", "dark");
+            } else {
+              document.documentElement.classList.remove("dark");
+              localStorage.setItem("theme", "light");
+            }
           }
-        } else {
-          const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-          if (prefersDark) {
-            document.documentElement.classList.add("dark");
-            localStorage.setItem("theme", "dark");
-          } else {
-            document.documentElement.classList.remove("dark");
-            localStorage.setItem("theme", "light");
-          }
-        }
-      })();
+        })();
+      }
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
@@ -439,46 +444,9 @@ Administrator account</textarea
 
     <script src="../assets/js/app.js"></script>
     <script>
-      fetch("../components/sidebar.html")
-        .then((res) => res.text())
-        .then((html) => {
-          const container = document.getElementById("sidebar-container");
-          const overlayContainer = document.getElementById(
-            "sidebar-overlay-container"
-          );
-          container.innerHTML = html;
-          initializeSidebar();
-          setTimeout(() => {
-            const overlay = document.getElementById("sidebarOverlay");
-            if (overlay && overlayContainer) {
-              overlay.remove();
-              overlayContainer.appendChild(overlay);
-              initializeSidebar();
-            }
-          }, 50);
-        });
-
-      fetch("../components/navbar.html")
-        .then((res) => res.text())
-        .then((html) => {
-          document.getElementById("navbar-container").innerHTML = html;
-          initializeNavbar();
-        });
-
-      setTimeout(() => {
-        const navLinks = document.querySelectorAll(".nav-link");
-        navLinks.forEach((link) => {
-          if (link.getAttribute("data-page") === "settings") {
-            link.classList.add(
-              "active",
-              "bg-indigo-50",
-              "dark:bg-gray-700",
-              "text-indigo-600",
-              "dark:text-indigo-400"
-            );
-          }
-        });
-      }, 100);
+      document.addEventListener("DOMContentLoaded", function() {
+        initializeSettingsPage();
+      });
     </script>
   </body>
 </html>

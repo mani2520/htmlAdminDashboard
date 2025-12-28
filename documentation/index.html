@@ -342,37 +342,9 @@
 
     <script src="../assets/js/app.js"></script>
     <script>
-      // Load components
-      fetch("../components/sidebar.html")
-        .then((res) => res.text())
-        .then((html) => {
-          const container = document.getElementById("sidebar-container");
-          const overlayContainer = document.getElementById(
-            "sidebar-overlay-container"
-          );
-          container.innerHTML = html;
-
-          // Initialize sidebar first
-          initializeSidebar();
-          
-          // Move overlay to overlay container if it exists (with small delay to ensure DOM is ready)
-          setTimeout(() => {
-            const overlay = document.getElementById("sidebarOverlay");
-            if (overlay && overlayContainer) {
-              overlay.remove();
-              overlayContainer.appendChild(overlay);
-              // Re-initialize sidebar after overlay is moved to ensure event listeners work
-              initializeSidebar();
-            }
-          }, 50);
-        });
-
-      fetch("../components/navbar.html")
-        .then((res) => res.text())
-        .then((html) => {
-          document.getElementById("navbar-container").innerHTML = html;
-          initializeNavbar();
-        });
+      document.addEventListener("DOMContentLoaded", function() {
+        initializeDocumentationPage();
+      });
     </script>
   </body>
 </html>

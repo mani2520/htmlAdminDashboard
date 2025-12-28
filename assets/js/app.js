@@ -1022,6 +1022,834 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ============================================================================
+// PAGE INITIALIZATION FUNCTIONS
+// ============================================================================
+
+// Initialize theme in head (before DOM ready)
+function initializeThemeEarly() {
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme) {
+    if (savedTheme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  } else {
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (prefersDark) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }
+}
+
+// Load sidebar and navbar components (common for all pages)
+function loadLayoutComponents(componentPath = "../components/") {
+  fetch(`${componentPath}sidebar.html`)
+    .then((res) => res.text())
+    .then((html) => {
+      const container = document.getElementById("sidebar-container");
+      const overlayContainer = document.getElementById("sidebar-overlay-container");
+      if (container) {
+        container.innerHTML = html;
+        initializeSidebar();
+        
+        setTimeout(() => {
+          const overlay = document.getElementById("sidebarOverlay");
+          if (overlay && overlayContainer) {
+            overlay.remove();
+            overlayContainer.appendChild(overlay);
+            initializeSidebar();
+          }
+        }, 50);
+      }
+    })
+    .catch((error) => {
+      console.error("Error loading sidebar:", error);
+    });
+
+  fetch(`${componentPath}navbar.html`)
+    .then((res) => res.text())
+    .then((html) => {
+      const navbarContainer = document.getElementById("navbar-container");
+      if (navbarContainer) {
+        navbarContainer.innerHTML = html;
+        initializeNavbar();
+      }
+    })
+    .catch((error) => {
+      console.error("Error loading navbar:", error);
+    });
+}
+
+// Set active nav link based on current page
+function setActiveNavLink(pageName) {
+  setTimeout(() => {
+    const navLinks = document.querySelectorAll(".nav-link");
+    navLinks.forEach((link) => {
+      if (link.getAttribute("data-page") === pageName) {
+        link.classList.add(
+          "active",
+          "bg-indigo-50",
+          "dark:bg-gray-700",
+          "text-indigo-600",
+          "dark:text-indigo-400"
+        );
+      }
+    });
+  }, 100);
+}
+
+// Initialize login page
+function initializeLoginPage() {
+  const loginForm = document.getElementById("loginForm");
+  if (!loginForm) return;
+
+  // Password show/hide toggle
+  const passwordInput = document.getElementById("password");
+  const togglePasswordBtn = document.getElementById("togglePassword");
+  const eyeIcon = document.getElementById("eyeIcon");
+  const eyeOffIcon = document.getElementById("eyeOffIcon");
+
+  if (togglePasswordBtn && passwordInput && eyeIcon && eyeOffIcon) {
+    togglePasswordBtn.addEventListener("click", function () {
+      const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+      passwordInput.setAttribute("type", type);
+
+      // Toggle icons
+      if (type === "text") {
+        eyeIcon.classList.add("hidden");
+        eyeOffIcon.classList.remove("hidden");
+      } else {
+        eyeIcon.classList.remove("hidden");
+        eyeOffIcon.classList.add("hidden");
+      }
+    });
+  }
+
+  loginForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    if (!email || !password) {
+      submitBtn.classList.add("error");
+      submitBtn.innerHTML = "Please fill all fields";
+      setTimeout(() => {
+        submitBtn.classList.remove("error");
+        submitBtn.innerHTML = originalText;
+      }, 2000);
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.classList.add("loading");
+    submitBtn.innerHTML = `
+      <svg class="w-5 h-5 animate-spin inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+      </svg>
+      Signing in...
+    `;
+
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+
+    submitBtn.classList.remove("loading");
+    submitBtn.classList.add("success");
+    submitBtn.innerHTML = `
+      <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+      </svg>
+      Success! Redirecting...
+    `;
+
+    setTimeout(() => {
+      window.location.href = "pages/dashboard.html";
+    }, 1000);
+  });
+}
+
+// Initialize dashboard page
+function initializeDashboardPage() {
+  loadLayoutComponents();
+  setActiveNavLink("dashboard");
+
+  async function loadDashboardData() {
+    try {
+      const stats = await getDashboardStats();
+
+      const usersTotalEl = document.getElementById("usersTotal");
+      const usersChangeTextEl = document.getElementById("usersChangeText");
+      const salesTotalEl = document.getElementById("salesTotal");
+      const salesChangeTextEl = document.getElementById("salesChangeText");
+      const ordersTotalEl = document.getElementById("ordersTotal");
+      const ordersChangeTextEl = document.getElementById("ordersChangeText");
+      const revenueTotalEl = document.getElementById("revenueTotal");
+      const revenueChangeTextEl = document.getElementById("revenueChangeText");
+
+      if (usersTotalEl) usersTotalEl.textContent = formatNumber(stats.users.total);
+      if (usersChangeTextEl) usersChangeTextEl.textContent = `+${stats.users.change}% from last month`;
+      if (salesTotalEl) salesTotalEl.textContent = formatCurrency(stats.sales.total);
+      if (salesChangeTextEl) salesChangeTextEl.textContent = `+${stats.sales.change}% from last month`;
+      if (ordersTotalEl) ordersTotalEl.textContent = formatNumber(stats.orders.total);
+      if (ordersChangeTextEl) ordersChangeTextEl.textContent = `+${stats.orders.change}% from last month`;
+      if (revenueTotalEl) revenueTotalEl.textContent = formatCurrency(stats.revenue.total);
+      if (revenueChangeTextEl) revenueChangeTextEl.textContent = `+${stats.revenue.change}% from last month`;
+
+      const chartsData = await getDashboardCharts();
+
+      const salesCtx = document.getElementById("salesChart");
+      if (salesCtx && chartsData.sales && typeof Chart !== "undefined") {
+        new Chart(salesCtx, {
+          type: "line",
+          data: {
+            labels: chartsData.sales.labels,
+            datasets: [
+              {
+                label: "Sales",
+                data: chartsData.sales.data,
+                borderColor: "rgb(99, 102, 241)",
+                backgroundColor: "rgba(99, 102, 241, 0.1)",
+                tension: 0.4,
+                fill: true,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+            },
+            scales: {
+              y: { beginAtZero: true },
+            },
+          },
+        });
+      }
+
+      const usersCtx = document.getElementById("usersChart");
+      if (usersCtx && chartsData.users && typeof Chart !== "undefined") {
+        new Chart(usersCtx, {
+          type: "bar",
+          data: {
+            labels: chartsData.users.labels,
+            datasets: [
+              {
+                label: "New Users",
+                data: chartsData.users.data,
+                backgroundColor: "rgba(139, 92, 246, 0.8)",
+                borderRadius: 8,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+            },
+            scales: {
+              y: { beginAtZero: true },
+            },
+          },
+        });
+      }
+
+      const activities = await getRecentActivity();
+      const activityContainer = document.getElementById("recentActivityContainer");
+      if (activityContainer && activities) {
+        const colorClasses = {
+          indigo: "bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-400",
+          green: "bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400",
+          yellow: "bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-400",
+        };
+
+        const icons = {
+          user: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>`,
+          check: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>`,
+          clock: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>`,
+        };
+
+        activityContainer.innerHTML = activities
+          .map((activity) => {
+            return `
+              <div class="flex items-center space-x-4 p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                <div class="w-10 h-10 ${colorClasses[activity.color] || colorClasses.indigo} rounded-full flex items-center justify-center">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    ${icons[activity.icon] || icons.user}
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <p class="text-sm font-medium text-gray-900 dark:text-white">${activity.title}</p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">${activity.description}</p>
+                </div>
+                <span class="text-xs text-gray-500 dark:text-gray-400">${activity.time}</span>
+              </div>
+            `;
+          })
+          .join("");
+      }
+    } catch (error) {
+      console.error("Error loading dashboard data:", error);
+    }
+  }
+
+  loadDashboardData();
+}
+
+// Initialize users page
+function initializeUsersPage() {
+  loadLayoutComponents();
+  setActiveNavLink("users");
+
+  let allUsers = [];
+
+  async function loadUsersData() {
+    try {
+      allUsers = await getUsers();
+      const roles = await getRoles();
+      const statuses = await getStatuses();
+
+      const roleFilter = document.getElementById("roleFilter");
+      if (roleFilter && roleFilter.children.length === 1) {
+        roles.forEach((role) => {
+          const option = document.createElement("option");
+          option.value = role;
+          option.textContent = role;
+          roleFilter.appendChild(option);
+        });
+      }
+
+      const statusFilter = document.getElementById("statusFilter");
+      if (statusFilter && statusFilter.children.length === 1) {
+        statuses.forEach((status) => {
+          const option = document.createElement("option");
+          option.value = status;
+          option.textContent = status;
+          statusFilter.appendChild(option);
+        });
+      }
+
+      applyFiltersAndSearch();
+    } catch (error) {
+      console.error("Error loading users data:", error);
+    }
+  }
+
+  function applyFiltersAndSearch() {
+    const searchQuery = document.getElementById("userSearchInput")?.value || "";
+    const roleFilter = document.getElementById("roleFilter")?.value || "All Roles";
+    const statusFilter = document.getElementById("statusFilter")?.value || "All Status";
+
+    const filteredUsers = searchAndFilterUsers(allUsers, searchQuery, roleFilter, statusFilter);
+    renderUsersTable(filteredUsers);
+    updatePaginationInfo(filteredUsers.length, allUsers.length);
+  }
+
+  function updatePaginationInfo(filteredCount, totalCount) {
+    const paginationText = document.querySelector(".bg-gray-50.dark\\:bg-gray-700 .text-sm");
+    if (paginationText) {
+      paginationText.innerHTML = `
+        Showing <span class="font-medium">1</span> to <span class="font-medium">${filteredCount}</span> of 
+        <span class="font-medium">${totalCount}</span> results
+      `;
+    }
+  }
+
+  function renderUsersTable(users) {
+    const tbody = document.getElementById("usersTableBody");
+    if (!tbody) return;
+
+    if (users.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="6" class="px-6 py-12 text-center">
+            <svg class="w-8 h-8 mx-auto mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            <p class="text-lg font-medium text-gray-500 dark:text-gray-400">No users found</p>
+            <p class="text-sm text-gray-400 dark:text-gray-500 mt-2">Try adjusting your search or filters</p>
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    const avatarColors = [
+      "from-indigo-500 to-purple-500",
+      "from-pink-500 to-rose-500",
+      "from-green-500 to-emerald-500",
+      "from-blue-500 to-cyan-500",
+      "from-yellow-500 to-orange-500",
+    ];
+
+    const roleColors = {
+      Admin: "bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200",
+      User: "bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200",
+      Moderator: "bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200",
+    };
+
+    const statusColors = {
+      Active: "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200",
+      Pending: "bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200",
+      Inactive: "bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200",
+    };
+
+    const statusIndicators = {
+      Active: "bg-green-500 ring-2 ring-green-200 dark:ring-green-800",
+      Pending: "bg-yellow-500 ring-2 ring-yellow-200 dark:ring-yellow-800",
+      Inactive: "bg-gray-500 ring-2 ring-gray-200 dark:ring-gray-800",
+    };
+
+    const searchQuery = document.getElementById("userSearchInput")?.value.toLowerCase() || "";
+
+    tbody.innerHTML = users
+      .map((user, index) => {
+        const avatarColor = avatarColors[index % avatarColors.length];
+        const roleColor = roleColors[user.role] || roleColors["User"];
+        const statusColor = statusColors[user.status] || statusColors["Active"];
+        const statusIndicator = statusIndicators[user.status] || statusIndicators["Active"];
+
+        return `
+          <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="flex items-center">
+                <div class="w-10 h-10 bg-gradient-to-br ${avatarColor} rounded-full flex items-center justify-center text-white font-semibold mr-3">
+                  ${user.avatar}
+                </div>
+                <div>
+                  <div class="text-sm font-medium text-gray-900 dark:text-white">${highlightSearchTerm(user.name, searchQuery)}</div>
+                  <div class="text-sm text-gray-500 dark:text-gray-400">ID: #${user.id}</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="text-sm text-gray-900 dark:text-white">${highlightSearchTerm(user.email, searchQuery)}</div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="px-3 py-1 text-xs font-semibold rounded-full ${roleColor}">
+                ${highlightSearchTerm(user.role, searchQuery)}
+              </span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full ${statusColor}">
+                <span class="inline-block w-2 h-2 rounded-full mr-2 ${statusIndicator}"></span>
+                ${highlightSearchTerm(user.status, searchQuery)}
+              </span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+              ${user.joined}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+              <div class="flex items-center justify-end space-x-2">
+                <button onclick="editUser(${user.id})" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-300 transition">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                  </svg>
+                </button>
+                <button onclick="handleDeleteUser(${user.id})" class="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300 transition">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                  </svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      })
+      .join("");
+  }
+
+  // User modal functions
+  const userModal = document.getElementById("userModal");
+  const deleteModal = document.getElementById("deleteModal");
+  const userForm = document.getElementById("userForm");
+  let currentDeleteUserId = null;
+
+  function openAddUserModal() {
+    const modalTitleEl = document.getElementById("modalTitle");
+    const userIdEl = document.getElementById("userId");
+    const userNameEl = document.getElementById("userName");
+    const userEmailEl = document.getElementById("userEmail");
+    const userRoleEl = document.getElementById("userRole");
+    const userStatusEl = document.getElementById("userStatus");
+    const saveBtn = document.getElementById("saveUserBtn");
+
+    if (modalTitleEl) modalTitleEl.textContent = "Add User";
+    if (userIdEl) userIdEl.value = "";
+    if (userNameEl) userNameEl.value = "";
+    if (userEmailEl) userEmailEl.value = "";
+    if (userRoleEl) userRoleEl.value = "";
+    if (userStatusEl) userStatusEl.value = "";
+    if (saveBtn) saveBtn.textContent = "Save User";
+
+    if (userModal) {
+      userModal.style.display = "flex";
+      userModal.classList.remove("hidden");
+      userModal.classList.add("animate__animated", "animate__fadeIn");
+      const modalContent = userModal.querySelector("div");
+      if (modalContent) {
+        modalContent.classList.add("animate__animated", "animate__slideInUp");
+      }
+      setTimeout(() => {
+        if (userNameEl) userNameEl.focus();
+      }, 100);
+    }
+  }
+
+  async function openEditUserModal(userId) {
+    const user = await getUserById(userId);
+    if (user) {
+      const modalTitleEl = document.getElementById("modalTitle");
+      const userIdEl = document.getElementById("userId");
+      const userNameEl = document.getElementById("userName");
+      const userEmailEl = document.getElementById("userEmail");
+      const userRoleEl = document.getElementById("userRole");
+      const userStatusEl = document.getElementById("userStatus");
+      const saveBtn = document.getElementById("saveUserBtn");
+
+      if (modalTitleEl) modalTitleEl.textContent = "Edit User";
+      if (userIdEl) userIdEl.value = user.id;
+      if (userNameEl) userNameEl.value = user.name;
+      if (userEmailEl) userEmailEl.value = user.email;
+      if (userRoleEl) userRoleEl.value = user.role;
+      if (userStatusEl) userStatusEl.value = user.status;
+      if (saveBtn) saveBtn.textContent = "Update User";
+
+      if (userModal) {
+        userModal.style.display = "flex";
+        userModal.classList.remove("hidden");
+        userModal.classList.add("animate__animated", "animate__fadeIn");
+        const modalContent = userModal.querySelector("div");
+        if (modalContent) {
+          modalContent.classList.add("animate__animated", "animate__slideInUp");
+        }
+        setTimeout(() => {
+          if (userNameEl) userNameEl.focus();
+        }, 100);
+      }
+    }
+  }
+
+  function closeUserModal() {
+    if (userModal) {
+      userModal.classList.add("hidden");
+      userModal.style.display = "none";
+
+      if (userForm) {
+        userForm.reset();
+        const inputs = userForm.querySelectorAll("input, select");
+        inputs.forEach((input) => {
+          input.classList.remove("border-red-500");
+        });
+      }
+
+      const saveBtn = document.getElementById("saveUserBtn");
+      if (saveBtn) {
+        saveBtn.disabled = false;
+        saveBtn.textContent = "Save User";
+      }
+
+      const userIdInput = document.getElementById("userId");
+      if (userIdInput) {
+        userIdInput.value = "";
+      }
+    }
+  }
+
+  async function openDeleteModal(userId) {
+    const user = await getUserById(userId);
+    if (user) {
+      currentDeleteUserId = userId;
+      const deleteUserInfoEl = document.getElementById("deleteUserInfo");
+      if (deleteUserInfoEl) {
+        deleteUserInfoEl.textContent = `User "${user.name}" (${user.email}) will be permanently deleted. This action cannot be undone.`;
+      }
+      if (deleteModal) {
+        deleteModal.classList.remove("hidden");
+        deleteModal.classList.add("animate__animated", "animate__fadeIn");
+        const deleteModalContent = deleteModal.querySelector("div");
+        if (deleteModalContent) {
+          deleteModalContent.classList.add("animate__animated", "animate__slideInUp");
+        }
+      }
+    }
+  }
+
+  function closeDeleteModal() {
+    if (deleteModal) {
+      deleteModal.classList.add("hidden");
+      currentDeleteUserId = null;
+    }
+  }
+
+  async function editUser(userId) {
+    await openEditUserModal(userId);
+  }
+
+  async function handleDeleteUser(userId) {
+    await openDeleteModal(userId);
+  }
+
+  // Expose functions to window for onclick handlers
+  window.editUser = editUser;
+  window.handleDeleteUser = handleDeleteUser;
+
+  // Event listeners
+  if (userForm) {
+    userForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const userId = document.getElementById("userId")?.value;
+      const name = document.getElementById("userName")?.value.trim();
+      const email = document.getElementById("userEmail")?.value.trim();
+      const role = document.getElementById("userRole")?.value;
+      const status = document.getElementById("userStatus")?.value;
+
+      const nameParts = name.split(" ");
+      const avatar =
+        nameParts.length > 1
+          ? (nameParts[0][0] + nameParts[nameParts.length - 1][0]).toUpperCase()
+          : name.substring(0, 2).toUpperCase();
+
+      const userData = {
+        name: name,
+        email: email,
+        role: role,
+        status: status,
+        avatar: avatar,
+      };
+
+      const saveBtn = document.getElementById("saveUserBtn");
+      const originalText = saveBtn?.textContent;
+      if (saveBtn) {
+        saveBtn.disabled = true;
+        saveBtn.textContent = userId ? "Updating..." : "Saving...";
+      }
+
+      try {
+        let result = null;
+        if (userId) {
+          result = await updateUser(parseInt(userId), userData);
+          if (result) {
+            closeUserModal();
+            showNotification("User updated successfully", "success");
+            loadUsersData();
+            if (saveBtn) {
+              setTimeout(() => {
+                saveBtn.disabled = false;
+                if (originalText) saveBtn.textContent = originalText;
+              }, 100);
+            }
+          } else {
+            if (saveBtn) {
+              saveBtn.disabled = false;
+              if (originalText) saveBtn.textContent = originalText;
+            }
+            showNotification("Failed to update user", "error");
+          }
+        } else {
+          result = await addUser(userData);
+          if (result) {
+            closeUserModal();
+            showNotification("User added successfully", "success");
+            loadUsersData();
+            if (saveBtn) {
+              setTimeout(() => {
+                saveBtn.disabled = false;
+                if (originalText) saveBtn.textContent = originalText;
+              }, 100);
+            }
+          } else {
+            if (saveBtn) {
+              saveBtn.disabled = false;
+              if (originalText) saveBtn.textContent = originalText;
+            }
+            showNotification("Failed to add user", "error");
+          }
+        }
+      } catch (error) {
+        console.error("Error saving user:", error);
+        if (saveBtn) {
+          saveBtn.disabled = false;
+          if (originalText) saveBtn.textContent = originalText;
+        }
+        showNotification("An error occurred", "error");
+      }
+    });
+  }
+
+  const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+  if (confirmDeleteBtn) {
+    confirmDeleteBtn.addEventListener("click", async () => {
+      if (currentDeleteUserId) {
+        const deleteBtn = document.getElementById("confirmDeleteBtn");
+        const originalText = deleteBtn?.textContent;
+        if (deleteBtn) {
+          deleteBtn.disabled = true;
+          deleteBtn.textContent = "Deleting...";
+        }
+
+        try {
+          const success = await deleteUser(currentDeleteUserId);
+          if (success) {
+            showNotification("User deleted successfully", "success");
+            closeDeleteModal();
+            loadUsersData();
+          } else {
+            showNotification("Failed to delete user", "error");
+          }
+        } catch (error) {
+          console.error("Error deleting user:", error);
+          showNotification("An error occurred", "error");
+        } finally {
+          if (deleteBtn) {
+            deleteBtn.disabled = false;
+            if (originalText) deleteBtn.textContent = originalText;
+          }
+        }
+      }
+    });
+  }
+
+  const addUserBtn = document.getElementById("addUserBtn");
+  if (addUserBtn) {
+    addUserBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      openAddUserModal();
+    });
+  }
+
+  const closeModalBtn = document.getElementById("closeModalBtn");
+  if (closeModalBtn) {
+    closeModalBtn.addEventListener("click", closeUserModal);
+  }
+
+  const cancelModalBtn = document.getElementById("cancelModalBtn");
+  if (cancelModalBtn) {
+    cancelModalBtn.addEventListener("click", closeUserModal);
+  }
+
+  const closeDeleteModalBtn = document.getElementById("closeDeleteModalBtn");
+  if (closeDeleteModalBtn) {
+    closeDeleteModalBtn.addEventListener("click", closeDeleteModal);
+  }
+
+  const cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
+  if (cancelDeleteBtn) {
+    cancelDeleteBtn.addEventListener("click", closeDeleteModal);
+  }
+
+  if (userModal) {
+    userModal.addEventListener("click", (e) => {
+      if (e.target === userModal) {
+        closeUserModal();
+      }
+    });
+  }
+
+  if (deleteModal) {
+    deleteModal.addEventListener("click", (e) => {
+      if (e.target === deleteModal) {
+        closeDeleteModal();
+      }
+    });
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      if (userModal && !userModal.classList.contains("hidden")) {
+        closeUserModal();
+      }
+      if (deleteModal && !deleteModal.classList.contains("hidden")) {
+        closeDeleteModal();
+      }
+    }
+  });
+
+  // Search and filter
+  const searchInput = document.getElementById("userSearchInput");
+  const clearSearchBtn = document.getElementById("clearSearchBtn");
+
+  if (searchInput) {
+    let searchTimeout;
+
+    function toggleClearButton() {
+      if (clearSearchBtn) {
+        if (searchInput.value.trim() !== "") {
+          clearSearchBtn.classList.remove("hidden");
+        } else {
+          clearSearchBtn.classList.add("hidden");
+        }
+      }
+    }
+
+    searchInput.addEventListener("input", function () {
+      toggleClearButton();
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        applyFiltersAndSearch();
+        this.classList.add("searching");
+        setTimeout(() => {
+          this.classList.remove("searching");
+        }, 300);
+      }, 300);
+    });
+
+    if (clearSearchBtn) {
+      clearSearchBtn.addEventListener("click", function () {
+        searchInput.value = "";
+        toggleClearButton();
+        applyFiltersAndSearch();
+        searchInput.focus();
+      });
+    }
+
+    toggleClearButton();
+  }
+
+  const roleFilterEl = document.getElementById("roleFilter");
+  if (roleFilterEl) {
+    roleFilterEl.addEventListener("change", applyFiltersAndSearch);
+  }
+
+  const statusFilterEl = document.getElementById("statusFilter");
+  if (statusFilterEl) {
+    statusFilterEl.addEventListener("change", applyFiltersAndSearch);
+  }
+
+  // Restore search query from sessionStorage
+  window.addEventListener("DOMContentLoaded", () => {
+    const storedQuery = sessionStorage.getItem("searchQuery");
+    if (storedQuery) {
+      if (searchInput) {
+        searchInput.value = storedQuery;
+        applyFiltersAndSearch();
+      }
+      sessionStorage.removeItem("searchQuery");
+    }
+  });
+
+  loadUsersData();
+}
+
+// Initialize settings page
+function initializeSettingsPage() {
+  loadLayoutComponents();
+  setActiveNavLink("settings");
+}
+
+// Initialize documentation page
+function initializeDocumentationPage() {
+  loadLayoutComponents();
+}
+
+// ============================================================================
 // EXPORTS - Window Object
 // ============================================================================
 
@@ -1029,6 +1857,7 @@ if (typeof window !== "undefined") {
   window.initializeSidebar = initializeSidebar;
   window.initializeNavbar = initializeNavbar;
   window.initializeTheme = initializeTheme;
+  window.initializeThemeEarly = initializeThemeEarly;
   window.updateThemeIcon = updateThemeIcon;
   window.formatNumber = formatNumber;
   window.formatCurrency = formatCurrency;
@@ -1052,6 +1881,13 @@ if (typeof window !== "undefined") {
   window.searchAndFilterUsers = searchAndFilterUsers;
   window.globalSearch = globalSearch;
   window.highlightSearchTerm = highlightSearchTerm;
+  window.loadLayoutComponents = loadLayoutComponents;
+  window.setActiveNavLink = setActiveNavLink;
+  window.initializeLoginPage = initializeLoginPage;
+  window.initializeDashboardPage = initializeDashboardPage;
+  window.initializeUsersPage = initializeUsersPage;
+  window.initializeSettingsPage = initializeSettingsPage;
+  window.initializeDocumentationPage = initializeDocumentationPage;
 }
 
 // Button interactions observer for dynamic content

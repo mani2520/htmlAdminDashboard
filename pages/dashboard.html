@@ -10,25 +10,30 @@
     <meta name="keywords" content="admin dashboard, analytics, charts, statistics, admin panel" />
     <title>Dashboard - Admin Panel</title>
     <script>
-      (function () {
-        const savedTheme = localStorage.getItem("theme");
-        if (savedTheme) {
-          if (savedTheme === "dark") {
-            document.documentElement.classList.add("dark");
+      if (typeof initializeThemeEarly === 'function') {
+        initializeThemeEarly();
+      } else {
+        // Fallback if app.js hasn't loaded yet
+        (function () {
+          const savedTheme = localStorage.getItem("theme");
+          if (savedTheme) {
+            if (savedTheme === "dark") {
+              document.documentElement.classList.add("dark");
+            } else {
+              document.documentElement.classList.remove("dark");
+            }
           } else {
-            document.documentElement.classList.remove("dark");
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (prefersDark) {
+              document.documentElement.classList.add("dark");
+              localStorage.setItem("theme", "dark");
+            } else {
+              document.documentElement.classList.remove("dark");
+              localStorage.setItem("theme", "light");
+            }
           }
-        } else {
-          const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-          if (prefersDark) {
-            document.documentElement.classList.add("dark");
-            localStorage.setItem("theme", "dark");
-          } else {
-            document.documentElement.classList.remove("dark");
-            localStorage.setItem("theme", "light");
-          }
-        }
-      })();
+        })();
+      }
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
@@ -372,192 +377,9 @@
 
     <script src="../assets/js/app.js"></script>
     <script>
-      fetch("../components/sidebar.html")
-        .then((res) => res.text())
-        .then((html) => {
-          const container = document.getElementById("sidebar-container");
-          const overlayContainer = document.getElementById(
-            "sidebar-overlay-container"
-          );
-          container.innerHTML = html;
-          initializeSidebar();
-          setTimeout(() => {
-            const overlay = document.getElementById("sidebarOverlay");
-            if (overlay && overlayContainer) {
-              overlay.remove();
-              overlayContainer.appendChild(overlay);
-              initializeSidebar();
-            }
-          }, 50);
-        });
-
-      fetch("../components/navbar.html")
-        .then((res) => res.text())
-        .then((html) => {
-          document.getElementById("navbar-container").innerHTML = html;
-          initializeNavbar();
-        });
-
-      async function loadDashboardData() {
-        try {
-          const stats = await getDashboardStats();
-
-          document.getElementById("usersTotal").textContent = formatNumber(
-            stats.users.total
-          );
-          document.getElementById(
-            "usersChangeText"
-          ).textContent = `+${stats.users.change}% from last month`;
-
-          document.getElementById("salesTotal").textContent = formatCurrency(
-            stats.sales.total
-          );
-          document.getElementById(
-            "salesChangeText"
-          ).textContent = `+${stats.sales.change}% from last month`;
-
-          document.getElementById("ordersTotal").textContent = formatNumber(
-            stats.orders.total
-          );
-          document.getElementById(
-            "ordersChangeText"
-          ).textContent = `+${stats.orders.change}% from last month`;
-
-          document.getElementById("revenueTotal").textContent = formatCurrency(
-            stats.revenue.total
-          );
-          document.getElementById(
-            "revenueChangeText"
-          ).textContent = `+${stats.revenue.change}% from last month`;
-
-          const chartsData = await getDashboardCharts();
-
-          const salesCtx = document.getElementById("salesChart");
-          if (salesCtx && chartsData.sales) {
-            new Chart(salesCtx, {
-              type: "line",
-              data: {
-                labels: chartsData.sales.labels,
-                datasets: [
-                  {
-                    label: "Sales",
-                    data: chartsData.sales.data,
-                    borderColor: "rgb(99, 102, 241)",
-                    backgroundColor: "rgba(99, 102, 241, 0.1)",
-                    tension: 0.4,
-                    fill: true,
-                  },
-                ],
-              },
-              options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                  legend: { display: false },
-                },
-                scales: {
-                  y: { beginAtZero: true },
-                },
-              },
-            });
-          }
-
-          const usersCtx = document.getElementById("usersChart");
-          if (usersCtx && chartsData.users) {
-            new Chart(usersCtx, {
-              type: "bar",
-              data: {
-                labels: chartsData.users.labels,
-                datasets: [
-                  {
-                    label: "New Users",
-                    data: chartsData.users.data,
-                    backgroundColor: "rgba(139, 92, 246, 0.8)",
-                    borderRadius: 8,
-                  },
-                ],
-              },
-              options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                  legend: { display: false },
-                },
-                scales: {
-                  y: { beginAtZero: true },
-                },
-              },
-            });
-          }
-
-          const activities = await getRecentActivity();
-          const activityContainer = document.getElementById(
-            "recentActivityContainer"
-          );
-          if (activityContainer && activities) {
-            activityContainer.innerHTML = activities
-              .map((activity) => {
-                const colorClasses = {
-                  indigo:
-                    "bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-400",
-                  green:
-                    "bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400",
-                  yellow:
-                    "bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-400",
-                };
-
-                const icons = {
-                  user: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>`,
-                  check: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>`,
-                  clock: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>`,
-                };
-
-                return `
-                <div class="flex items-center space-x-4 p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition">
-                  <div class="w-10 h-10 ${
-                    colorClasses[activity.color] || colorClasses.indigo
-                  } rounded-full flex items-center justify-center">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      ${icons[activity.icon] || icons.user}
-                    </svg>
-                  </div>
-                  <div class="flex-1">
-                    <p class="text-sm font-medium text-gray-900 dark:text-white">${
-                      activity.title
-                    }</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400">${
-                      activity.description
-                    }</p>
-                  </div>
-                  <span class="text-xs text-gray-500 dark:text-gray-400">${
-                    activity.time
-                  }</span>
-                </div>
-              `;
-              })
-              .join("");
-          }
-        } catch (error) {
-          console.error("Error loading dashboard data:", error);
-        }
-      }
-
-      loadDashboardData();
-
-      setTimeout(() => {
-        const navLinks = document.querySelectorAll(".nav-link");
-        navLinks.forEach((link) => {
-          if (link.getAttribute("data-page") === "dashboard") {
-            link.classList.add(
-              "active",
-              "bg-indigo-50",
-              "dark:bg-gray-700",
-              "text-indigo-600",
-              "dark:text-indigo-400"
-            );
-          }
-        });
-      }, 100);
+      document.addEventListener("DOMContentLoaded", function() {
+        initializeDashboardPage();
+      });
     </script>
   </body>
 </html>
