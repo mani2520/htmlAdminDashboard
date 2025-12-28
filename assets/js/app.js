@@ -800,7 +800,10 @@ function initializeDeleteButtons() {
   if (deleteAccountBtn && deleteAccountModal) {
     deleteAccountBtn.addEventListener("click", function (e) {
       e.preventDefault();
+      e.stopPropagation();
       deleteAccountModal.classList.remove("hidden");
+      deleteAccountModal.style.display = "flex";
+      deleteAccountModal.classList.add("items-center", "justify-center");
       deleteAccountModal.classList.add("animate__animated", "animate__fadeIn");
     });
   }
@@ -808,9 +811,12 @@ function initializeDeleteButtons() {
   function closeDeleteAccountModal() {
     if (deleteAccountModal) {
       deleteAccountModal.classList.add("hidden");
+      deleteAccountModal.style.display = "none";
       deleteAccountModal.classList.remove(
         "animate__animated",
-        "animate__fadeIn"
+        "animate__fadeIn",
+        "items-center",
+        "justify-center"
       );
     }
   }
@@ -831,32 +837,38 @@ function initializeDeleteButtons() {
 
       setTimeout(() => {
         closeDeleteAccountModal();
-        showNotification(
-          "Account deletion requested. Please contact support to complete the process.",
-          "warning"
-        );
-
-        this.disabled = false;
-        this.textContent = originalText;
-        deleteAccountBtn.disabled = false;
-        deleteAccountBtn.classList.remove(
-          "animate__animated",
-          "animate__shakeX"
-        );
-        deleteAccountBtn.textContent = "Delete Account";
+        
+        // Show account deleted message
+        showNotification("Account deleted successfully", "success");
+        
+        // Logout and redirect to login page after a short delay
+        setTimeout(() => {
+          // Clear any stored authentication data
+          localStorage.removeItem("isLoggedIn");
+          localStorage.removeItem("user");
+          
+          // Redirect to login page
+          window.location.href = "../login.html";
+        }, 1500);
       }, 2000);
     });
   }
 
   if (deleteAccountModal) {
     deleteAccountModal.addEventListener("click", function (e) {
-      if (
-        e.target === deleteAccountModal ||
-        e.target.classList.contains("bg-gray-500")
-      ) {
+      // Close modal if clicking on the backdrop (not on the modal content)
+      if (e.target === deleteAccountModal) {
         closeDeleteAccountModal();
       }
     });
+    
+    // Prevent modal content clicks from closing the modal
+    const modalContent = deleteAccountModal.querySelector("div.bg-white");
+    if (modalContent) {
+      modalContent.addEventListener("click", function (e) {
+        e.stopPropagation();
+      });
+    }
   }
 
   document.addEventListener("keydown", function (e) {
@@ -1874,6 +1886,9 @@ function initializeSettingsPage() {
   setTimeout(() => {
     initializeSaveButtons();
   }, 100);
+  
+  // Initialize delete account button
+  initializeDeleteButtons();
 }
 
 // Initialize documentation page

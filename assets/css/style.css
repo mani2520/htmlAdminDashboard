@@ -750,9 +750,6 @@
   .bg-red-600 {
     background-color: var(--color-red-600);
   }
-  .bg-transparent {
-    background-color: transparent;
-  }
   .bg-white {
     background-color: var(--color-white);
   }
@@ -1238,6 +1235,13 @@
       }
     }
   }
+  .hover\:text-gray-900 {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-gray-900);
+      }
+    }
+  }
   .hover\:text-indigo-500 {
     &:hover {
       @media (hover: hover) {
@@ -1252,17 +1256,17 @@
       }
     }
   }
+  .hover\:text-red-700 {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-red-700);
+      }
+    }
+  }
   .hover\:text-red-900 {
     &:hover {
       @media (hover: hover) {
         color: var(--color-red-900);
-      }
-    }
-  }
-  .hover\:text-white {
-    &:hover {
-      @media (hover: hover) {
-        color: var(--color-white);
       }
     }
   }
@@ -1846,6 +1850,9 @@ html:not(.dark) [class*="rounded-full"][class*="text-yellow-800"] {
 [class*="hover:bg-gray-50"]:hover {
   background-color: var(--bg-tertiary) !important;
 }
+html:not(.dark) [class*="hover:bg-gray-100"]:hover {
+  background-color: #f3f4f6 !important;
+}
 .dark [class*="hover:bg-gray-700"]:hover {
   background-color: var(--bg-tertiary) !important;
 }
@@ -2088,18 +2095,38 @@ nav button svg {
   color: var(--text-secondary);
 }
 html:not(.dark) #themeToggle:hover svg {
-  color: #ffffff !important;
+  color: #111827 !important;
 }
 html:not(.dark) #sidebarToggle:hover svg,
 html:not(.dark) #sidebarToggle:hover #sidebarToggleIcon,
 html:not(.dark) #sidebarToggle:hover #sidebarToggleCloseIcon {
-  color: #ffffff !important;
+  color: #111827 !important;
 }
 .dark #themeToggle:hover svg {
   color: var(--accent);
 }
 html:not(.dark) nav button:hover svg {
-  color: #ffffff !important;
+  color: #111827 !important;
+}
+html:not(.dark) nav button:hover {
+  color: #111827 !important;
+}
+#userMenu a {
+  transition: background-color 0.2s, color 0.2s;
+}
+html:not(.dark) #userMenu a:hover {
+  background-color: #f3f4f6 !important;
+  color: #111827 !important;
+}
+.dark #userMenu a:hover {
+  background-color: #374151 !important;
+  color: #f9fafb !important;
+}
+html:not(.dark) #userMenu a[href*="login"]:hover {
+  color: #dc2626 !important;
+}
+.dark #userMenu a[href*="login"]:hover {
+  color: #fca5a5 !important;
 }
 thead {
   background-color: var(--bg-tertiary);
@@ -2115,6 +2142,21 @@ textarea {
   color: var(--text-primary);
   border-color: var(--border-color);
 }
+input:not([type="checkbox"]):not([type="radio"]),
+select,
+textarea {
+  background-color: var(--bg-primary) !important;
+}
+.bg-white input:not([type="checkbox"]):not([type="radio"]),
+.bg-white select,
+.bg-white textarea {
+  background-color: #ffffff !important;
+}
+.dark .bg-gray-800 input:not([type="checkbox"]):not([type="radio"]),
+.dark .bg-gray-800 select,
+.dark .bg-gray-800 textarea {
+  background-color: var(--bg-primary) !important;
+}
 button {
   cursor: pointer;
 }
@@ -2124,12 +2166,16 @@ select {
 .bg-white input,
 .bg-white input[type="email"],
 .bg-white input[type="password"],
-.bg-white input[type="text"] {
+.bg-white input[type="text"],
+.bg-white input[type="number"],
+.bg-white input[type="tel"],
+.bg-white input[type="url"] {
   background-color: #ffffff !important;
   color: #111827 !important;
 }
-.bg-white input.bg-transparent {
-  background-color: transparent !important;
+.bg-white input.bg-transparent,
+.bg-white input[class*="bg-transparent"] {
+  background-color: #ffffff !important;
 }
 .bg-white input[class*="border"],
 .bg-white [class*="border"] input {
