@@ -1088,6 +1088,10 @@ function loadLayoutComponents(componentPath = "../components/") {
       const overlayContainer = document.getElementById("sidebar-overlay-container");
       if (container) {
         container.innerHTML = html;
+        
+        // Fix navigation links based on current page location
+        fixSidebarLinks();
+        
         initializeSidebar();
         
         setTimeout(() => {
@@ -1116,6 +1120,34 @@ function loadLayoutComponents(componentPath = "../components/") {
     .catch((error) => {
       console.error("Error loading navbar:", error);
     });
+}
+
+// Fix sidebar navigation links based on current page location
+function fixSidebarLinks() {
+  const currentPath = window.location.pathname;
+  const isInPages = currentPath.includes("/pages/");
+  const isInDocumentation = currentPath.includes("/documentation/");
+  
+  const navLinks = document.querySelectorAll(".nav-link");
+  navLinks.forEach((link) => {
+    const href = link.getAttribute("href");
+    if (!href) return;
+    
+    // Fix documentation link
+    if (href.includes("documentation")) {
+      if (isInPages) {
+        link.setAttribute("href", "../documentation/index.html");
+      } else if (isInDocumentation) {
+        link.setAttribute("href", "index.html");
+      } else {
+        link.setAttribute("href", "documentation/index.html");
+      }
+    }
+    // Fix other links for documentation page
+    else if (isInDocumentation && !href.startsWith("../") && !href.startsWith("/")) {
+      link.setAttribute("href", "../pages/" + href);
+    }
+  });
 }
 
 // Set active nav link based on current page
@@ -1893,7 +1925,8 @@ function initializeSettingsPage() {
 
 // Initialize documentation page
 function initializeDocumentationPage() {
-  loadLayoutComponents();
+  loadLayoutComponents("../components/");
+  setActiveNavLink("documentation");
 }
 
 // ============================================================================
