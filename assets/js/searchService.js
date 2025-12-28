@@ -1,3 +1,11 @@
+/**
+ * Search Service
+ * 
+ * This module provides search and filter functionality for the dashboard.
+ * It includes functions for searching users, filtering by role/status,
+ * and global search across the entire application.
+ */
+
 // Search Service - Handles search functionality across the application
 
 // Search users

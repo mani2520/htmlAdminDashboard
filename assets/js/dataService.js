@@ -1,3 +1,14 @@
+/**
+ * Data Service
+ * 
+ * This module handles all data operations for the dashboard template.
+ * It fetches data from a JSON file and provides helper functions for
+ * accessing dashboard stats, users, settings, and other data.
+ * 
+ * Note: This is a demo template. In production, these functions should
+ * be replaced with actual API calls to your backend server.
+ */
+
 // Data Service - Fetches and manages data from JSON file
 
 let appData = null;
