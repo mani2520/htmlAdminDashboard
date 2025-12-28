@@ -16,6 +16,10 @@ A beautiful, responsive admin dashboard template built with HTML, Tailwind CSS, 
 - ♿ **Accessible** - Semantic HTML with proper ARIA labels
 - ⚡ **Fast Loading** - Optimized CSS and JavaScript
 
+## ⚠️ Important Note
+
+**This is a frontend-only template with static demo data.** All data is stored locally in `assets/data/data.json`. No backend or API is included. For production use, you'll need to integrate with your own backend service to replace the static data with real API calls.
+
 ## 📦 Installation
 
 1. **Download the template** from ThemeForest
@@ -61,10 +65,7 @@ htmlAdminDashboard/
 │   ├── css/
 │   │   └── style.css          # Custom styles and theme variables
 │   ├── js/
-│   │   ├── app.js             # Main JavaScript functionality
-│   │   ├── dataService.js     # Data management service
-│   │   ├── searchService.js   # Search and filter functionality
-│   │   └── buttonInteractions.js # Button interactions and animations
+│   │   └── app.js             # Main JavaScript file (all functionality)
 │   └── data/
 │       └── data.json          # Sample data for the template
 ├── components/
@@ -162,7 +163,7 @@ These components are loaded dynamically using JavaScript fetch API.
 
 ### Using Your Own Data
 
-Replace the sample data in `assets/data/data.json` with your own data structure. Update the data service functions in `assets/js/dataService.js` to match your backend API endpoints.
+Replace the sample data in `assets/data/data.json` with your own data structure. The template uses static JSON data for demonstration purposes. For production use, you'll need to modify the data fetching functions in `assets/js/app.js` to connect to your own backend API endpoints.
 
 ## 💻 Technologies Used
 
