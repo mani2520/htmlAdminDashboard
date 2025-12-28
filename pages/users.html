@@ -7,14 +7,17 @@
       name="description"
       content="User Management - Manage and monitor all user accounts with search, filter, and edit functionality."
     />
-    <meta name="keywords" content="user management, admin panel, user administration, user table" />
+    <meta
+      name="keywords"
+      content="user management, admin panel, user administration, user table"
+    />
     <title>Users - Admin Panel</title>
     <script>
-      if (typeof initializeThemeEarly === 'function') {
+      if (typeof initializeThemeEarly === "function") {
         initializeThemeEarly();
       } else {
         // Fallback if app.js hasn't loaded yet
-        (function() {
+        (function () {
           const savedTheme = localStorage.getItem("theme");
           if (savedTheme) {
             if (savedTheme === "dark") {
@@ -23,7 +26,9 @@
               document.documentElement.classList.remove("dark");
             }
           } else {
-            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const prefersDark =
+              window.matchMedia &&
+              window.matchMedia("(prefers-color-scheme: dark)").matches;
             if (prefersDark) {
               document.documentElement.classList.add("dark");
               localStorage.setItem("theme", "dark");
@@ -35,7 +40,6 @@
         })();
       }
     </script>
-    <!-- All CSS merged into single file - Build with: npm run build-css -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
@@ -60,7 +64,10 @@
     <div class="min-h-screen flex flex-col">
       <!-- Include Sidebar -->
       <div id="sidebar-container" class="fixed inset-y-0 left-0 z-50"></div>
-      <div id="sidebar-overlay-container" class="fixed inset-0 z-40 pointer-events-none"></div>
+      <div
+        id="sidebar-overlay-container"
+        class="fixed inset-0 z-40 pointer-events-none"
+      ></div>
 
       <!-- Include Navbar -->
       <div id="navbar-container" class="fixed top-0 left-0 right-0 z-50"></div>
@@ -491,7 +498,7 @@
 
     <script src="../assets/js/app.js"></script>
     <script>
-      document.addEventListener("DOMContentLoaded", function() {
+      document.addEventListener("DOMContentLoaded", function () {
         initializeUsersPage();
       });
     </script>

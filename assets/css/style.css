@@ -2155,11 +2155,6 @@ textarea {
 .bg-white textarea {
   background-color: #ffffff !important;
 }
-.dark .bg-gray-800 input:not([type="checkbox"]):not([type="radio"]),
-.dark .bg-gray-800 select,
-.dark .bg-gray-800 textarea {
-  background-color: var(--bg-primary) !important;
-}
 button {
   cursor: pointer;
 }
@@ -2208,10 +2203,8 @@ input::placeholder {
   background-color: #4b5563 !important;
   color: #f9fafb !important;
 }
+.dark input::placeholder,
 .dark textarea::placeholder {
-  color: #9ca3af !important;
-}
-.dark input::placeholder {
   color: #9ca3af !important;
 }
 .dark input[class*="bg-white"],
@@ -2220,15 +2213,9 @@ input::placeholder {
   background-color: #374151 !important;
   color: #f9fafb !important;
 }
-.dark [class*="dark:bg-gray-700"] input:not([type="checkbox"]):not([type="radio"]),
-.dark [class*="dark:bg-gray-700"] select,
-.dark [class*="dark:bg-gray-700"] textarea,
 .dark .bg-gray-700 input:not([type="checkbox"]):not([type="radio"]),
 .dark .bg-gray-700 select,
-.dark .bg-gray-700 textarea {
-  background-color: #374151 !important;
-  color: #f9fafb !important;
-}
+.dark .bg-gray-700 textarea,
 .dark .bg-gray-800 input:not([type="checkbox"]):not([type="radio"]),
 .dark .bg-gray-800 select,
 .dark .bg-gray-800 textarea {
@@ -2238,22 +2225,6 @@ input::placeholder {
 .dark .bg-gray-700,
 .dark .bg-gray-800 {
   color: var(--text-primary) !important;
-}
-.dark .bg-gray-700 p,
-.dark .bg-gray-800 p,
-.dark .bg-gray-700 span,
-.dark .bg-gray-800 span,
-.dark .bg-gray-700 div,
-.dark .bg-gray-800 div {
-  color: var(--text-primary) !important;
-}
-.dark select option:checked {
-  background-color: #4f46e5 !important;
-  color: #ffffff !important;
-}
-.dark select option:hover {
-  background-color: #374151 !important;
-  color: #f9fafb !important;
 }
 ::-webkit-scrollbar {
   width: 8px;
