@@ -10,13 +10,23 @@
     <meta name="keywords" content="admin dashboard, analytics, charts, statistics, admin panel" />
     <title>Dashboard - Admin Panel</title>
     <script>
-      // Initialize theme before page loads to prevent flash
       (function () {
-        const savedTheme = localStorage.getItem("theme") || "dark";
-        if (savedTheme === "dark") {
-          document.documentElement.classList.add("dark");
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme) {
+          if (savedTheme === "dark") {
+            document.documentElement.classList.add("dark");
+          } else {
+            document.documentElement.classList.remove("dark");
+          }
         } else {
-          document.documentElement.classList.remove("dark");
+          const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (prefersDark) {
+            document.documentElement.classList.add("dark");
+            localStorage.setItem("theme", "dark");
+          } else {
+            document.documentElement.classList.remove("dark");
+            localStorage.setItem("theme", "light");
+          }
         }
       })();
     </script>
@@ -49,10 +59,10 @@
     <div class="min-h-screen flex flex-col">
       <!-- Include Sidebar -->
       <div id="sidebar-container" class="fixed inset-y-0 left-0 z-50"></div>
-      <div id="sidebar-overlay-container" class="fixed inset-0"></div>
+      <div id="sidebar-overlay-container" class="fixed inset-0 z-40 pointer-events-none"></div>
 
       <!-- Include Navbar -->
-      <div id="navbar-container" class="fixed top-0 left-0 right-0 z-40"></div>
+      <div id="navbar-container" class="fixed top-0 left-0 right-0 z-50"></div>
 
       <!-- Main Content -->
       <main class="flex-1 lg:ml-64 pt-16 min-h-screen">
@@ -365,7 +375,6 @@
 
     <script src="../assets/js/app.js"></script>
     <script>
-      // Load components
       fetch("../components/sidebar.html")
         .then((res) => res.text())
         .then((html) => {
@@ -374,17 +383,15 @@
             "sidebar-overlay-container"
           );
           container.innerHTML = html;
-
-          // Move overlay to overlay container if it exists (with small delay to ensure DOM is ready)
+          initializeSidebar();
           setTimeout(() => {
             const overlay = document.getElementById("sidebarOverlay");
             if (overlay && overlayContainer) {
               overlay.remove();
               overlayContainer.appendChild(overlay);
+              initializeSidebar();
             }
-          }, 10);
-
-          initializeSidebar();
+          }, 50);
         });
 
       fetch("../components/navbar.html")
@@ -394,13 +401,10 @@
           initializeNavbar();
         });
 
-      // Load and display dashboard data
       async function loadDashboardData() {
         try {
-          // Load stats
           const stats = await getDashboardStats();
 
-          // Update Users card
           document.getElementById("usersTotal").textContent = formatNumber(
             stats.users.total
           );
@@ -408,7 +412,6 @@
             "usersChangeText"
           ).textContent = `+${stats.users.change}% from last month`;
 
-          // Update Sales card
           document.getElementById("salesTotal").textContent = formatCurrency(
             stats.sales.total
           );
@@ -416,7 +419,6 @@
             "salesChangeText"
           ).textContent = `+${stats.sales.change}% from last month`;
 
-          // Update Orders card
           document.getElementById("ordersTotal").textContent = formatNumber(
             stats.orders.total
           );
@@ -424,7 +426,6 @@
             "ordersChangeText"
           ).textContent = `+${stats.orders.change}% from last month`;
 
-          // Update Revenue card
           document.getElementById("revenueTotal").textContent = formatCurrency(
             stats.revenue.total
           );
@@ -432,10 +433,8 @@
             "revenueChangeText"
           ).textContent = `+${stats.revenue.change}% from last month`;
 
-          // Load charts data
           const chartsData = await getDashboardCharts();
 
-          // Initialize Sales Chart
           const salesCtx = document.getElementById("salesChart");
           if (salesCtx && chartsData.sales) {
             new Chart(salesCtx, {
@@ -466,7 +465,6 @@
             });
           }
 
-          // Initialize Users Chart
           const usersCtx = document.getElementById("usersChart");
           if (usersCtx && chartsData.users) {
             new Chart(usersCtx, {
@@ -495,7 +493,6 @@
             });
           }
 
-          // Load recent activity
           const activities = await getRecentActivity();
           const activityContainer = document.getElementById(
             "recentActivityContainer"
@@ -548,10 +545,8 @@
         }
       }
 
-      // Load dashboard data
       loadDashboardData();
 
-      // Set active nav link
       setTimeout(() => {
         const navLinks = document.querySelectorAll(".nav-link");
         navLinks.forEach((link) => {

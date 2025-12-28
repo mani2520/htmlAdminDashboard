@@ -7,7 +7,10 @@
       name="description"
       content="Login to Modern Admin Dashboard - A beautiful, responsive admin dashboard template with dark mode support and modern UI design."
     />
-    <meta name="keywords" content="admin dashboard, login, admin template, dashboard template, HTML template" />
+    <meta
+      name="keywords"
+      content="admin dashboard, login, admin template, dashboard template, HTML template"
+    />
     <title>Login - Admin Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/css/style.css" />
@@ -181,11 +184,9 @@
           const submitBtn = this.querySelector('button[type="submit"]');
           const originalText = submitBtn.innerHTML;
 
-          // Get form values
           const email = document.getElementById("email").value;
           const password = document.getElementById("password").value;
 
-          // Simple validation
           if (!email || !password) {
             submitBtn.classList.add("error");
             submitBtn.innerHTML = "Please fill all fields";
@@ -196,7 +197,6 @@
             return;
           }
 
-          // Show loading state
           submitBtn.disabled = true;
           submitBtn.classList.add("loading");
           submitBtn.innerHTML = `
@@ -206,10 +206,8 @@
         Signing in...
       `;
 
-          // Simulate login delay
           await new Promise((resolve) => setTimeout(resolve, 1500));
 
-          // Show success and redirect
           submitBtn.classList.remove("loading");
           submitBtn.classList.add("success");
           submitBtn.innerHTML = `
@@ -219,7 +217,6 @@
         Success! Redirecting...
       `;
 
-          // Redirect to dashboard
           setTimeout(() => {
             window.location.href = "pages/dashboard.html";
           }, 1000);

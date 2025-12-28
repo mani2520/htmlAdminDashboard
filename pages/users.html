@@ -10,13 +10,23 @@
     <meta name="keywords" content="user management, admin panel, user administration, user table" />
     <title>Users - Admin Panel</title>
     <script>
-      // Initialize theme before page loads to prevent flash
       (function() {
-        const savedTheme = localStorage.getItem("theme") || "dark";
-        if (savedTheme === "dark") {
-          document.documentElement.classList.add("dark");
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme) {
+          if (savedTheme === "dark") {
+            document.documentElement.classList.add("dark");
+          } else {
+            document.documentElement.classList.remove("dark");
+          }
         } else {
-          document.documentElement.classList.remove("dark");
+          const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (prefersDark) {
+            document.documentElement.classList.add("dark");
+            localStorage.setItem("theme", "dark");
+          } else {
+            document.documentElement.classList.remove("dark");
+            localStorage.setItem("theme", "light");
+          }
         }
       })();
     </script>
@@ -48,10 +58,10 @@
     <div class="min-h-screen flex flex-col">
       <!-- Include Sidebar -->
       <div id="sidebar-container" class="fixed inset-y-0 left-0 z-50"></div>
-      <div id="sidebar-overlay-container" class="fixed inset-0"></div>
+      <div id="sidebar-overlay-container" class="fixed inset-0 z-40 pointer-events-none"></div>
 
       <!-- Include Navbar -->
-      <div id="navbar-container" class="fixed top-0 left-0 right-0 z-40"></div>
+      <div id="navbar-container" class="fixed top-0 left-0 right-0 z-50"></div>
 
       <!-- Main Content -->
       <main class="flex-1 lg:ml-64 pt-16 min-h-screen">
@@ -479,7 +489,6 @@
 
     <script src="../assets/js/app.js"></script>
     <script>
-      // Load components
       fetch("../components/sidebar.html")
         .then((res) => res.text())
         .then((html) => {
@@ -488,17 +497,15 @@
             "sidebar-overlay-container"
           );
           container.innerHTML = html;
-
-          // Move overlay to overlay container if it exists (with small delay to ensure DOM is ready)
+          initializeSidebar();
           setTimeout(() => {
             const overlay = document.getElementById("sidebarOverlay");
             if (overlay && overlayContainer) {
               overlay.remove();
               overlayContainer.appendChild(overlay);
+              initializeSidebar();
             }
-          }, 10);
-
-          initializeSidebar();
+          }, 50);
         });
 
       fetch("../components/navbar.html")
@@ -508,7 +515,6 @@
           initializeNavbar();
         });
 
-      // Set active nav link
       setTimeout(() => {
         const navLinks = document.querySelectorAll(".nav-link");
         navLinks.forEach((link) => {
@@ -524,17 +530,14 @@
         });
       }, 100);
 
-      // Store all users for filtering
       let allUsers = [];
 
-      // Load users data
       async function loadUsersData() {
         try {
           allUsers = await getUsers();
           const roles = await getRoles();
           const statuses = await getStatuses();
 
-          // Populate role filter
           const roleFilter = document.getElementById("roleFilter");
           if (roleFilter) {
             roles.forEach((role) => {
@@ -545,7 +548,6 @@
             });
           }
 
-          // Populate status filter
           const statusFilter = document.getElementById("statusFilter");
           if (statusFilter) {
             statuses.forEach((status) => {
@@ -556,14 +558,12 @@
             });
           }
 
-          // Render users table
           applyFiltersAndSearch();
         } catch (error) {
           console.error("Error loading users data:", error);
         }
       }
 
-      // Apply filters and search
       function applyFiltersAndSearch() {
         const searchQuery =
           document.getElementById("userSearchInput")?.value || "";
@@ -572,7 +572,6 @@
         const statusFilter =
           document.getElementById("statusFilter")?.value || "All Status";
 
-        // Filter users
         const filteredUsers = searchAndFilterUsers(
           allUsers,
           searchQuery,
@@ -580,14 +579,10 @@
           statusFilter
         );
 
-        // Render filtered users
         renderUsersTable(filteredUsers);
-
-        // Update pagination info
         updatePaginationInfo(filteredUsers.length, allUsers.length);
       }
 
-      // Update pagination info
       function updatePaginationInfo(filteredCount, totalCount) {
         const paginationText = document.querySelector(
           ".bg-gray-50.dark\\:bg-gray-700 .text-sm"
@@ -604,7 +599,6 @@
         const tbody = document.getElementById("usersTableBody");
         if (!tbody) return;
 
-        // Show no results message if empty
         if (users.length === 0) {
           tbody.innerHTML = `
           <tr>
@@ -725,10 +719,8 @@
           .join("");
       }
 
-      // Load users data on page load
       loadUsersData();
 
-      // Check for stored search query from global search
       window.addEventListener("DOMContentLoaded", () => {
         const storedQuery = sessionStorage.getItem("searchQuery");
         if (storedQuery) {
@@ -741,7 +733,6 @@
         }
       });
 
-      // Highlight search term in text
       function highlightSearchTerm(text, searchTerm) {
         if (!searchTerm || !text) return text;
         const regex = new RegExp(
@@ -756,13 +747,11 @@
           );
       }
 
-      // Modal Management
       const userModal = document.getElementById("userModal");
       const deleteModal = document.getElementById("deleteModal");
       const userForm = document.getElementById("userForm");
       let currentDeleteUserId = null;
 
-      // Open Add User Modal
       function openAddUserModal() {
         document.getElementById("modalTitle").textContent = "Add User";
         document.getElementById("userId").value = "";
@@ -770,12 +759,10 @@
         document.getElementById("userEmail").value = "";
         document.getElementById("userRole").value = "";
         document.getElementById("userStatus").value = "";
-        // Update button text
         const saveBtn = document.getElementById("saveUserBtn");
         if (saveBtn) {
           saveBtn.textContent = "Save User";
         }
-        // Show modal
         userModal.style.display = "flex";
         userModal.classList.remove("hidden");
         userModal.classList.add("animate__animated", "animate__fadeIn");
@@ -788,7 +775,6 @@
         }, 100);
       }
 
-      // Open Edit User Modal
       async function openEditUserModal(userId) {
         const user = await getUserById(userId);
         if (user) {
@@ -798,12 +784,10 @@
           document.getElementById("userEmail").value = user.email;
           document.getElementById("userRole").value = user.role;
           document.getElementById("userStatus").value = user.status;
-          // Update button text
           const saveBtn = document.getElementById("saveUserBtn");
           if (saveBtn) {
             saveBtn.textContent = "Update User";
           }
-          // Show modal
           userModal.style.display = "flex";
           userModal.classList.remove("hidden");
           userModal.classList.add("animate__animated", "animate__fadeIn");
@@ -820,31 +804,25 @@
         }
       }
 
-      // Close User Modal
       function closeUserModal() {
         if (userModal) {
-          // Force close modal
           userModal.classList.add("hidden");
           userModal.style.display = "none";
 
-          // Reset form
           if (userForm) {
             userForm.reset();
-            // Clear any validation states
             const inputs = userForm.querySelectorAll("input, select");
             inputs.forEach((input) => {
               input.classList.remove("border-red-500");
             });
           }
 
-          // Reset button state
           const saveBtn = document.getElementById("saveUserBtn");
           if (saveBtn) {
             saveBtn.disabled = false;
-            saveBtn.textContent = "Save User"; // Default text
+            saveBtn.textContent = "Save User";
           }
 
-          // Clear userId
           const userIdInput = document.getElementById("userId");
           if (userIdInput) {
             userIdInput.value = "";
@@ -852,7 +830,6 @@
         }
       }
 
-      // Open Delete Modal
       async function openDeleteModal(userId) {
         const user = await getUserById(userId);
         if (user) {
@@ -872,13 +849,11 @@
         }
       }
 
-      // Close Delete Modal
       function closeDeleteModal() {
         deleteModal.classList.add("hidden");
         currentDeleteUserId = null;
       }
 
-      // User action functions
       async function editUser(userId) {
         await openEditUserModal(userId);
       }
@@ -887,14 +862,12 @@
         await openDeleteModal(userId);
       }
 
-      // Handle form submission
       userForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         const userId = document.getElementById("userId").value;
         const name = document.getElementById("userName").value.trim();
         const email = document.getElementById("userEmail").value.trim();
 
-        // Generate avatar initials from name
         const nameParts = name.split(" ");
         const avatar =
           nameParts.length > 1
@@ -914,22 +887,16 @@
         const saveBtn = document.getElementById("saveUserBtn");
         const originalText = saveBtn.textContent;
         saveBtn.disabled = true;
-        // Show appropriate loading text based on operation
         saveBtn.textContent = userId ? "Updating..." : "Saving...";
 
         try {
           let result = null;
           if (userId) {
-            // Update existing user
             result = await updateUser(parseInt(userId), userData);
             if (result) {
-              // Close modal immediately
               closeUserModal();
-              // Show notification
               showNotification("User updated successfully", "success");
-              // Reload the table
               loadUsersData();
-              // Reset button state after modal closes
               setTimeout(() => {
                 saveBtn.disabled = false;
                 saveBtn.textContent = originalText;
@@ -940,16 +907,11 @@
               showNotification("Failed to update user", "error");
             }
           } else {
-            // Add new user
             result = await addUser(userData);
             if (result) {
-              // Close modal immediately
               closeUserModal();
-              // Show notification
               showNotification("User added successfully", "success");
-              // Reload the table
               loadUsersData();
-              // Reset button state after modal closes
               setTimeout(() => {
                 saveBtn.disabled = false;
                 saveBtn.textContent = originalText;
@@ -967,8 +929,6 @@
           showNotification("An error occurred", "error");
         }
       });
-
-      // Handle delete confirmation
       document
         .getElementById("confirmDeleteBtn")
         .addEventListener("click", async () => {
@@ -983,7 +943,7 @@
               if (success) {
                 showNotification("User deleted successfully", "success");
                 closeDeleteModal();
-                loadUsersData(); // Reload the table
+                loadUsersData();
               } else {
                 showNotification("Failed to delete user", "error");
               }
@@ -996,8 +956,6 @@
             }
           }
         });
-
-      // Modal event listeners
       document.getElementById("addUserBtn").addEventListener("click", (e) => {
         e.stopPropagation();
         openAddUserModal();
@@ -1015,7 +973,6 @@
         .getElementById("cancelDeleteBtn")
         .addEventListener("click", closeDeleteModal);
 
-      // Close modals on backdrop click
       userModal.addEventListener("click", (e) => {
         if (e.target === userModal) {
           closeUserModal();
@@ -1028,7 +985,6 @@
         }
       });
 
-      // Close modals on Escape key
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
           if (!userModal.classList.contains("hidden")) {
@@ -1040,18 +996,15 @@
         }
       });
 
-      // Make functions globally available
       window.editUser = editUser;
       window.handleDeleteUser = handleDeleteUser;
 
-      // Search input handler
       const searchInput = document.getElementById("userSearchInput");
       const clearSearchBtn = document.getElementById("clearSearchBtn");
 
       if (searchInput) {
         let searchTimeout;
 
-        // Show/hide clear button
         function toggleClearButton() {
           if (clearSearchBtn) {
             if (searchInput.value.trim() !== "") {
@@ -1067,15 +1020,13 @@
           clearTimeout(searchTimeout);
           searchTimeout = setTimeout(() => {
             applyFiltersAndSearch();
-            // Add visual feedback
             this.classList.add("searching");
             setTimeout(() => {
               this.classList.remove("searching");
             }, 300);
-          }, 300); // Debounce search
+          }, 300);
         });
 
-        // Clear search button
         if (clearSearchBtn) {
           clearSearchBtn.addEventListener("click", function () {
             searchInput.value = "";
@@ -1085,20 +1036,15 @@
           });
         }
 
-        // Initial state
         toggleClearButton();
       }
 
-      // Filter change handlers
       document
         .getElementById("roleFilter")
         ?.addEventListener("change", applyFiltersAndSearch);
       document
         .getElementById("statusFilter")
         ?.addEventListener("change", applyFiltersAndSearch);
-
-      // Add User button handler is handled by buttonInteractions.js
-      // But we can add additional logic here if needed
     </script>
   </body>
 </html>

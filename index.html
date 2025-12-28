@@ -173,7 +173,6 @@
     </div>
 
     <script>
-      // Demo login functionality - redirects to dashboard
       document
         .getElementById("loginForm")
         .addEventListener("submit", async function (e) {
@@ -181,11 +180,9 @@
           const submitBtn = this.querySelector('button[type="submit"]');
           const originalText = submitBtn.innerHTML;
 
-          // Get form values
           const email = document.getElementById("email").value;
           const password = document.getElementById("password").value;
 
-          // Simple validation
           if (!email || !password) {
             submitBtn.classList.add("error");
             submitBtn.innerHTML = "Please fill all fields";
@@ -196,7 +193,6 @@
             return;
           }
 
-          // Show loading state
           submitBtn.disabled = true;
           submitBtn.classList.add("loading");
           submitBtn.innerHTML = `
@@ -206,10 +202,8 @@
         Signing in...
       `;
 
-          // Simulate login delay
           await new Promise((resolve) => setTimeout(resolve, 1500));
 
-          // Show success and redirect
           submitBtn.classList.remove("loading");
           submitBtn.classList.add("success");
           submitBtn.innerHTML = `
@@ -219,7 +213,6 @@
         Success! Redirecting...
       `;
 
-          // Redirect to dashboard
           setTimeout(() => {
             window.location.href = "pages/dashboard.html";
           }, 1000);

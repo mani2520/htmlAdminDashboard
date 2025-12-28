@@ -10,13 +10,23 @@
     <meta name="keywords" content="documentation, help, guide, admin dashboard documentation" />
     <title>Documentation - Admin Dashboard</title>
     <script>
-      // Initialize theme before page loads to prevent flash
       (function () {
-        const savedTheme = localStorage.getItem("theme") || "dark";
-        if (savedTheme === "dark") {
-          document.documentElement.classList.add("dark");
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme) {
+          if (savedTheme === "dark") {
+            document.documentElement.classList.add("dark");
+          } else {
+            document.documentElement.classList.remove("dark");
+          }
         } else {
-          document.documentElement.classList.remove("dark");
+          const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (prefersDark) {
+            document.documentElement.classList.add("dark");
+            localStorage.setItem("theme", "dark");
+          } else {
+            document.documentElement.classList.remove("dark");
+            localStorage.setItem("theme", "light");
+          }
         }
       })();
     </script>
@@ -47,10 +57,10 @@
     <div class="min-h-screen flex flex-col">
       <!-- Include Sidebar -->
       <div id="sidebar-container" class="fixed inset-y-0 left-0 z-50"></div>
-      <div id="sidebar-overlay-container" class="fixed inset-0"></div>
+      <div id="sidebar-overlay-container" class="fixed inset-0 z-40 pointer-events-none"></div>
 
       <!-- Include Navbar -->
-      <div id="navbar-container" class="fixed top-0 left-0 right-0 z-40"></div>
+      <div id="navbar-container" class="fixed top-0 left-0 right-0 z-50"></div>
 
       <!-- Main Content -->
       <main class="flex-1 lg:ml-64 pt-16 min-h-screen">
@@ -347,16 +357,19 @@
           );
           container.innerHTML = html;
 
+          // Initialize sidebar first
+          initializeSidebar();
+          
           // Move overlay to overlay container if it exists (with small delay to ensure DOM is ready)
           setTimeout(() => {
             const overlay = document.getElementById("sidebarOverlay");
             if (overlay && overlayContainer) {
               overlay.remove();
               overlayContainer.appendChild(overlay);
+              // Re-initialize sidebar after overlay is moved to ensure event listeners work
+              initializeSidebar();
             }
-          }, 10);
-
-          initializeSidebar();
+          }, 50);
         });
 
       fetch("../components/navbar.html")

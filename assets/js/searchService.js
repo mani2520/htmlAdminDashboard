@@ -1,14 +1,3 @@
-/**
- * Search Service
- * 
- * This module provides search and filter functionality for the dashboard.
- * It includes functions for searching users, filtering by role/status,
- * and global search across the entire application.
- */
-
-// Search Service - Handles search functionality across the application
-
-// Search users
 function searchUsers(users, query) {
   if (!query || query.trim() === '') {
     return users;
@@ -27,7 +16,6 @@ function searchUsers(users, query) {
   });
 }
 
-// Filter users by role
 function filterUsersByRole(users, role) {
   if (!role || role === 'All Roles') {
     return users;
@@ -35,7 +23,6 @@ function filterUsersByRole(users, role) {
   return users.filter(user => user.role === role);
 }
 
-// Filter users by status
 function filterUsersByStatus(users, status) {
   if (!status || status === 'All Status') {
     return users;
@@ -43,21 +30,17 @@ function filterUsersByStatus(users, status) {
   return users.filter(user => user.status === status);
 }
 
-// Combined search and filter
 function searchAndFilterUsers(users, searchQuery, roleFilter, statusFilter) {
   let filtered = users;
   
-  // Apply search
   if (searchQuery) {
     filtered = searchUsers(filtered, searchQuery);
   }
   
-  // Apply role filter
   if (roleFilter && roleFilter !== 'All Roles') {
     filtered = filterUsersByRole(filtered, roleFilter);
   }
   
-  // Apply status filter
   if (statusFilter && statusFilter !== 'All Status') {
     filtered = filterUsersByStatus(filtered, statusFilter);
   }
@@ -65,7 +48,6 @@ function searchAndFilterUsers(users, searchQuery, roleFilter, statusFilter) {
   return filtered;
 }
 
-// Global search (searches across all data)
 async function globalSearch(query) {
   if (!query || query.trim() === '') {
     return {
@@ -83,16 +65,13 @@ async function globalSearch(query) {
   };
   
   try {
-    // Search users - check if getUsers function is available
     if (typeof getUsers === 'function') {
       const users = await getUsers();
       results.users = searchUsers(users, query);
     }
     
-    // Search dashboard stats (if query matches numbers)
     if (!isNaN(searchTerm) && typeof getDashboardStats === 'function') {
       const stats = await getDashboardStats();
-      // Could search by stat values here if needed
     }
     
     results.message = `Found ${results.users.length} result(s)`;
@@ -104,10 +83,8 @@ async function globalSearch(query) {
   return results;
 }
 
-// Make globalSearch available globally
 window.globalSearch = globalSearch;
 
-// Highlight search term in text
 function highlightSearchTerm(text, searchTerm) {
   if (!searchTerm) return text;
   
@@ -115,7 +92,6 @@ function highlightSearchTerm(text, searchTerm) {
   return text.replace(regex, '<mark class="bg-yellow-200 dark:bg-yellow-800">$1</mark>');
 }
 
-// Make functions globally available
 window.searchUsers = searchUsers;
 window.filterUsersByRole = filterUsersByRole;
 window.filterUsersByStatus = filterUsersByStatus;
@@ -123,7 +99,6 @@ window.searchAndFilterUsers = searchAndFilterUsers;
 window.globalSearch = globalSearch;
 window.highlightSearchTerm = highlightSearchTerm;
 
-// Export functions
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
     searchUsers,

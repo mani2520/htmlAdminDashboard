@@ -1,11 +1,6 @@
-// Button Interactions and Visual Feedback System
-
-// Initialize all button interactions
 function initializeButtonInteractions() {
-  // Add visual feedback to all buttons
   addButtonVisualFeedback();
 
-  // Initialize specific button handlers
   initializeAddUserButton();
   initializeSaveButtons();
   initializeDeleteButtons();
@@ -15,16 +10,13 @@ function initializeButtonInteractions() {
   initializeActionButtons();
 }
 
-// Add visual feedback to all buttons
 function addButtonVisualFeedback() {
   const buttons = document.querySelectorAll('button, a[role="button"]');
 
   buttons.forEach((button) => {
-    // Skip if already initialized
     if (button.dataset.initialized === "true") return;
     button.dataset.initialized = "true";
 
-    // Skip animation for primary action buttons (Add User, Save, etc.)
     const isPrimaryButton =
       button.id === "addUserBtn" ||
       button.id === "saveUserBtn" ||
@@ -33,18 +25,15 @@ function addButtonVisualFeedback() {
       button.classList.contains("bg-gradient-to-r");
 
     if (!isPrimaryButton) {
-      // Add ripple effect on click for non-primary buttons
       button.addEventListener("click", function (e) {
         createRippleEffect(e, this);
       });
     }
 
-    // Add active state (subtle scale for all buttons)
     button.addEventListener("mousedown", function () {
       if (!isPrimaryButton) {
         this.classList.add("active");
       } else {
-        // Subtle scale for primary buttons
         this.style.transform = "scale(0.98)";
       }
     });
@@ -69,7 +58,6 @@ function addButtonVisualFeedback() {
   });
 }
 
-// Create ripple effect on button click
 function createRippleEffect(event, button) {
   const ripple = document.createElement("span");
   const rect = button.getBoundingClientRect();
@@ -93,7 +81,6 @@ function createRippleEffect(event, button) {
   button.style.overflow = "hidden";
   button.appendChild(ripple);
 
-  // Trigger animation
   setTimeout(() => {
     ripple.style.transform = "scale(2)";
     ripple.style.opacity = "0";
@@ -104,7 +91,6 @@ function createRippleEffect(event, button) {
   }, 400);
 }
 
-// Initialize Add User Button
 function initializeAddUserButton() {
   const addUserBtn =
     document.getElementById("addUserBtn") ||
@@ -112,16 +98,11 @@ function initializeAddUserButton() {
       (btn) => btn.textContent && btn.textContent.includes("Add User")
     );
 
-  // The Add User button is now handled by the modal system in users.html
-  // Visual feedback is still provided by addButtonVisualFeedback()
-  // Skip custom handler to allow modal to work properly
   if (addUserBtn) {
-    // Just mark as initialized to prevent duplicate handlers
     addUserBtn.dataset.buttonInitialized = "true";
   }
 }
 
-// Initialize Save Buttons
 function initializeSaveButtons() {
   const saveButtons = document.querySelectorAll(
     '#saveSettingsBtn, button[type="submit"], button[type="button"]'
@@ -136,7 +117,6 @@ function initializeSaveButtons() {
         e.preventDefault();
         const originalText = this.textContent;
 
-        // Show loading state
         this.disabled = true;
         this.classList.add("loading");
         this.innerHTML = `
@@ -146,10 +126,8 @@ function initializeSaveButtons() {
           Saving...
         `;
 
-        // Simulate save
         await new Promise((resolve) => setTimeout(resolve, 1500));
 
-        // Show success
         this.classList.remove("loading");
         this.classList.add("animate__animated", "animate__pulse");
         this.innerHTML = `
@@ -170,9 +148,7 @@ function initializeSaveButtons() {
   });
 }
 
-// Initialize Delete Buttons
 function initializeDeleteButtons() {
-  // Delete Account button
   const deleteAccountBtn = document.getElementById("deleteAccountBtn");
   const deleteAccountModal = document.getElementById("deleteAccountModal");
   const cancelDeleteAccountBtn = document.getElementById(
@@ -182,7 +158,6 @@ function initializeDeleteButtons() {
     "confirmDeleteAccountBtn"
   );
 
-  // Open delete account modal
   if (deleteAccountBtn && deleteAccountModal) {
     deleteAccountBtn.addEventListener("click", function (e) {
       e.preventDefault();
@@ -191,7 +166,6 @@ function initializeDeleteButtons() {
     });
   }
 
-  // Close modal functions
   function closeDeleteAccountModal() {
     if (deleteAccountModal) {
       deleteAccountModal.classList.add("hidden");
@@ -202,19 +176,16 @@ function initializeDeleteButtons() {
     }
   }
 
-  // Cancel button
   if (cancelDeleteAccountBtn) {
     cancelDeleteAccountBtn.addEventListener("click", closeDeleteAccountModal);
   }
 
-  // Confirm delete button
   if (confirmDeleteAccountBtn) {
     confirmDeleteAccountBtn.addEventListener("click", function () {
       const originalText = this.textContent;
       this.disabled = true;
       this.textContent = "Deleting...";
 
-      // Add animation to button
       deleteAccountBtn.classList.add("animate__animated", "animate__shakeX");
       deleteAccountBtn.disabled = true;
       deleteAccountBtn.textContent = "Deleting...";
@@ -226,7 +197,6 @@ function initializeDeleteButtons() {
           "warning"
         );
 
-        // Reset buttons
         this.disabled = false;
         this.textContent = originalText;
         deleteAccountBtn.disabled = false;
@@ -239,7 +209,6 @@ function initializeDeleteButtons() {
     });
   }
 
-  // Close modal on backdrop click
   if (deleteAccountModal) {
     deleteAccountModal.addEventListener("click", function (e) {
       if (
@@ -251,7 +220,6 @@ function initializeDeleteButtons() {
     });
   }
 
-  // Close modal on Escape key
   document.addEventListener("keydown", function (e) {
     if (
       e.key === "Escape" &&
@@ -285,14 +253,12 @@ function initializeDeleteButtons() {
   });
 }
 
-// Initialize Edit Buttons
 function initializeEditButtons() {
   document.addEventListener("click", function (e) {
     const editBtn = e.target.closest(
       'button[onclick*="edit"], button[onclick*="Edit"]'
     );
     if (editBtn) {
-      // Add visual feedback
       editBtn.classList.add("animate__animated", "animate__pulse");
       setTimeout(() => {
         editBtn.classList.remove("animate__animated", "animate__pulse");
@@ -301,7 +267,6 @@ function initializeEditButtons() {
   });
 }
 
-// Initialize Filter Buttons
 function initializeFilterButtons() {
   const filterSelects = document.querySelectorAll(
     'select[id*="Filter"], select[id*="filter"]'
@@ -309,7 +274,6 @@ function initializeFilterButtons() {
 
   filterSelects.forEach((select) => {
     select.addEventListener("change", function () {
-      // Add visual feedback
       this.classList.add("animate__animated", "animate__pulse");
       this.style.transform = "scale(1.02)";
 
@@ -322,13 +286,10 @@ function initializeFilterButtons() {
   });
 }
 
-// Initialize Toggle Buttons (checkboxes, switches)
 function initializeToggleButtons() {
   const toggles = document.querySelectorAll('input[type="checkbox"]');
 
   toggles.forEach((toggle) => {
-    // Skip toggle switches (they have peer classes and should not have slide animation)
-    // Toggle switches are typically in labels with a sibling div that has peer classes
     const label = toggle.closest("label");
     const isToggleSwitch =
       toggle.classList.contains("peer") ||
@@ -340,13 +301,10 @@ function initializeToggleButtons() {
             child.classList.contains("rounded-full")
         ));
 
-    // Skip if already has event listener
     if (toggle.dataset.toggleInitialized === "true") return;
     toggle.dataset.toggleInitialized = "true";
 
     toggle.addEventListener("change", function () {
-      // Only add animation to regular checkboxes, not toggle switches
-      // Toggle switches have their own smooth animation via Tailwind peer classes
       if (!isToggleSwitch) {
         const wrapper = this.closest("label") || this.parentElement;
         if (wrapper) {
@@ -356,16 +314,12 @@ function initializeToggleButtons() {
           }, 300);
         }
       }
-      // Toggle switches don't need notification - they're self-explanatory
     });
   });
 }
 
-// Initialize Action Buttons (Edit, Delete in tables)
 function initializeActionButtons() {
-  // This is handled by the specific page scripts, but we add visual feedback
   document.addEventListener("click", function (e) {
-    // Only apply to small icon buttons, not primary action buttons
     const button = e.target.closest(
       'button[class*="text-indigo"], button[class*="text-red"]'
     );
@@ -374,7 +328,6 @@ function initializeActionButtons() {
       !button.id &&
       !button.classList.contains("bg-gradient-to-r")
     ) {
-      // Use subtle pulse instead of bounceIn
       button.classList.add("animate__animated", "animate__pulse");
       button.style.animationDuration = "0.3s";
       setTimeout(() => {
@@ -384,7 +337,6 @@ function initializeActionButtons() {
     }
   });
 
-  // Cancel button
   const cancelBtn = document.getElementById("cancelBtn");
   if (cancelBtn) {
     cancelBtn.addEventListener("click", function (e) {
@@ -398,15 +350,12 @@ function initializeActionButtons() {
   }
 }
 
-// Show notification (using the function from app.js if available, or create one)
 function showNotification(message, type = "info") {
-  // Check if function exists in app.js
   if (typeof window.showNotification === "function") {
     window.showNotification(message, type);
     return;
   }
 
-  // Create notification element
   const notification = document.createElement("div");
   const colors = {
     success: "bg-green-500",
@@ -423,13 +372,11 @@ function showNotification(message, type = "info") {
   notification.textContent = message;
   document.body.appendChild(notification);
 
-  // Animate in
   setTimeout(() => {
     notification.style.opacity = "1";
     notification.style.transform = "translateX(0)";
   }, 10);
 
-  // Remove after 3 seconds
   setTimeout(() => {
     notification.style.opacity = "0";
     notification.style.transform = "translateX(100%)";
@@ -437,17 +384,14 @@ function showNotification(message, type = "info") {
   }, 3000);
 }
 
-// Make showNotification globally available
 window.showNotification = showNotification;
 
-// Initialize on DOM ready
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initializeButtonInteractions);
 } else {
   initializeButtonInteractions();
 }
 
-// Re-initialize after dynamic content loads
 if (document.body) {
   const observer = new MutationObserver(() => {
     initializeButtonInteractions();
@@ -458,7 +402,6 @@ if (document.body) {
     subtree: true,
   });
 } else {
-  // Wait for body to be available
   document.addEventListener("DOMContentLoaded", () => {
     const observer = new MutationObserver(() => {
       initializeButtonInteractions();

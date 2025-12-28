@@ -1,8 +1,5 @@
-/* =====================================================
-   GLOBAL THEME VARIABLES
-   ===================================================== */
+/* GLOBAL THEME VARIABLES */
 
-/* Light Mode */
 :root {
   --bg-primary: #ffffff;
   --bg-secondary: #f9fafb;
@@ -20,13 +17,11 @@
   --accent-bg-light: #eef2ff;
   --scrollbar-thumb: #cbd5e1;
 
-  /* Icon colors for light mode */
   --icon-indigo: #6366f1;
   --icon-green: #059669;
   --icon-yellow: #d97706;
 }
 
-/* Dark Mode */
 .dark {
   --bg-primary: #1f2937;
   --bg-secondary: #111827;
@@ -44,15 +39,12 @@
   --accent-bg-light: rgba(99, 102, 241, 0.1);
   --scrollbar-thumb: #4b5563;
 
-  /* Icon colors for dark mode */
   --icon-indigo: #818cf8;
   --icon-green: #34d399;
   --icon-yellow: #fbbf24;
 }
 
-/* =====================================================
-   BASE
-   ===================================================== */
+/* BASE */
 
 body {
   background-color: var(--bg-secondary) !important;
@@ -60,7 +52,6 @@ body {
   font-family: "Inter", sans-serif;
 }
 
-/* Override Tailwind background classes to use CSS variables */
 .bg-gray-50 {
   background-color: var(--bg-secondary) !important;
 }
@@ -69,49 +60,46 @@ body {
   background-color: var(--bg-secondary) !important;
 }
 
-/* Status badge backgrounds - ensure proper colors in light mode */
 html:not(.dark) [class*="rounded-full"][class*="bg-gray-100"] {
-  background-color: #f3f4f6 !important; /* gray-100 */
+  background-color: #f3f4f6 !important;
 }
 
 html:not(.dark) [class*="rounded-full"][class*="bg-purple-100"] {
-  background-color: #f3e8ff !important; /* purple-100 */
+  background-color: #f3e8ff !important;
 }
 
 html:not(.dark) [class*="rounded-full"][class*="bg-blue-100"] {
-  background-color: #dbeafe !important; /* blue-100 */
+  background-color: #dbeafe !important;
 }
 
 html:not(.dark) [class*="rounded-full"][class*="bg-green-100"] {
-  background-color: #d1fae5 !important; /* green-100 */
+  background-color: #d1fae5 !important;
 }
 
 html:not(.dark) [class*="rounded-full"][class*="bg-yellow-100"] {
-  background-color: #fef3c7 !important; /* yellow-100 */
+  background-color: #fef3c7 !important;
 }
 
-/* Status badge text colors in light mode */
 html:not(.dark) [class*="rounded-full"][class*="text-gray-800"] {
-  color: #1f2937 !important; /* gray-800 */
+  color: #1f2937 !important;
 }
 
 html:not(.dark) [class*="rounded-full"][class*="text-purple-800"] {
-  color: #6b21a8 !important; /* purple-800 */
+  color: #6b21a8 !important;
 }
 
 html:not(.dark) [class*="rounded-full"][class*="text-blue-800"] {
-  color: #1e40af !important; /* blue-800 */
+  color: #1e40af !important;
 }
 
 html:not(.dark) [class*="rounded-full"][class*="text-green-800"] {
-  color: #065f46 !important; /* green-800 */
+  color: #065f46 !important;
 }
 
 html:not(.dark) [class*="rounded-full"][class*="text-yellow-800"] {
-  color: #92400e !important; /* yellow-800 */
+  color: #92400e !important;
 }
 
-/* Only override bg-gray-100 when it's not a status badge (rounded-full) */
 .bg-gray-100:not([class*="rounded-full"]) {
   background-color: var(--bg-primary) !important;
 }
@@ -125,7 +113,6 @@ html:not(.dark) [class*="rounded-full"][class*="text-yellow-800"] {
   background-color: var(--bg-tertiary) !important;
 }
 
-/* Fix hover background colors - use attribute selector for Tailwind classes */
 [class*="hover:bg-gray-50"]:hover {
   background-color: var(--bg-tertiary) !important;
 }
@@ -134,7 +121,6 @@ html:not(.dark) [class*="rounded-full"][class*="text-yellow-800"] {
   background-color: var(--bg-tertiary) !important;
 }
 
-/* Ensure main content area and HTML use correct background */
 html {
   background-color: var(--bg-secondary) !important;
 }
@@ -143,12 +129,10 @@ main {
   background-color: var(--bg-secondary) !important;
 }
 
-/* Fix wrapper divs */
 .min-h-screen {
   background-color: var(--bg-secondary) !important;
 }
 
-/* Fix text colors for light/dark mode */
 .text-gray-100,
 .dark .text-gray-100 {
   color: var(--text-primary) !important;
@@ -159,9 +143,7 @@ main {
   color: var(--text-tertiary) !important;
 }
 
-/* =====================================================
-   TEXT COLORS (SAFE – ICON FRIENDLY)
-   ===================================================== */
+/* TEXT COLORS */
 
 .text-gray-900 {
   color: var(--text-primary) !important;
@@ -179,16 +161,13 @@ main {
   color: var(--text-tertiary) !important;
 }
 
-/* =====================================================
-   ICON VISIBILITY FIX (IMPORTANT)
-   ===================================================== */
+/* ICONS */
 
 svg {
   stroke: currentColor;
   fill: none;
 }
 
-/* Ensure SVG icons inherit color from parent text color classes */
 .text-indigo-600 svg,
 .text-indigo-500 svg,
 .text-indigo-400 svg {
@@ -231,7 +210,6 @@ svg {
   stroke: currentColor !important;
 }
 
-/* Ensure white text and icons work properly in buttons */
 .text-white,
 .text-white svg {
   color: #ffffff !important;
@@ -242,7 +220,6 @@ svg {
   fill: none !important;
 }
 
-/* Ensure icons in gradient buttons are white */
 [class*="bg-gradient"] .text-white svg,
 [class*="bg-gradient"] svg,
 button[class*="bg-gradient"] svg,
@@ -252,14 +229,12 @@ a[class*="bg-gradient"] svg {
   fill: none !important;
 }
 
-/* Ensure text-white class works in all contexts */
 button .text-white,
 a .text-white,
 .text-white {
   color: #ffffff !important;
 }
 
-/* Only apply default SVG color if not already set by Tailwind */
 html:not(.dark)
   svg:not([class*="text-"]):not([class*="indigo"]):not([class*="green"]):not(
     [class*="yellow"]
@@ -274,7 +249,6 @@ html:not(.dark)
   color: var(--accent) !important;
 }
 
-/* Light mode specific colors for icons - ensure visibility */
 html:not(.dark) .text-indigo-400,
 html:not(.dark) .text-indigo-600 {
   color: var(--icon-indigo) !important;
@@ -290,7 +264,6 @@ html:not(.dark) .text-yellow-600 {
   color: var(--icon-yellow) !important;
 }
 
-/* Dark mode icon colors */
 .dark .text-indigo-400 {
   color: var(--icon-indigo) !important;
 }
@@ -303,7 +276,6 @@ html:not(.dark) .text-yellow-600 {
   color: var(--icon-yellow) !important;
 }
 
-/* Ensure icons inside colored containers are visible */
 [class*="bg-indigo-100"] svg,
 [class*="bg-green-100"] svg,
 [class*="bg-yellow-100"] svg {
@@ -312,7 +284,6 @@ html:not(.dark) .text-yellow-600 {
   fill: none !important;
 }
 
-/* Ensure colored background containers show icons properly */
 [class*="bg-indigo"] svg,
 [class*="bg-green"] svg,
 [class*="bg-yellow"] svg,
@@ -323,9 +294,7 @@ html:not(.dark) .text-yellow-600 {
   stroke: currentColor !important;
 }
 
-/* =====================================================
-   CARDS & SHADOWS
-   ===================================================== */
+/* CARDS */
 
 .bg-white {
   background-color: var(--bg-primary) !important;
@@ -336,37 +305,46 @@ html:not(.dark) .text-yellow-600 {
   border-color: var(--border-color) !important;
 }
 
-/* =====================================================
-   SIDEBAR
-   ===================================================== */
+/* SIDEBAR */
 
 #sidebar {
   background-color: var(--bg-primary);
   border-right: 1px solid var(--border-color);
 }
 
-/* Mobile sidebar - hide by default, show when open */
 @media (max-width: 1023px) {
   #sidebar {
     transform: translateX(-100%);
     transition: transform 0.3s ease-in-out;
+    z-index: 50;
   }
 
   #sidebar.open {
     transform: translateX(0);
   }
 
-  /* Ensure close button is visible and clickable on mobile */
   #sidebarClose {
     display: block !important;
-    z-index: 10;
+    z-index: 60;
     position: relative;
     cursor: pointer;
     pointer-events: auto;
   }
+
+  #sidebarOverlay {
+    z-index: 40 !important;
+    pointer-events: auto !important;
+  }
+
+  #sidebar-overlay-container {
+    pointer-events: none;
+  }
+
+  #sidebar-overlay-container #sidebarOverlay:not(.hidden) {
+    pointer-events: auto;
+  }
 }
 
-/* Desktop sidebar - always visible */
 @media (min-width: 1024px) {
   #sidebar {
     transform: translateX(0) !important;
@@ -377,7 +355,6 @@ html:not(.dark) .text-yellow-600 {
   }
 }
 
-/* Body scroll lock when sidebar is open on mobile */
 @media (max-width: 1023px) {
   body.sidebar-open {
     overflow: hidden !important;
@@ -401,7 +378,6 @@ html:not(.dark) .text-yellow-600 {
   background-color: var(--accent-bg-light);
 }
 
-/* Active menu */
 #sidebar .nav-link.active,
 #sidebar .nav-link.active svg {
   color: var(--accent-hover);
@@ -409,28 +385,37 @@ html:not(.dark) .text-yellow-600 {
   font-weight: 600;
 }
 
-/* =====================================================
-   NAVBAR
-   ===================================================== */
+/* NAVBAR */
 
 nav {
   background-color: var(--bg-primary);
   border-bottom: 1px solid var(--border-color);
 }
 
-/* Theme toggle + notification icons */
 #themeToggle svg,
 nav button svg {
   color: var(--text-secondary);
 }
 
-#themeToggle:hover svg {
+html:not(.dark) #themeToggle:hover svg {
+  color: #ffffff !important;
+}
+
+html:not(.dark) #sidebarToggle:hover svg,
+html:not(.dark) #sidebarToggle:hover #sidebarToggleIcon,
+html:not(.dark) #sidebarToggle:hover #sidebarToggleCloseIcon {
+  color: #ffffff !important;
+}
+
+.dark #themeToggle:hover svg {
   color: var(--accent);
 }
 
-/* =====================================================
-   TABLES
-   ===================================================== */
+html:not(.dark) nav button:hover svg {
+  color: #ffffff !important;
+}
+
+/* TABLES */
 
 thead {
   background-color: var(--bg-tertiary);
@@ -441,9 +426,7 @@ thead th {
   font-weight: 600;
 }
 
-/* =====================================================
-   INPUTS & FORMS
-   ===================================================== */
+/* INPUTS */
 
 input,
 select,
@@ -457,9 +440,7 @@ input::placeholder {
   color: var(--text-tertiary);
 }
 
-/* =====================================================
-   SCROLLBAR (CLEAN)
-   ===================================================== */
+/* SCROLLBAR */
 
 ::-webkit-scrollbar {
   width: 8px;
@@ -474,16 +455,12 @@ input::placeholder {
   border-radius: 4px;
 }
 
-/* =====================================================
-   TOGGLE SWITCH STYLING
-   ===================================================== */
+/* TOGGLE SWITCH */
 
-/* Toggle switch slider - ensure it moves when checked using peer-checked */
 .peer:checked ~ div span[class*="absolute"] {
   transform: translateX(1.5rem) !important;
 }
 
-/* Toggle switch track - ensure proper colors */
 .peer:checked ~ div[class*="relative"] {
   background-color: var(--accent) !important;
 }
@@ -492,7 +469,6 @@ input::placeholder {
   background-color: var(--accent) !important;
 }
 
-/* Toggle switch slider shadow enhancement */
 label[class*="cursor-pointer"] span[class*="absolute"][class*="rounded-full"] {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.1) !important;
 }
@@ -502,7 +478,6 @@ label[class*="cursor-pointer"] span[class*="absolute"][class*="rounded-full"] {
     0 1px 3px rgba(99, 102, 241, 0.2) !important;
 }
 
-/* Toggle switch hover effect */
 label[class*="cursor-pointer"]:hover div[class*="relative"] {
   opacity: 0.9;
 }
